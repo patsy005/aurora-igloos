@@ -43,11 +43,17 @@ body {
 	overflow: scroll;
 }
 
-.aside {
-	padding: 3.7rem 0.5rem;
+.nav-bg {
 	background-color: #003c43;
 	-webkit-box-shadow: 0px 0px 32px 0px #1f4246;
 	box-shadow: 0px 0px 32px 0px #1f4246;
+}
+
+.aside {
+	padding: 3.7rem 0.5rem;
+	/* background-color: #003c43;
+	-webkit-box-shadow: 0px 0px 32px 0px #1f4246;
+	box-shadow: 0px 0px 32px 0px #1f4246; */
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;

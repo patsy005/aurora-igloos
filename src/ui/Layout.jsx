@@ -8,7 +8,7 @@ function Layout() {
     const user = users.find((user) => user.id === 103)
 	return (
 		<div className="row">
-			<div className="col-2 col-sm-2 col-md-3 col-lg-2">
+			<div className="col-2 col-sm-2 col-md-3 col-lg-2 nav-bg">
 				<Nav />
 			</div>
 			<div className="col-10 col-sm-10 col-md-9 col-lg-10 main-box">
