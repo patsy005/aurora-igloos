@@ -1,0 +1,25 @@
+import { useDispatch } from 'react-redux'
+import { fetchIgloos } from '../slices/IglooSlice'
+import HomePopularIgloos from '../ui/HomePopularIgloos'
+import HomeOverview from '../ui/HomeOverview'
+import data from '../../public/data.json'
+import SalesChart from '../ui/SalesChart'
+
+function Home() {
+	const dispatch = useDispatch()
+	const users = data.users
+	const user = users.find(user => user.id === 103)
+
+	dispatch(fetchIgloos())
+	return (
+		<>
+			<HomeOverview user={user} />
+			<HomePopularIgloos />
+            <SalesChart />
+
+
+		</>
+	)
+}
+
+export default Home
