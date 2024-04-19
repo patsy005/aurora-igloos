@@ -6,7 +6,7 @@ function OverviewDropdown({ options, selectedOption, setSelectedOption }) {
 	}
 	return (
 		<>
-			<select value={selectedOption} onChange={handleSelectOption} className="stats-dropdown col-5 col-sm-4">
+			<select value={selectedOption.value} onChange={handleSelectOption} className="stats-dropdown col-5 col-sm-4">
 				{/* <p>Last 30 days</p> */}
 				{options.map(option => {
 					return (

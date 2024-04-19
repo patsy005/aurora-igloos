@@ -7,11 +7,12 @@ function Layout() {
     const users = data.users
     const user = users.find((user) => user.id === 103)
 	return (
-		<div className="row">
-			<div className="col-2 col-sm-2 col-md-3 col-lg-2 nav-bg">
+		// <div className="row">
+        <div className='layout-container'>
+			<div className="nav-bg">
 				<Nav />
 			</div>
-			<div className="col-10 col-sm-10 col-md-9 col-lg-10 main-box">
+			<div className="main-box">
 				<main className="main">
                     <Header user={user} />
 					<Outlet />
@@ -24,7 +25,8 @@ function Layout() {
 					</div>
 				</footer>
 			</div>
-		</div>
+		{/* </div> */}
+        </div>
 	)
 }
 

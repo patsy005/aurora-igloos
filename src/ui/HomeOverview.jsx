@@ -12,7 +12,6 @@ function HomeOverview({ user }) {
 		{ label: 'Last 14 days', value: 'last14Days' },
 		{ label: 'Last 30 days', value: 'last30Days' },
 	]
-	console.log(selectedOption)
 
 	// const calculateRate = (current, previous) => {
 	// 	return (((current - previous) / previous) * 100).toFixed(1)
@@ -26,6 +25,7 @@ function HomeOverview({ user }) {
 					Welcome back, <span>{user.name}</span>!
 				</p>
 			</div>
+
 			<div className="overview section-box section-margin">
 				<div className="overview-top justify-content-between">
 					<p className="overview-title col-6">Overwiev</p>
