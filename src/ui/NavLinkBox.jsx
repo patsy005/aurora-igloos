@@ -6,7 +6,7 @@ function NavLinkBox({to, page}) {
         <li className="nav-item">
         <NavLink to={to} className="nav-link">
             {page === "Home" && <HomeIcon />}
-            {page === "Calendar" && <CalendarIcon />}
+            {page === "Bookings" && <CalendarIcon />}
             {page === "Igloos" && <IgloosIcon />}
             {page === "Users" && <UsersIcon />}
             {page === "Promo" && <PromoIcon />}

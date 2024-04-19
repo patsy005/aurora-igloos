@@ -13,7 +13,7 @@ function Nav() {
 				<nav className="nav">
 					<ul className="nav-list">
 						<NavLinkBox to="/" page="Home" />
-						<NavLinkBox to="/bookings" page="Calendar" />
+						<NavLinkBox to="/bookings" page="Bookings" />
 						<NavLinkBox to="/igloos" page="Igloos" />
 						<NavLinkBox to="/users" page="Users" />
 						<NavLinkBox to="/promotions" page="Promo" />

@@ -1,8 +1,8 @@
 function Bookings() {
     return (
-        <div>
+        <section className='col-12'>
             
-        </div>
+        </section>
     )
 }
 
