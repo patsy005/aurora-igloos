@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux'
 import { fetchIgloos } from '../slices/IglooSlice'
-import HomePopularIgloos from '../ui/HomePopularIgloos'
-import HomeOverview from '../ui/HomeOverview'
+import HomePopularIgloos from '../ui/Home/HomePopularIgloos'
+import HomeOverview from '../ui/Home/HomeOverview'
 import data from '../../public/data.json'
-import SalesChart from '../ui/SalesChart'
+import SalesChart from '../ui/Home/SalesChart'
 
 function Home() {
 	const dispatch = useDispatch()
@@ -15,9 +15,7 @@ function Home() {
 		<>
 			<HomeOverview user={user} />
 			<HomePopularIgloos />
-            <SalesChart />
-
-
+			<SalesChart />
 		</>
 	)
 }

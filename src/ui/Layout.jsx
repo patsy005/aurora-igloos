@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import Nav from './Nav'
+import Nav from './Nav/Nav'
 import Header from './Header'
 import data from '../../public/data.json'
 

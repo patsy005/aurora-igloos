@@ -22,22 +22,248 @@
 			"role": "admin"
 		}
 	],
+	"customers": [
+		{
+			"id": 101,
+			"name": "John",
+			"surname": "Doe",
+			"email": "john@example.com",
+			"role": "customer"
+		},
+		{
+			"id": 102,
+			"name": "Jane",
+			"surname": "Smith",
+			"email": "jane@example.com",
+			"role": "customer"
+		},
+		{
+			"id": 103,
+			"name": "Alice",
+			"surname": "Wonderland",
+			"email": "a.wonderland@mail.com",
+			"role": "customer"
+		},
+		{
+			"id": 104,
+			"name": "Michael",
+			"surname": "Johnson",
+			"email": "michael@example.com",
+			"role": "customer"
+		},
+		{
+			"id": 105,
+			"name": "Emily",
+			"surname": "Brown",
+			"email": "emily@example.com",
+			"role": "customer"
+		},
+		{
+			"id": 106,
+			"name": "Daniel",
+			"surname": "Taylor",
+			"email": "daniel@example.com",
+			"role": "customer"
+		},
+		{
+			"id": 107,
+			"name": "Sophia",
+			"surname": "Anderson",
+			"email": "sophia@example.com",
+			"role": "customer"
+		},
+		{
+			"id": 108,
+			"name": "Matthew",
+			"surname": "Thomas",
+			"email": "matthew@example.com",
+			"role": "customer"
+		},
+		{
+			"id": 109,
+			"name": "Olivia",
+			"surname": "Martinez",
+			"email": "olivia@example.com",
+			"role": "customer"
+		},
+		{
+			"id": 110,
+			"name": "Ethan",
+			"surname": "Hernandez",
+			"email": "ethan@example.com",
+			"role": "customer"
+		},
+		{
+			"id": 111,
+			"name": "Ava",
+			"surname": "Young",
+			"email": "ava@example.com",
+			"role": "customer"
+		},
+		{
+			"id": 112,
+			"name": "Noah",
+			"surname": "King",
+			"email": "noah@example.com",
+			"role": "customer"
+		},
+		{
+			"id": 113,
+			"name": "Isabella",
+			"surname": "White",
+			"email": "isabella@example.com",
+			"role": "customer"
+		},
+		{
+			"id": 114,
+			"name": "Liam",
+			"surname": "Nelson",
+			"email": "liam@example.com",
+			"role": "customer"
+		},
+		{
+			"id": 115,
+			"name": "Mia",
+			"surname": "Carter",
+			"email": "mia@example.com",
+			"role": "customer"
+		}
+	],
 	"bookings": [
 		{
 			"id": 1,
-			"userId": 101,
+			"customerId": 101,
 			"iglooId": 201,
 			"checkInDate": "2024-05-10",
 			"checkOutDate": "2024-05-15",
-			"status": "confirmed"
+			"status": "confirmed",
+			"amount": 200
 		},
 		{
 			"id": 2,
-			"userId": 102,
+			"customerId": 102,
 			"iglooId": 202,
 			"checkInDate": "2024-05-20",
 			"checkOutDate": "2024-05-25",
-			"status": "confirmed"
+			"status": "in",
+			"amount": 250
+		},
+		{
+			"id": 3,
+			"customerId": 103,
+			"iglooId": 203,
+			"checkInDate": "2024-05-30",
+			"checkOutDate": "2024-06-04",
+			"status": "out",
+			"amount": 300
+		},
+		{
+			"id": 4,
+			"customerId": 104,
+			"iglooId": 204,
+			"checkInDate": "2024-06-05",
+			"checkOutDate": "2024-06-10",
+			"status": "unconfirmed",
+			"amount": 220
+		},
+		{
+			"id": 5,
+			"customerId": 105,
+			"iglooId": 205,
+			"checkInDate": "2024-06-15",
+			"checkOutDate": "2024-06-20",
+			"status": "confirmed",
+			"amount": 270
+		},
+		{
+			"id": 6,
+			"customerId": 106,
+			"iglooId": 201,
+			"checkInDate": "2024-06-25",
+			"checkOutDate": "2024-06-30",
+			"status": "confirmed",
+			"amount": 230
+		},
+		{
+			"id": 7,
+			"customerId": 107,
+			"iglooId": 202,
+			"checkInDate": "2024-07-05",
+			"checkOutDate": "2024-07-10",
+			"status": "confirmed",
+			"amount": 280
+		},
+		{
+			"id": 8,
+			"customerId": 108,
+			"iglooId": 203,
+			"checkInDate": "2024-07-15",
+			"checkOutDate": "2024-07-20",
+			"status": "in",
+			"amount": 320
+		},
+		{
+			"id": 9,
+			"customerId": 109,
+			"iglooId": 204,
+			"checkInDate": "2024-07-25",
+			"checkOutDate": "2024-07-30",
+			"status": "out",
+			"amount": 240
+		},
+		{
+			"id": 10,
+			"customerId": 110,
+			"iglooId": 205,
+			"checkInDate": "2024-08-05",
+			"checkOutDate": "2024-08-10",
+			"status": "unconfirmed",
+			"amount": 290
+		},
+		{
+			"id": 11,
+			"customerId": 111,
+			"iglooId": 201,
+			"checkInDate": "2024-08-15",
+			"checkOutDate": "2024-08-20",
+			"status": "confirmed",
+			"amount": 310
+		},
+		{
+			"id": 12,
+			"customerId": 112,
+			"iglooId": 202,
+			"checkInDate": "2024-08-25",
+			"checkOutDate": "2024-08-30",
+			"status": "confirmed",
+			"amount": 260
+		},
+		{
+			"id": 13,
+			"customerId": 113,
+			"iglooId": 203,
+			"checkInDate": "2024-09-05",
+			"checkOutDate": "2024-09-10",
+			"status": "unconfirmed",
+			"amount": 330
+		},
+		{
+			"id": 14,
+			"customerId": 114,
+			"iglooId": 204,
+			"checkInDate": "2024-09-15",
+			"checkOutDate": "2024-09-20",
+			"status": "in",
+			"amount": 250
+		},
+		{
+			"id": 15,
+			"customerId": 115,
+			"iglooId": 205,
+			"checkInDate": "2024-09-25",
+			"checkOutDate": "2024-09-30",
+			"status": "out",
+			"amount": 300
 		}
 	],
 	"igloos": [

@@ -1,5 +1,5 @@
 import { CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip, ComposedChart, Bar, Line } from 'recharts'
-import data from '../../public/data.json'
+import data from '../../../public/data.json'
 
 function BookingChart() {
 	const colors = {
