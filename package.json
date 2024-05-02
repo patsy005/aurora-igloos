@@ -10,10 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@mui/material": "^5.15.15",
-    "@mui/x-data-grid": "^7.3.1",
     "@reduxjs/toolkit": "^2.2.3",
     "@tanstack/react-table": "^8.16.0",
     "bootstrap": "^5.3.3",
