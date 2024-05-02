@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom'
 import Nav from './Nav/Nav'
 import Header from './Header'
 import data from '../../public/data.json'
+import Footer from './Footer'
 
 function Layout() {
 	const users = data.users
@@ -16,13 +17,7 @@ function Layout() {
 					<Header user={user} />
 					<Outlet />
 				</main>
-				<footer className="footer">
-					<div className="copyright">
-						<span>
-							&copy; <span className="year">2024 </span> | Patrycja Zawadzka
-						</span>
-					</div>
-				</footer>
+				<Footer />
 			</div>
 		</div>
 	)

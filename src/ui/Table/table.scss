@@ -35,6 +35,7 @@
 	font-size: 1.3rem;
 	padding: 0.6rem 1.2rem;
     text-align: center;
+	// width: 50%;
 
 	&__out {
 		color: #888;
@@ -152,5 +153,86 @@
 		td {
 			cursor: inherit;
 		}
+	}
+}
+
+.pagination-row {
+	background-color: $primary-13;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1.5rem 1.7rem;
+}
+
+.pagination-btns {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+
+	&__group {
+
+		button {
+			background-color: transparent;
+			border: none;
+			color: $primary-97;
+			font-size: 1.5rem;
+			font-weight: 300;
+			font-family: inherit;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 1.5rem;
+			cursor: pointer;
+			transition: all 0.3s ease-in-out;
+			
+			&:hover {
+				// background-color: $primary-19;
+				// border-radius: 6px;
+				color: $primary-67;
+
+				svg {
+					path {
+						fill: $primary-67;
+					}
+				}
+			}
+
+			&:disabled {
+				color: $grey-light;
+				cursor: not-allowed;
+
+				svg {
+					path {
+						fill: $grey-light;
+					}
+				}
+			}
+		}
+	}
+}
+
+.pagination-info {
+	font-size: 1.4rem;
+	font-weight: 300;
+
+	span {
+		font-weight: 500;
+		font-size: 1.5rem;
+	}
+}
+
+@media (min-width: 1400px) {
+	.status {
+		width: 70% !important;
+	}
+}
+@media (min-width: 1700px) {
+	.status {
+		width: 60% !important;
+	}
+}
+@media (min-width: 2000px) {
+	.status {
+		width: 50% !important;
 	}
 }

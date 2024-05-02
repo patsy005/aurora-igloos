@@ -7,6 +7,7 @@ import Igloos from './pages/Igloos'
 import Users from './pages/Users'
 import Promotions from './pages/Promotions'
 import CreativeCorner from './pages/CreativeCorner'
+import EditBooking from './ui/Bookings/EditBooking'
 
 const router = createBrowserRouter([
 	{
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
 			{
 				path: '/bookings',
 				element: <Bookings />,
+			},
+			{
+				path: '/bookings/:bookingId/edit',
+				element: <EditBooking />,
 			},
 			{
 				path: '/igloos',
