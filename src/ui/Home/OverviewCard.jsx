@@ -1,4 +1,4 @@
-function OverviewCard({selectedOption, title, icon}) {
+function OverviewCard({selectedOption, title, icon, rate}) {
     return (
         <div className="overview-card col-sm-3 col-xxl-2 mt-3">
         <div className={`overview-card__icon-box overview-card__icon-box--${title}`}>
@@ -10,7 +10,7 @@ function OverviewCard({selectedOption, title, icon}) {
                 <p className="overview-card__stats--title">{title}</p>
                 <p className="overview-card__stats--number">{selectedOption}</p>
             </div>
-            <div className="overview-card__percentage-stats overview-card__percentage-stats--plus">
+            <div className={`overview-card__percentage-stats overview-card__percentage-stats--${rate}`}>
                 <p className="overview-card__percentage-stats--text">
                     <span>+</span>
                     <span>34,7</span>%

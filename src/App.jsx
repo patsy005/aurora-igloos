@@ -8,6 +8,7 @@ import Users from './pages/Users'
 import Promotions from './pages/Promotions'
 import CreativeCorner from './pages/CreativeCorner'
 import EditBooking from './ui/Bookings/EditBooking'
+import Customers from './pages/Customers'
 
 const router = createBrowserRouter([
 	{
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
 			{
 				path: '/promotions',
 				element: <Promotions />,
+			},
+			{
+				path: '/customers',
+				element: <Customers />,
 			},
 			{
 				path: '/creative-corner',

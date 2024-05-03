@@ -5,6 +5,8 @@ const initialState = {
 	error: '',
 	status: 'idle',
 	isFetching: false,
+	isCreating: false,
+    isEditing: false,
 }
 
 export const fetchIgloos = createAsyncThunk('igloos/fetchIgloos', async () => {
@@ -16,7 +18,14 @@ export const fetchIgloos = createAsyncThunk('igloos/fetchIgloos', async () => {
 const igloosSlice = createSlice({
 	name: 'igloos',
 	initialState,
-	reducers: {},
+	reducers: {
+		setIsCreating: (state, action) => {
+            state.isCreating = action.payload
+        },
+        setIsEditing: (state, action) => {
+            state.isEditing = action.payload
+        },
+	},
 	extraReducers: builder => {
 		builder
 			.addCase(fetchIgloos.fulfilled, (state, action) => {
@@ -36,5 +45,5 @@ const igloosSlice = createSlice({
 	},
 })
 
-// export const { } = igloosSlice.actions
+export const { setIsCreating, setIsEditing} = igloosSlice.actions
 export default igloosSlice.reducer

@@ -4,6 +4,10 @@ import OverviewDropdown from './OverviewDropdown'
 import data from '../../../public/data.json'
 import OverviewCard from './OverviewCard'
 import SectionHeading from '../SectionHeading'
+import StayLenghtChart from './StayLenghtChart'
+import BookingMonthlyChart from './RevenueChart'
+import RevenueChart from './RevenueChart'
+import EmployeeOfMonth from './EmployeeOfMonth'
 
 function HomeOverview({ user }) {
 	const [selectedOption, setSelectedOption] = useState({ label: 'Last 30 days', value: 'last30Days' })
@@ -37,17 +41,31 @@ function HomeOverview({ user }) {
 						selectedOption={stats.bookings[selectedOption.value]}
 						icon={<BookingsIcon />}
 						title="bookings"
+						rate="plus"
 					/>
 					<OverviewCard
 						selectedOption={stats.checkIns[selectedOption.value]}
 						icon={<CheckinsIcon />}
 						title="checkins"
+						rate="minus"
 					/>
 					<OverviewCard
 						selectedOption={stats.occupancyRate[selectedOption.value]}
 						icon={<OccupancyRateIcon />}
 						title="occupancy"
+						rate="plus"
 					/>
+				</div>
+			</div>
+
+			<div className="d-flex pie-charts section-margin">
+				<div className="overview section-box col-6 stay-length-pie-box">
+					<h3>Stay duration summary</h3>
+					<StayLenghtChart />
+				</div>
+				<div className="overview section-box col-6 stay-length-pie-box">
+					<h3>Employee of the month</h3>
+					<EmployeeOfMonth />
 				</div>
 			</div>
 		</section>

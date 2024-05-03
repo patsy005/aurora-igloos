@@ -1,0 +1,77 @@
+.pie-charts {
+	gap: 3rem;
+}
+
+.stay-length-pie-box {
+	h3 {
+		font-weight: 600;
+		line-height: 1.4;
+	}
+
+	.recharts-tooltip-item-list {
+		border-radius: 6px !important;
+		li {
+			color: $white !important;
+		}
+	}
+
+	.recharts-default-legend {
+		display: flex;
+		flex-direction: column;
+		gap: 1.3rem;
+		font-size: 1.4rem;
+	}
+
+	.recharts-legend-item {
+		display: flex !important;
+		gap: 0.6rem;
+	}
+}
+
+.employee-of-month {
+	position: relative;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 5rem;
+
+	svg {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		opacity: 0.05;
+		z-index: 1;
+	}
+	.img {
+		width: 200px;
+		height: 200px;
+		// border-radius: 50%;
+		z-index: 2;
+
+		img {
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			border: 1px solid $primary-67;
+			object-fit: cover;
+			aspect-ratio: 1/1;
+		}
+	}
+
+	.data {
+		font-size: 1.6rem;
+		z-index: 2;
+		font-weight: 600;
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+
+        .user-name {
+            font-size: 3.2rem;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+	}
+}

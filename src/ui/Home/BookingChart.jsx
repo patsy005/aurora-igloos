@@ -1,4 +1,4 @@
-import { CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip, ComposedChart, Bar, Line } from 'recharts'
+import { CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip, ComposedChart, Bar } from 'recharts'
 import data from '../../../public/data.json'
 
 function BookingChart() {
@@ -25,12 +25,13 @@ function BookingChart() {
 				<Tooltip />
 				<Bar dataKey="revenueCurrentYear" barSize={20} fill={colors.revenueCurrentYear} name="Sales current year" />
 				{/* <Line type="monotone" dataKey="revenueCurrentYear" stroke={colors.revenueCurrentYear} /> */}
-				<Line
+				<Bar dataKey="revenuePreviousYear" barSize={20} fill={colors.revenuePreviousYear} name="Sales previous year" />
+				{/* <Line
 					type="monotone"
 					dataKey="revenuePreviousYear"
 					stroke={colors.revenuePreviousYear}
 					name="Sales previous year"
-				/>
+				/> */}
 				{/* <Area
 					type="monotone"
 					dataKey="revenueCurrentYear"

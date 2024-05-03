@@ -19,8 +19,6 @@ function BookingsForm({}) {
     const customers = data.customers;
 	const navigate = useNavigate()
 
-    console.log(bookingId);
-
     useEffect(() => {
         dispatch(fetchIgloos());
     }, [dispatch]);

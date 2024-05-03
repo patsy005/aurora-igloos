@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { CalendarIcon, CreativeCornerIcon, HomeIcon, IgloosIcon, PromoIcon, UsersIcon } from '../Icons'
+import { CalendarIcon, CreativeCornerIcon, CustomersIcon, HomeIcon, IgloosIcon, PromoIcon, UsersIcon } from '../Icons'
 
 function NavLinkBox({ to, page }) {
 	return (
@@ -11,6 +11,7 @@ function NavLinkBox({ to, page }) {
 				{page === 'Users' && <UsersIcon />}
 				{page === 'Promo' && <PromoIcon />}
 				{page === 'Creative' && <CreativeCornerIcon />}
+				{page === 'Customers' && <CustomersIcon />} 
 				<span className="d-none d-md-block">{page}</span>
 				<div className="route-box">
 					<p>{page}</p>

@@ -135,7 +135,7 @@
 			"customerId": 101,
 			"iglooId": 201,
 			"checkInDate": "2024-05-10",
-			"checkOutDate": "2024-05-15",
+			"checkOutDate": "2024-05-14",
 			"status": "confirmed",
 			"amount": 200
 		},
@@ -144,7 +144,7 @@
 			"customerId": 102,
 			"iglooId": 202,
 			"checkInDate": "2024-05-20",
-			"checkOutDate": "2024-05-25",
+			"checkOutDate": "2024-05-23",
 			"status": "in",
 			"amount": 250
 		},
@@ -153,7 +153,7 @@
 			"customerId": 103,
 			"iglooId": 203,
 			"checkInDate": "2024-05-30",
-			"checkOutDate": "2024-06-04",
+			"checkOutDate": "2024-06-02",
 			"status": "out",
 			"amount": 300
 		},
@@ -162,7 +162,7 @@
 			"customerId": 104,
 			"iglooId": 204,
 			"checkInDate": "2024-06-05",
-			"checkOutDate": "2024-06-10",
+			"checkOutDate": "2024-06-09",
 			"status": "unconfirmed",
 			"amount": 220
 		},
@@ -171,7 +171,7 @@
 			"customerId": 105,
 			"iglooId": 205,
 			"checkInDate": "2024-06-15",
-			"checkOutDate": "2024-06-20",
+			"checkOutDate": "2024-06-17",
 			"status": "confirmed",
 			"amount": 270
 		},
@@ -180,7 +180,7 @@
 			"customerId": 106,
 			"iglooId": 201,
 			"checkInDate": "2024-06-25",
-			"checkOutDate": "2024-06-30",
+			"checkOutDate": "2024-06-28",
 			"status": "confirmed",
 			"amount": 230
 		},
@@ -189,7 +189,7 @@
 			"customerId": 107,
 			"iglooId": 202,
 			"checkInDate": "2024-07-05",
-			"checkOutDate": "2024-07-10",
+			"checkOutDate": "2024-07-03",
 			"status": "confirmed",
 			"amount": 280
 		},
@@ -198,7 +198,7 @@
 			"customerId": 108,
 			"iglooId": 203,
 			"checkInDate": "2024-07-15",
-			"checkOutDate": "2024-07-20",
+			"checkOutDate": "2024-07-17",
 			"status": "in",
 			"amount": 320
 		},
@@ -207,7 +207,7 @@
 			"customerId": 109,
 			"iglooId": 204,
 			"checkInDate": "2024-07-25",
-			"checkOutDate": "2024-07-30",
+			"checkOutDate": "2024-07-29",
 			"status": "out",
 			"amount": 240
 		},
@@ -216,7 +216,7 @@
 			"customerId": 110,
 			"iglooId": 205,
 			"checkInDate": "2024-08-05",
-			"checkOutDate": "2024-08-10",
+			"checkOutDate": "2024-08-09",
 			"status": "unconfirmed",
 			"amount": 290
 		},
@@ -225,7 +225,7 @@
 			"customerId": 111,
 			"iglooId": 201,
 			"checkInDate": "2024-08-15",
-			"checkOutDate": "2024-08-20",
+			"checkOutDate": "2024-08-18",
 			"status": "confirmed",
 			"amount": 310
 		},
@@ -234,7 +234,7 @@
 			"customerId": 112,
 			"iglooId": 202,
 			"checkInDate": "2024-08-25",
-			"checkOutDate": "2024-08-30",
+			"checkOutDate": "2024-08-27",
 			"status": "confirmed",
 			"amount": 260
 		},
@@ -243,7 +243,7 @@
 			"customerId": 113,
 			"iglooId": 203,
 			"checkInDate": "2024-09-05",
-			"checkOutDate": "2024-09-10",
+			"checkOutDate": "2024-09-08",
 			"status": "unconfirmed",
 			"amount": 330
 		},
@@ -252,7 +252,7 @@
 			"customerId": 114,
 			"iglooId": 204,
 			"checkInDate": "2024-09-15",
-			"checkOutDate": "2024-09-20",
+			"checkOutDate": "2024-09-19",
 			"status": "in",
 			"amount": 250
 		},
@@ -261,7 +261,7 @@
 			"customerId": 115,
 			"iglooId": 205,
 			"checkInDate": "2024-09-25",
-			"checkOutDate": "2024-09-30",
+			"checkOutDate": "2024-09-29",
 			"status": "out",
 			"amount": 300
 		}
@@ -272,35 +272,40 @@
 			"name": "Cozy Cabin",
 			"capacity": 4,
 			"status": "booked",
-			"imagePath": "./images/igloo_1.png"
+			"imagePath": "./images/igloo_1.png",
+			"pricePerNight": 200
 		},
 		{
 			"id": 202,
 			"name": "Arctic Retreat",
 			"capacity": 2,
 			"status": "available",
-			"imagePath": "./images/igloo_2.png"
+			"imagePath": "./images/igloo_2.png",
+			"pricePerNight": 200
 		},
 		{
 			"id": 203,
 			"name": "Snowy Lodge",
 			"capacity": 3,
 			"status": "available",
-			"imagePath": "./images/igloo_3.png"
+			"imagePath": "./images/igloo_3.png",
+			"pricePerNight": 200
 		},
 		{
 			"id": 204,
 			"name": "Frosty Hideaway",
 			"capacity": 2,
 			"status": "booked",
-			"imagePath": "./images/igloo_7.jpg"
+			"imagePath": "./images/igloo_7.jpg",
+			"pricePerNight": 200
 		},
 		{
 			"id": 205,
 			"name": "Icy Haven",
 			"capacity": 5,
 			"status": "available",
-			"imagePath": "./images/igloo_6.jpg"
+			"imagePath": "./images/igloo_6.jpg",
+			"pricePerNight": 200
 		}
 	],
 	"promotions": [
@@ -409,6 +414,21 @@
 		},
 		{
 			"month": "September",
+			"revenueCurrentYear": 11000,
+			"revenuePreviousYear": 10500
+		},
+		{
+			"month": "Otober",
+			"revenueCurrentYear": 10000,
+			"revenuePreviousYear": 10500
+		},
+		{
+			"month": "November",
+			"revenueCurrentYear": 8000,
+			"revenuePreviousYear": 7000
+		},
+		{
+			"month": "December",
 			"revenueCurrentYear": 11000,
 			"revenuePreviousYear": 10500
 		}
