@@ -9,6 +9,7 @@ import Promotions from './pages/Promotions'
 import CreativeCorner from './pages/CreativeCorner'
 import EditBooking from './ui/Bookings/EditBooking'
 import Customers from './pages/Customers'
+import IglooItem from './ui/Igloos/IglooItem'
 
 const router = createBrowserRouter([
 	{
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
 			{
 				path: '/igloos',
 				element: <Igloos />,
+			},
+			{
+				path: '/igloo/:iglooId',
+				element: <IglooItem />,
 			},
 			{
 				path: '/users',

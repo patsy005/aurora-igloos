@@ -1,8 +1,10 @@
 .pie-charts {
 	gap: 3rem;
+	flex-direction: column;
 }
 
 .stay-length-pie-box {
+	width: 100%;
 	h3 {
 		font-weight: 600;
 		line-height: 1.4;
@@ -25,6 +27,12 @@
 	.recharts-legend-item {
 		display: flex !important;
 		gap: 0.6rem;
+	}
+
+	.recharts-layer {
+		font-size: 1.4rem;
+		font-weight: 600 !important;
+		text-shadow: 0 0 2px black;
 	}
 }
 
@@ -55,7 +63,7 @@
 			height: 100%;
 			border-radius: 50%;
 			border: 2px solid $primary-67;
-            box-shadow: 0 0 2px 0 $primary-67;
+			box-shadow: 0 0 2px 0 $primary-67;
 			object-fit: cover;
 			aspect-ratio: 1/1;
 		}
@@ -69,10 +77,29 @@
 		flex-direction: column;
 		gap: 2rem;
 
-        .user-name {
-            font-size: 3.2rem;
-            letter-spacing: 2px;
-            font-weight: 300;
-        }
+		.user-name {
+			font-size: 3.2rem;
+			letter-spacing: 2px;
+			font-weight: 300;
+		}
+	}
+}
+
+// @media (min-width: 1000px) {
+//     .pie-charts {
+//         align-items: center;
+//     }
+// 	.stay-length-pie-box {
+// 		width: 70%;
+// 	}
+// }
+
+@media (min-width: 1300px) {
+	.pie-charts {
+		flex-direction: row !important;
+	}
+
+	.stay-length-pie-box {
+		width: 50% !important;
 	}
 }

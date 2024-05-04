@@ -853,6 +853,7 @@ body {
 		.igloo-img {
 			position: relative;
 			border-radius: 6px;
+			cursor: pointer;
 
 			&::after {
 				position: absolute;
@@ -1259,11 +1260,11 @@ body {
 	.overview {
 		.overview-card {
 			gap: 3rem !important;
-			width: 33% !important;
+			// width: 33% !important;
 			-webkit-box-orient: horizontal !important;
 			-webkit-box-direction: normal !important;
 			-ms-flex-direction: row !important;
-			flex-direction: row !important;
+			// flex-direction: row !important;
 		}
 
 		.overview-card__stats {
@@ -1289,6 +1290,14 @@ body {
 			p {
 				font-size: 1.3rem;
 			}
+		}
+	}
+}
+
+@media (min-width: 1300px) {
+	.overview {
+		.overview-card {
+			flex-direction: row !important;
 		}
 	}
 }

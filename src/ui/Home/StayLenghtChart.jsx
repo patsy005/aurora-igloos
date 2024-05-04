@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import data from '../../../public/data.json'
 

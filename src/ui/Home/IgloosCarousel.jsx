@@ -1,11 +1,12 @@
-
 import { useSelector } from 'react-redux'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import Slider from 'react-slick'
+import { useNavigate } from 'react-router-dom'
 
 function IgloosCarousel() {
 	const igloos = useSelector(state => state.igloos.igloos)
+	const navigate = useNavigate()
 
 	const settings = {
 		dots: true,
@@ -48,7 +49,7 @@ function IgloosCarousel() {
 				{igloos.map(igloo => {
 					return (
 						<>
-							<div className="igloo" key={igloo.id} id={igloo.id}>
+							<div className="igloo" key={igloo.id} id={igloo.id} onClick={() => navigate(`igloo/${igloo.id}`)}>
 								<div className="igloo-img">
 									<img src={igloo.imagePath} alt="" />
 								</div>

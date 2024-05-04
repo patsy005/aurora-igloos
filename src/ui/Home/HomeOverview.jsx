@@ -5,8 +5,6 @@ import data from '../../../public/data.json'
 import OverviewCard from './OverviewCard'
 import SectionHeading from '../SectionHeading'
 import StayLenghtChart from './StayLenghtChart'
-import BookingMonthlyChart from './RevenueChart'
-import RevenueChart from './RevenueChart'
 import EmployeeOfMonth from './EmployeeOfMonth'
 
 function HomeOverview({ user }) {
@@ -59,11 +57,11 @@ function HomeOverview({ user }) {
 			</div>
 
 			<div className="d-flex pie-charts section-margin">
-				<div className="overview section-box col-6 stay-length-pie-box">
+				<div className="overview section-box  stay-length-pie-box">
 					<h3>Stay duration summary</h3>
 					<StayLenghtChart />
 				</div>
-				<div className="overview section-box col-6 stay-length-pie-box">
+				<div className="overview section-box stay-length-pie-box">
 					<h3>Employee of the month</h3>
 					<EmployeeOfMonth />
 				</div>
