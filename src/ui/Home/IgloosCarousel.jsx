@@ -66,42 +66,6 @@ function IgloosCarousel() {
 					)
 				})}
 			</Slider>
-			{/* <Carousel
-				responsive={responsive}
-				ssr={true}
-				showDots={true}
-				swipeable={true}
-				draggable={false}
-				infinite={true}
-				// autoPlay={true}
-				// autoPlaySpeed={3000}
-				keyboardControl={true}
-				customTransition="all .5"
-				removeArrowOnDeviceType={['mobile']}
-				containerClass="carousel-container"
-				dotListClass="custom-dot-list-style"
-				deviceType={deviceType}
-				itemClass="carousel-item-padding-40-px">
-				{igloos.map(igloo => {
-					return (
-						<>
-							<div className="igloo" key={igloo.id} id={igloo.id}>
-								<div className="igloo-img">
-									<img src={igloo.imagePath} alt="" />
-								</div>
-								<div className="igloo-info">
-									<div className="booking-status booking-status--available">
-										<p>{igloo.status}</p>
-									</div>
-									<p>
-										{igloo.name} G<span>{igloo.capacity}</span>
-									</p>
-								</div>
-							</div>
-						</>
-					)
-				})}
-			</Carousel> */}
 		</>
 	)
 }

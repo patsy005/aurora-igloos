@@ -9,14 +9,14 @@ const initialState = {
     isEditing: false,
 }
 
-export const fetchBookings = createAsyncThunk('igloos/fetchIgloos', async () => {
+export const fetchUsers = createAsyncThunk('igloos/fetchIgloos', async () => {
 	const res = await fetch('/data.json')
 	const data = await res.json()
 	return data.igloos
 })
 
-const bookingsSlice = createSlice({
-	name: 'bookings',
+const usersSlice = createSlice({
+	name: 'users',
 	initialState,
 	reducers: {
         setIsCreating: (state, action) => {
@@ -28,16 +28,16 @@ const bookingsSlice = createSlice({
     },
 	extraReducers: builder => {
 		builder
-			.addCase(fetchBookings.fulfilled, (state, action) => {
+			.addCase(fetchUsers.fulfilled, (state, action) => {
 				state.bookings = action.payload
 				state.status = 'idle'
 				state.isFetching = false
 			})
-			.addCase(fetchBookings.pending, state => {
+			.addCase(fetchUsers.pending, state => {
 				state.status = 'loading'
 				// state.isFetching = true
 			})
-			.addCase(fetchBookings.rejected, (state, action) => {
+			.addCase(fetchUsers.rejected, (state, action) => {
 				state.status = 'error'
 				state.error = action.error.message
 				state.isFetching = false
@@ -45,5 +45,5 @@ const bookingsSlice = createSlice({
 	},
 })
 
-export const {setIsCreating, setIsEditing} = bookingsSlice.actions
-export default bookingsSlice.reducer
+export const {setIsCreating, setIsEditing} = usersSlice.actions
+export default usersSlice.reducer

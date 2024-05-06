@@ -1,22 +1,24 @@
-import ReactDatePicker from 'react-datepicker'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import Button from '../Button'
 import FormBox from '../Form/FormBox'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchIgloos } from '../../slices/IglooSlice'
-import { setIsCreating, setIsEditing } from '../../slices/bookings'
+
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
+import { setIsCreating, setIsEditing } from '../../slices/IglooSlice'
 
 function IgloosForm() {
+	const { iglooId } = useParams()
 	const isEditing = useSelector(state => state.igloos.isEditing)
-	const igloos = useSelector(state => state.igloos?.igloos)
+	const isCreating = useSelector(state => state.igloos.isCreating)
+	const igloos = data.igloos
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
 
 	const {
 		register,
 		handleSubmit,
-		control,
 		setValue,
 		formState: { errors, isValid },
 	} = useForm()
@@ -24,6 +26,23 @@ function IgloosForm() {
 	const onSubmit = data => {
 		console.log(data)
 	}
+
+	const getIglooInfo = () => {
+		if (iglooId) {
+			const igloo = igloos.find(igloo => igloo.id === +iglooId)
+			return igloo
+		}
+	}
+
+
+	useEffect(() => {
+		if(iglooId){
+			const igloo = getIglooInfo()
+			setValue('name', igloo.name)
+			setValue('capacity', igloo.capacity)
+			setValue('price', igloo.pricePerNight)
+		}
+	})
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
@@ -54,16 +73,29 @@ function IgloosForm() {
 					{...register('price', { required: 'Igloo price is required' })}
 				/>
 			</FormBox>
-			<FormBox label="img" error={errors?.img?.message}>
+			<FormBox label="img" error={errors?.img?.message} labelClassName="file-upload">
 				<input
 					type="file"
 					accept="image/png, image/jpeg"
 					id="img"
 					className={`input ${errors.img ? 'input-error' : ''}`}
 					name="img"
-					{...register('price', { required: 'Igloo image is required' })}
+					{...register('img', { required: 'Igloo image is required' })}
 				/>
 			</FormBox>
+
+			<div className="d-flex justify-content-end text-end form-btns">
+				<Button
+					className="cancel-btn"
+					onClick={() => {
+						dispatch(setIsCreating(false))
+						dispatch(setIsEditing(false))
+						iglooId && navigate('/igloos')
+					}}>
+					Cancel
+				</Button>
+				<Button>Add booking</Button>
+			</div>
 		</form>
 	)
 }

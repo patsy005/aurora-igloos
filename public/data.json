@@ -4,22 +4,49 @@
 			"id": 101,
 			"name": "John",
 			"surname": "Doe",
-			"email": "john@example.com",
-			"role": "receptionist"
+			"email": "j.doe@mail.com",
+			"role": "receptionist",
+			"phoneNumber": "+354 1111111",
+			"status": "active",
+			"address": {
+				"street": "Main Street 123",
+				"city": "Reykjavik",
+				"country": "Iceland",
+				"postalCode": "101"
+			},
+			"img": "./images/users/user_3.jpg"
 		},
 		{
 			"id": 102,
 			"name": "Jane",
 			"surname": "Smith",
-			"email": "jane@example.com",
-			"role": "admin"
+			"email": "j.smith@mail.com",
+			"role": "user",
+			"phoneNumber": "+354 222222",
+			"status": "active",
+			"address": {
+				"street": "First Avenue 456",
+				"city": "Reykjavik",
+				"country": "Iceland",
+				"postalCode": "101"
+			},
+			"img": "./images/users/user_2.jpg"
 		},
 		{
 			"id": 103,
 			"name": "Alice",
 			"surname": "Wonderland",
 			"email": "a.wonderland@mail.com",
-			"role": "admin"
+			"role": "admin",
+			"phoneNumber": "+354 1111111",
+			"status": "inactive",
+			"address": {
+				"street": "Broadway 789",
+				"city": "Reykjavik",
+				"country": "Iceland",
+				"postalCode": "101"
+			},
+			"img": "./images/user.jpg"
 		}
 	],
 	"customers": [
@@ -172,7 +199,7 @@
 			"iglooId": 205,
 			"checkInDate": "2024-06-15",
 			"checkOutDate": "2024-06-17",
-			"status": "confirmed",
+			"status": "cancelled",
 			"amount": 270
 		},
 		{
@@ -306,6 +333,86 @@
 			"status": "available",
 			"imagePath": "./images/igloo_6.jpg",
 			"pricePerNight": 200
+		},
+		{
+			"id": 206,
+			"name": "Northern Lights Lodge",
+			"capacity": 3,
+			"status": "available",
+			"imagePath": "./images/igloo_1.png",
+			"pricePerNight": 200
+		},
+		{
+			"id": 207,
+			"name": "Polar Palace",
+			"capacity": 6,
+			"status": "available",
+			"imagePath": "./images/igloo_2.png",
+			"pricePerNight": 500
+		},
+		{
+			"id": 208,
+			"name": "Aurora Escape",
+			"capacity": 2,
+			"status": "available",
+			"imagePath": "./images/igloo_3.png",
+			"pricePerNight": 170
+		},
+		{
+			"id": 209,
+			"name": "Glacial Getaway",
+			"capacity": 4,
+			"status": "available",
+			"imagePath": "./images/igloo_4.jpg",
+			"pricePerNight": 340
+		},
+		{
+			"id": 210,
+			"name": "Frozen Fortress",
+			"capacity": 3,
+			"status": "booked",
+			"imagePath": "./images/igloo_1.png",
+			"pricePerNight": 200
+		},
+		{
+			"id": 211,
+			"name": "Penguin Paradise",
+			"capacity": 2,
+			"status": "available",
+			"imagePath": "./images/igloo_6.jpg",
+			"pricePerNight": 100
+		},
+		{
+			"id": 212,
+			"name": "Polaris Pavilion",
+			"capacity": 5,
+			"status": "available",
+			"imagePath": "./images/igloo_7.jpg",
+			"pricePerNight": 350
+		},
+		{
+			"id": 213,
+			"name": "Igloo Island",
+			"capacity": 4,
+			"status": "available",
+			"imagePath": "./images/igloo_1.png",
+			"pricePerNight": 250
+		},
+		{
+			"id": 214,
+			"name": "Aurora Lodge",
+			"capacity": 3,
+			"status": "available",
+			"imagePath": "./images/igloo_6.jpg",
+			"pricePerNight": 200
+		},
+		{
+			"id": 215,
+			"name": "Glacier Gateway",
+			"capacity": 6,
+			"status": "booked",
+			"imagePath": "./images/igloo_7.jpg",
+			"pricePerNight": 400
 		}
 	],
 	"promotions": [
@@ -314,14 +421,32 @@
 			"name": "Spring Special",
 			"description": "Get 20% off for bookings in May!",
 			"validFrom": "2024-05-01",
-			"validTo": "2024-05-31"
+			"validTo": "2024-05-31",
+			"iglooId": [201, 202, 203]
 		},
 		{
 			"id": 302,
 			"name": "Family Discount",
 			"description": "10% discount for bookings with 4 or more guests.",
 			"validFrom": "2024-04-01",
-			"validTo": "2024-12-31"
+			"validTo": "2024-12-31",
+			"iglooId": [204, 205, 206]
+		},
+		{
+			"id": 303,
+			"name": "Summer Escape",
+			"description": "15% off for bookings in June!",
+			"validFrom": "2024-06-01",
+			"validTo": "2024-06-30",
+			"iglooId": [207, 208, 209]
+		},
+		{
+			"id": 304,
+			"name": "Winter Wonderland",
+			"description": "25% off for bookings in December!",
+			"validFrom": "2024-12-01",
+			"validTo": "2024-12-31",
+			"iglooId": [210, 211, 212]
 		}
 	],
 	"bookingTrends": [
