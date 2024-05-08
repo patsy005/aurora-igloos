@@ -199,7 +199,7 @@ function BookingsForm({}) {
 					onClick={() => {
 						dispatch(setIsCreating(false))
 						dispatch(setIsEditing(false))
-						bookingId && navigate('/bookings')
+						bookingId && navigate(-1)
 					}}>
 					Cancel
 				</Button>

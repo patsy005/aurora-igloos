@@ -1,8 +1,10 @@
+import PromotionsView from "../ui/Promotions/PromotionsView"
+
 function Promotions() {
     return (
-        <div>
-            
-        </div>
+		<section className="col-12 section mt-5">
+            <PromotionsView />
+		</section>
     )
 }
 

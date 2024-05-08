@@ -6,7 +6,7 @@ import Bookings from './pages/Bookings'
 import Igloos from './pages/Igloos'
 import Users from './pages/Users'
 import Promotions from './pages/Promotions'
-import PromoItem from './ui/Promo/PromoItem'
+import PromoItem from './ui/Promotions/PromoItem'
 import CreativeCorner from './pages/CreativeCorner'
 import EditBooking from './ui/Bookings/EditBooking'
 import Customers from './pages/Customers'
@@ -14,6 +14,7 @@ import IglooItem from './ui/Igloos/IglooItem'
 import EditIgloo from './ui/Igloos/EditIgloo'
 import UserItem from './ui/Users/UserItem'
 import EditUser from './ui/Users/EditUser'
+import EditPromotion from './ui/Promotions/EditPromotion'
 
 const router = createBrowserRouter([
 	{
@@ -61,8 +62,12 @@ const router = createBrowserRouter([
 				element: <Promotions />,
 			},
 			{
-				path: '/promotion/:promotionId',
+				path: '/promotion/:promoId',
 				element: <PromoItem />,
+			},
+			{
+				path: '/promotion/:promoId/edit',
+				element: <EditPromotion />,
 			},
 			{
 				path: '/customers',

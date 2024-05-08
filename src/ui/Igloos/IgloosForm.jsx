@@ -34,15 +34,14 @@ function IgloosForm() {
 		}
 	}
 
-
 	useEffect(() => {
-		if(iglooId){
+		if (iglooId) {
 			const igloo = getIglooInfo()
 			setValue('name', igloo.name)
 			setValue('capacity', igloo.capacity)
 			setValue('price', igloo.pricePerNight)
 		}
-	})
+	}, [])
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
@@ -90,11 +89,11 @@ function IgloosForm() {
 					onClick={() => {
 						dispatch(setIsCreating(false))
 						dispatch(setIsEditing(false))
-						iglooId && navigate('/igloos')
+						iglooId && navigate(-1)
 					}}>
 					Cancel
 				</Button>
-				<Button>Add booking</Button>
+				<Button>{!isEditing ? 'Add igloo' : 'Edit igloo'}</Button>
 			</div>
 		</form>
 	)

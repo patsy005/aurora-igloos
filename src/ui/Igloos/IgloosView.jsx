@@ -10,8 +10,6 @@ function IgloosView() {
 	const isEditing = useSelector(state => state.igloos.isEditing)
 	const dispatch = useDispatch()
 
-	const isIglooDetails = true
-
 	const handleAddIgloo = () => {
 		dispatch(setIsCreating(true))
 	}
@@ -21,7 +19,7 @@ function IgloosView() {
 			<SectionHeading sectionTitle="igloos" />
 			<div className="text-end">{!isCreating && <Button onClick={handleAddIgloo}>Add igloo</Button>}</div>
 			{isCreating && <IgloosForm setIsCreating={setIsCreating} />}
-					<IgloosTable />
+			<IgloosTable />
 			{/* <div className="box d-flex col-12 justify-content-between">
 				<div className={`${!isIglooDetails ? 'w-100' : 'w-50'} overflow-x-scroll mt-5 table-container`}>
 				</div>

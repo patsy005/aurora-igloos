@@ -71,7 +71,7 @@ function IgloosTable() {
 		{
 			header: '',
 			id: igloos.id,
-			accessorKey: 'id',
+			accessorKey: 'actions',
 			cell: ({ row }) => {
 				return (
 					<div className="igloos-table__actions">
