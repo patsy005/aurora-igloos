@@ -166,6 +166,7 @@
 		transition: all 0.3s ease-in-out;
 		position: initial;
 		z-index: 2;
+		width: 100%;
 	}
 
 	&__boxes {
@@ -256,7 +257,9 @@
 .custom-calendar .b-deselect {
 	background-color: $primary-37 !important;
 }
-
+.rmdp-container  {
+	width: 100% !important;
+}
 // .rmdp-right i {
 //     margin-right: 3px !important;
 // }

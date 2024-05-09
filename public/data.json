@@ -55,105 +55,150 @@
 			"name": "John",
 			"surname": "Doe",
 			"email": "john@example.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 1,
+			"phoneNumber": "+354 1111111",
+			"nationality": "Icelandic"
 		},
 		{
 			"id": 102,
 			"name": "Jane",
 			"surname": "Smith",
 			"email": "jane@example.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 2,
+			"phoneNumber": "+354 222222",
+			"nationality": "Icelandic"
 		},
 		{
 			"id": 103,
 			"name": "Alice",
 			"surname": "Wonderland",
 			"email": "a.wonderland@mail.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 3,
+			"phoneNumber": "+354 1111111",
+			"nationality": "Icelandic"
 		},
 		{
 			"id": 104,
 			"name": "Michael",
 			"surname": "Johnson",
 			"email": "michael@example.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 4,
+			"phoneNumber": "+354 1111111",
+			"nationality": "American"
 		},
 		{
 			"id": 105,
 			"name": "Emily",
 			"surname": "Brown",
 			"email": "emily@example.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 5,
+			"phoneNumber": "+44 123456789",
+			"nationality": "British"
 		},
 		{
 			"id": 106,
 			"name": "Daniel",
 			"surname": "Taylor",
 			"email": "daniel@example.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 6,
+			"phoneNumber": "+81 123456789",
+			"nationality": "Japanese"
 		},
 		{
 			"id": 107,
 			"name": "Sophia",
 			"surname": "Anderson",
 			"email": "sophia@example.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 7,
+			"phoneNumber": "+46 123456789",
+			"nationality": "Swedish"
 		},
 		{
 			"id": 108,
 			"name": "Matthew",
 			"surname": "Thomas",
 			"email": "matthew@example.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 8,
+			"phoneNumber": "+61 123456789",
+			"nationality": "Australian"
 		},
 		{
 			"id": 109,
 			"name": "Olivia",
 			"surname": "Martinez",
 			"email": "olivia@example.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 9,
+			"phoneNumber": "+52 123456789",
+			"nationality": "Mexican"
 		},
 		{
 			"id": 110,
 			"name": "Ethan",
 			"surname": "Hernandez",
 			"email": "ethan@example.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 10,
+			"phoneNumber": "+1 123456789",
+			"nationality": "American"
 		},
 		{
 			"id": 111,
 			"name": "Ava",
 			"surname": "Young",
 			"email": "ava@example.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 11,
+			"phoneNumber": "+44 123456789",
+			"nationality": "British"
 		},
 		{
 			"id": 112,
 			"name": "Noah",
 			"surname": "King",
 			"email": "noah@example.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 12,
+			"phoneNumber": "+81 123456789",
+			"nationality": "Japanese"
 		},
 		{
 			"id": 113,
 			"name": "Isabella",
 			"surname": "White",
 			"email": "isabella@example.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 13,
+			"phoneNumber": "+46 123456789",
+			"nationality": "Swedish"
 		},
 		{
 			"id": 114,
 			"name": "Liam",
 			"surname": "Nelson",
 			"email": "liam@example.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 14,
+			"phoneNumber": "+61 123456789",
+			"nationality": "Australian"
 		},
 		{
 			"id": 115,
 			"name": "Mia",
 			"surname": "Carter",
 			"email": "mia@example.com",
-			"role": "customer"
+			"role": "customer",
+			"bookingId": 15,
+			"phoneNumber": "+52 123456789",
+			"nationality": "Mexican"
 		}
 	],
 	"bookings": [

@@ -3,6 +3,7 @@ import IglooSlice from './slices/IglooSlice'
 import bookingsSlice from './slices/bookings'
 import usersSlice from './slices/usersSlice'
 import promoSlice from './slices/promoSlice'
+import customersSLice from './slices/customersSLice'
 
 const store = configureStore({
 	reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
 		bookings: bookingsSlice,
 		users: usersSlice,
 		promo: promoSlice,
+		customers: customersSLice,
 	},
 })
 

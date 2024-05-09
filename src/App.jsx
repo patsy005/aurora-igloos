@@ -15,6 +15,8 @@ import EditIgloo from './ui/Igloos/EditIgloo'
 import UserItem from './ui/Users/UserItem'
 import EditUser from './ui/Users/EditUser'
 import EditPromotion from './ui/Promotions/EditPromotion'
+import EditCustomer from './ui/Customers/EditCustomer'
+import BookingItem from './ui/Bookings/BookingItem'
 
 const router = createBrowserRouter([
 	{
@@ -32,6 +34,10 @@ const router = createBrowserRouter([
 			{
 				path: '/bookings/:bookingId/edit',
 				element: <EditBooking />,
+			},
+			{
+				path: '/booking/:bookingId',
+				element: <BookingItem />,
 			},
 			{
 				path: '/igloos',
@@ -72,6 +78,10 @@ const router = createBrowserRouter([
 			{
 				path: '/customers',
 				element: <Customers />,
+			},
+			{
+				path: '/customer/:customerId/edit',
+				element: <EditCustomer />,
 			},
 			{
 				path: '/creative-corner',

@@ -1,31 +1,27 @@
 /* eslint-disable react/jsx-key */
 import { useNavigate, useParams } from 'react-router-dom';
 import data from '../../../public/data.json';
-import SectionHeading from '../SectionHeading';
 import { useState } from 'react';
+import { DeleteIcon, EditIcon, GoBackIcon } from '../Icons';
+import SectionHeading from '../SectionHeading';
+import IglooItemCard from '../Igloos/IglooItemCard';
 import DatePicker from 'react-multi-date-picker';
 import DatePanel from 'react-multi-date-picker/plugins/date_panel';
-import IglooItemCard from './IglooItemCard';
-import { DeleteIcon, EditIcon, GoBackIcon, ViewIcon } from '../Icons';
 
-function IglooItem() {
-    const { iglooId } = useParams();
-    const igloos = data.igloos;
-    const bookings = data.bookings;
+function BookingItem() {
+    const { bookingId } = useParams();
+    const customers = data.customers;
     const promotions = data.promotions;
-    const promotion = promotions.find(promo => promo.iglooId.includes(+iglooId));
+    const bookings = data.bookings;
+    const igloos = data.igloos;
     const navigate = useNavigate();
 
-    const igloo = igloos.find(igloo => igloo.id === +iglooId);
-    const iglooBookings = bookings.filter(booking => booking.iglooId === +iglooId);
-    const bookingDates = iglooBookings.map(booking => ({
-        checkIn: new Date(booking.checkInDate),
-        checkOut: new Date(booking.checkOutDate),
-    }));
+    const booking = bookings.find(booking => booking.id === +bookingId);
+    const hasChecked = booking.status === 'in' || booking === 'out';
+    const igloo = igloos.find(igloo => igloo.id === booking.iglooId);
+    const customer = customers.find(customer => customer.id === booking.customerId);
 
-    const dates = bookingDates.map(booking => [booking.checkIn, booking.checkOut]);
-    console.log(dates);
-    const [datesState, setDatesState] = useState([dates]);
+    const [dates, setDates] = useState([[booking.checkInDate, booking.checkOutDate]]);
 
     return (
         <section className="item-section section mt-5">
@@ -33,7 +29,7 @@ function IglooItem() {
                 <GoBackIcon />
             </span>
             <p className="mt-4"></p>
-            <SectionHeading sectionTitle="igloo"></SectionHeading>
+            <SectionHeading sectionTitle="booking"></SectionHeading>
 
             <div className="item-section__overview section-box section-margin flex-md-row">
                 <div className="item-img col-12 col-md-5 col-lg-4">
@@ -41,26 +37,31 @@ function IglooItem() {
                 </div>
                 <div className="item-section__info col-12 col-md-7">
                     <h3 className="item-section__title">{igloo.name}</h3>
-                    <div className="item-section__promo">
-                        <p className="promo uppercase-text">
-                            annual promotion{' '}
-                            <span className="action-icon" onClick={() => navigate(`/promotion/${promotion.id}`)}>
-                                <ViewIcon />
+                    <div className="item-section__promo item-section__booking--info d-flex gap-4">
+                        <div>
+                            <p className="promo uppercase-text">Amount</p>
+                            <p className="promo-title mt-2">$ {booking.amount}</p>
+                        </div>
+                        <div>
+                            <span className={`status status__${booking.status} me-3`}>
+                                {hasChecked && 'checked '}
+                                {booking.status}
                             </span>
-                        </p>
-                        <p className="promo-title mt-2">{promotion.name}</p>
+                        </div>
                     </div>
-                    <div className="item-section__boxes flex-lg-row gap-lg-5 justify-content-lg-between">
-                        <IglooItemCard title="capacity" number={igloo.capacity} />
-                        <IglooItemCard title="Price per night" number={`$ ${igloo.pricePerNight}`} />
+                    <div className="item-section__boxes flex-lg-row gap-lg-5 justify-content-lg-between flex-wrap flex-xxl-nowrap">
+                        <IglooItemCard title="Name" number={`${customer.name} ${customer.surname}`} />
+                        <IglooItemCard title="Email" number={customer.email} />
+                        <IglooItemCard title="Phone" number={customer.phoneNumber} />
                     </div>
-                    <div className="item-section__availability">
+
+                    <div className="item-section__availability ">
                         <p className="uppercase-text mb-4 mt-3">Availability</p>
                         <div className="col-7 col-lg-5 col-xxl-4">
                             <DatePicker
                                 className="custom-calendar"
                                 inputClass="input"
-                                value={datesState[0]}
+                                value={dates[0]}
                                 multiple
                                 range
                                 plugins={[<DatePanel />]}
@@ -73,7 +74,7 @@ function IglooItem() {
                     </div>
 
                     <div className="item-section__actions mt-3">
-                        <span className="action-icon" onClick={() => navigate(`/igloo/${iglooId}/edit`)}>
+                        <span className="action-icon" onClick={() => navigate(`/bookings/${bookingId}/edit`)}>
                             <EditIcon />
                         </span>
                         <span className="action-icon">
@@ -86,4 +87,4 @@ function IglooItem() {
     );
 }
 
-export default IglooItem;
+export default BookingItem;

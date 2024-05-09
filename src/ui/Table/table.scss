@@ -1,5 +1,15 @@
 // @import '../../colors';
 
+.customers-table {
+	&__phone, &__nationality {
+		color: $grey-light;
+		font-size: 1.3rem;
+	}
+
+	// &__nationality {
+	// 	text-transform: uppercase;
+	// }
+}
 .promo-table {
 	&__valid-period {
 		font-size: 1.2rem;
@@ -60,6 +70,7 @@
 			background: none;
 			padding: 0.4rem;
 			transition: all 0.3s ease-in-out;
+			cursor: pointer !important;
 			&:hover {
 				background: $primary-19;
 			}
@@ -184,6 +195,7 @@
 			background: none;
 			padding: 0.4rem;
 			transition: all 0.3s ease-in-out;
+			cursor: pointer;
 			&:hover {
 				background: $primary-19;
 			}
