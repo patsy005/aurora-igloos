@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom'
 import Nav from './Nav/Nav'
-import Header from './Header'
+import Header from '../components/Header'
 import data from '../../public/data.json'
-import Footer from './Footer'
+import Footer from '../components/Footer'
 
 function Layout() {
 	const users = data.users

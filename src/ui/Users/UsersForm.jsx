@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from 'react-redux'
 import data from '../../../public/data.json'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import FormBox from '../Form/FormBox'
-import Button from '../Button'
+import Button from '../../components/Button'
 import { setIsCreating, setIsEditing } from '../../slices/usersSlice'
 import { useEffect } from 'react'
 
@@ -91,7 +92,7 @@ function UsersForm() {
 					id="street"
 					className={`input ${errors.street ? 'input-error' : ''}`}
 					name="street"
-					placeholder={!isEditing ?'With home number' : ''}
+					placeholder={!isEditing ? 'With home number' : ''}
 					{...register('street', { required: 'Street can not be empty' })}
 				/>
 			</FormBox>

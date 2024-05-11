@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from 'react-redux'
 import SectionHeading from '../../components/SectionHeading'
 import { setIsCreating } from '../../slices/IglooSlice'

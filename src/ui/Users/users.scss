@@ -1,0 +1,13 @@
+.user-item {
+    .user-img {
+        height: 20rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .user-item {
+        .user-img{
+            height: unset;
+        }
+    }
+}

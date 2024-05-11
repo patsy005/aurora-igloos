@@ -3,7 +3,7 @@ import { BookingsIcon, CheckinsIcon, OccupancyRateIcon } from '../Icons'
 import OverviewDropdown from './OverviewDropdown'
 import data from '../../../public/data.json'
 import OverviewCard from './OverviewCard'
-import SectionHeading from '../SectionHeading'
+import SectionHeading from '../../components/SectionHeading'
 import StayLenghtChart from './StayLenghtChart'
 import EmployeeOfMonth from './EmployeeOfMonth'
 

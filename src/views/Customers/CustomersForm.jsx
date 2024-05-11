@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { setIsCreating, setIsEditing } from '../../slices/customersSLice'
 import { useForm } from 'react-hook-form'
-import FormBox from '../Form/FormBox'
+import FormBox from '../../ui/Form/FormBox'
 import Button from '../../components/Button'
 
 function CustomersForm() {

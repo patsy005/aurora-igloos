@@ -36,7 +36,7 @@ const router = createBrowserRouter([
 				element: <EditBooking />,
 			},
 			{
-				path: '/booking/:bookingId',
+				path: '/bookings/:bookingId',
 				element: <BookingItem />,
 			},
 			{
@@ -44,11 +44,11 @@ const router = createBrowserRouter([
 				element: <Igloos />,
 			},
 			{
-				path: '/igloo/:iglooId',
+				path: '/igloos/:iglooId',
 				element: <IglooItem />,
 			},
 			{
-				path: '/igloo/:iglooId/edit',
+				path: '/igloos/:iglooId/edit',
 				element: <EditIgloo />,
 			},
 			{
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
 				element: <Users />,
 			},
 			{
-				path: '/user/:userId',
+				path: '/users/:userId',
 				element: <UserItem />,
 			},
 			{
@@ -68,11 +68,11 @@ const router = createBrowserRouter([
 				element: <Promotions />,
 			},
 			{
-				path: '/promotion/:promoId',
+				path: '/promotions/:promoId',
 				element: <PromoItem />,
 			},
 			{
-				path: '/promotion/:promoId/edit',
+				path: '/promotions/:promoId/edit',
 				element: <EditPromotion />,
 			},
 			{
@@ -80,7 +80,7 @@ const router = createBrowserRouter([
 				element: <Customers />,
 			},
 			{
-				path: '/customer/:customerId/edit',
+				path: '/customers/:customerId/edit',
 				element: <EditCustomer />,
 			},
 			{

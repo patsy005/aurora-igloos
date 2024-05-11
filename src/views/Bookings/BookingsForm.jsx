@@ -1,16 +1,15 @@
 import ReactDatePicker from 'react-datepicker'
 import { Controller, useForm } from 'react-hook-form'
 import 'react-datepicker/dist/react-datepicker.css'
-import { DatePickerIcon } from '../Icons'
+import { DatePickerIcon } from '../../ui/Icons'
 import { useEffect, useState } from 'react'
 import Button from '../../components/Button'
-import FormBox from '../Form/FormBox'
+import FormBox from '../../ui/Form/FormBox'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchIgloos } from '../../slices/IglooSlice'
 import { setIsCreating, setIsEditing } from '../../slices/bookings'
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
-import DatePicker from '../../components/DatePicker'
 
 function BookingsForm({}) {
 	const igloos = data.igloos
@@ -49,8 +48,8 @@ function BookingsForm({}) {
 
 	const onChangeDate = dates => {
 		const [start, end] = dates
-		setStartDate(new Date(start))
-		setEndDate(new Date(end))
+		setStartDate(start)
+		setEndDate(end)
 	}
 
 	const onSubmit = data => {
@@ -107,24 +106,17 @@ function BookingsForm({}) {
 				/>
 			</FormBox>
 			<div className="form__box col-12 col-sm-5">
-				<label className="label">Igloo</label>
-				<Controller
-					name="igloo"
-					control={control}
-					rules={{ required: true }}
-					render={() => (
-						<select className="input igloos-dropdown" {...register('igloo', { required: true })}>
-							{igloos.map(igloo => {
-								return (
-									<option key={igloo.id} value={igloo.name}>
-										{igloo.name}
-									</option>
-								)
-							})}
-						</select>
-					)}
-				/>
-				{<p className="error-msg invisible">lll</p>}
+				<label className="label">Igloos</label>
+				<select className="input igloos-dropdown" {...register('igloo', { required: true })}>
+					{igloos.map(igloo => {
+						return (
+							<option key={igloo.id} value={igloo.name}>
+								{igloo.name}
+							</option>
+						)
+					})}
+				</select>
+				{errors.igloo && <p className="error-msg">You must choose igloo</p>}
 			</div>
 			<div className="form__box col-12 col-sm-5">
 				<label className="label">Dates</label>
@@ -137,9 +129,12 @@ function BookingsForm({}) {
 							<>
 								<ReactDatePicker
 									className={`input form-control ${errors.dates ? 'input-error' : ''}`}
+									// defaultValue={new Date()}
 									dateFormat="dd.MM.yyyy"
 									minDate={new Date()}
+									// placeholderText="Select date"
 									shouldCloseOnSelect={true}
+									// selected={new Date()}
 									selectsRange={true}
 									onChange={onChangeDate}
 									startDate={startDate}

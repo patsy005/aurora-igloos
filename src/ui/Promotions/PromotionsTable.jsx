@@ -78,14 +78,14 @@ function PromotionsTable() {
 			cell: ({ row }) => {
 				return (
 					<div className="igloos-table__actions">
-					<span className="edit-icon" onClick={() => navigate(`/promotion/${row.original.id}/edit`)}>
+					<span className="edit-icon" onClick={() => navigate(`/promotions/${row.original.id}/edit`)}>
 						<EditIcon />
 					</span>
 					<span
 						className="view-icon"
 						onClick={() => {
 							console.log('view click')
-							navigate(`/promotion/${row.original.id}`)
+							navigate(`/promotions/${row.original.id}`)
 						}}>
 						<ViewIcon />
 					</span>

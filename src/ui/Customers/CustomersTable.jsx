@@ -55,7 +55,7 @@ function CustomersTable() {
                 const customerBookingId = bookings.find(booking => booking.customerId === row.original.id).id;
                 return (
                     <div className="igloos-table__actions">
-                        <span onClick={() => navigate(`/booking/${customerBookingId}`)}>
+                        <span onClick={() => navigate(`/bookings/${customerBookingId}`)}>
                             <ViewIcon />
                         </span>
                     </div>
@@ -85,7 +85,7 @@ function CustomersTable() {
 			cell: ({ row }) => {
 				return (
 					<div className="bookings-table__actions">
-						<span onClick={() => navigate(`/customer/${row.original.id}/edit`)}>
+						<span onClick={() => navigate(`/customers/${row.original.id}/edit`)}>
 							<EditIcon />
 						</span>
 						<span>

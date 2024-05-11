@@ -12,13 +12,13 @@
 		}
 	}
 
-    .additional {
-        font-size: 1.4rem;
-    }
+	.additional {
+		font-size: 1.4rem;
+	}
 
-    .status {
-        width: 15% !important;
-    }
+	.status {
+		width: 15% !important;
+	}
 
 	.action-icon {
 		border-radius: 6px;
@@ -58,21 +58,24 @@
 		color: #c8c8c8;
 	}
 
-	&__promo, &__user-role {
-		.promo-title, .role-title {
+	&__promo,
+	&__user-role {
+		.promo-title,
+		.role-title {
 			color: $primary-67;
 			font-size: 1.6rem;
 			font-weight: 700;
 		}
 	}
 
-    &__user-role {
-        .role-title {
-            text-transform: capitalize;
-        }
-    }
+	&__user-role {
+		.role-title {
+			text-transform: capitalize;
+		}
+	}
 
-	.item-img, .user-img {
+	.item-img,
+	.user-img {
 		border-radius: 6px;
 		img {
 			width: 100%;
@@ -178,6 +181,16 @@
 	&__actions {
 		align-self: end;
 	}
+
+	.item-img {
+		height: 20rem;
+	}
+
+	@media (min-width: 768px) {
+		.item-img {
+			height: unset;
+		}
+	}
 }
 
 .custom-calendar.rmdp-wrapper,
@@ -257,7 +270,7 @@
 .custom-calendar .b-deselect {
 	background-color: $primary-37 !important;
 }
-.rmdp-container  {
+.rmdp-container {
 	width: 100% !important;
 }
 // .rmdp-right i {

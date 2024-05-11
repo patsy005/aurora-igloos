@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useMemo, useState } from 'react'
 import Table from '../Table/Table'
 import { useNavigate } from 'react-router-dom'
@@ -59,7 +60,7 @@ function IgloosTable() {
 					return (
 						<div
 							className={`igloos-table__promotion ${promoNameClass}`}
-							onClick={() => navigate(`/promotion/${promotion.id}`)}>
+							onClick={() => navigate(`/promotions/${promotion.id}`)}>
 							{promotion.name}
 						</div>
 					)
@@ -75,14 +76,14 @@ function IgloosTable() {
 			cell: ({ row }) => {
 				return (
 					<div className="igloos-table__actions">
-						<span className="edit-icon" onClick={() => navigate(`/igloo/${row.original.id}/edit`)}>
+						<span className="edit-icon" onClick={() => navigate(`/igloos/${row.original.id}/edit`)}>
 							<EditIcon />
 						</span>
 						<span
 							className="view-icon"
 							onClick={() => {
 								console.log('view click')
-								navigate(`/igloo/${row.original.id}`)
+								navigate(`/igloos/${row.original.id}`)
 							}}>
 							<ViewIcon />
 						</span>

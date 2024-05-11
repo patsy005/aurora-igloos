@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
-import { DeleteIcon, EditIcon, GoBackIcon } from '../Icons'
+import { DeleteIcon, EditIcon, GoBackIcon } from '../../ui/Icons'
 import SectionHeading from '../../components/SectionHeading'
 import IglooItemCard from '../Igloos/IglooItemCard'
 
@@ -20,7 +20,7 @@ function UserItem() {
 
 			<SectionHeading sectionTitle="user"></SectionHeading>
 
-			<div className="item-section__overview section-box section-margin flex-md-row user-item">
+			<div className="item-section__overview section-box section-margin flex-md-row">
 				<div className="user-img col-12 col-md-5 col-lg-4">
 					<img src={`../../../public/${user.img}`} alt={user.name} />
 				</div>

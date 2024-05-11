@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import Button from '../../components/Button'
-import FormBox from '../Form/FormBox'
+import FormBox from '../../ui/Form/FormBox'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useNavigate, useParams } from 'react-router-dom'

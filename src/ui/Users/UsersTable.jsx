@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useMemo, useState } from 'react'
 import Table from '../Table/Table'
 import { useNavigate } from 'react-router-dom'
@@ -78,7 +79,7 @@ function UsersTable() {
 						<span onClick={() => navigate(`/users/${row.original.id}/edit`)}>
 							<EditIcon />
 						</span>
-						<span onClick={() => navigate(`/user/${row.original.id}`)}>
+						<span onClick={() => navigate(`/users/${row.original.id}`)}>
 							<ViewIcon />
 						</span>
 						<span>

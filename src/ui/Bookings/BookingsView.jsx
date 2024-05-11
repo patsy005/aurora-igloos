@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import Button from '../Button'
-import SectionHeading from '../SectionHeading'
+import Button from '../../components/Button'
+import SectionHeading from '../../components/SectionHeading'
 import BookingsForm from './BookingsForm'
 import BookingsTable from './BookingsTable'
 import { useDispatch, useSelector } from 'react-redux'
@@ -20,7 +20,7 @@ function BookingsView() {
 			<SectionHeading sectionTitle="bookings" />
 			<div className="text-end">{!isCreating && <Button onClick={handleAddBooking}>Add booking</Button>}</div>
 			{isCreating && <BookingsForm setIsCreating={setIsCreating} />}
-            <BookingsTable />
+			<BookingsTable />
 		</>
 	)
 }

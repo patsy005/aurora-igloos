@@ -1,4 +1,4 @@
-import { LogoutIcon, MsgIcon, NotificationIcon } from './Icons'
+import { LogoutIcon, MsgIcon, NotificationIcon } from '../ui/Icons'
 
 function Header({ user }) {
 	return (

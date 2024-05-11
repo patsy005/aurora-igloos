@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
-import { DeleteIcon, EditIcon, GoBackIcon, PercentIcon } from '../Icons'
+import { DeleteIcon, EditIcon, GoBackIcon } from '../../ui/Icons'
 import SectionHeading from '../../components/SectionHeading'
 import IglooItemCard from '../Igloos/IglooItemCard'
 import { useState } from 'react'
@@ -32,11 +32,11 @@ function PromoItem() {
 			<p className="mt-4"></p>
 			<SectionHeading sectionTitle="promotion"></SectionHeading>
 
-			<div className="item-section__overview section-box section-margin flex-md-row promo-item">
-				{/* <div className="item-img col-12 col-md-3 col-lg-4 col-xxl-2 percent-icon d-none d-lg-flex align-items-center">
-					<PercentIcon />
-				</div> */}
-				<div className="item-section__info col-12 ">
+			<div className="item-section__overview section-box section-margin flex-md-row">
+				{/* <div className="item-img "> */}
+				{/* <img src='/images/promo.png' alt='Promotion image' /> */}
+				{/* </div> */}
+				<div className="item-section__info col-12">
 					<h3 className="item-section__title">{promotion.name}</h3>
 					<div className="item-section__promo">
 						<p className="promo uppercase-text">Description</p>

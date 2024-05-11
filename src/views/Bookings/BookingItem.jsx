@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-key */
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
 import { useState } from 'react'
-import { DeleteIcon, EditIcon, GoBackIcon } from '../Icons'
+import { DeleteIcon, EditIcon, GoBackIcon } from '../../ui/Icons'
 import SectionHeading from '../../components/SectionHeading'
 import IglooItemCard from '../Igloos/IglooItemCard'
 import DatePicker from 'react-multi-date-picker'

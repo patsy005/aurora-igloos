@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-key */
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
@@ -7,7 +6,7 @@ import { useState } from 'react'
 import DatePicker from 'react-multi-date-picker'
 import DatePanel from 'react-multi-date-picker/plugins/date_panel'
 import IglooItemCard from './IglooItemCard'
-import { DeleteIcon, EditIcon, GoBackIcon, ViewIcon } from '../Icons'
+import { DeleteIcon, EditIcon, GoBackIcon, ViewIcon } from '../../ui/Icons'
 
 function IglooItem() {
 	const { iglooId } = useParams()
@@ -38,7 +37,7 @@ function IglooItem() {
 
 			<div className="item-section__overview section-box section-margin flex-md-row">
 				<div className="item-img col-12 col-md-5 col-lg-4">
-					<img src={igloo.imagePath} alt={igloo.name} />
+					<img src={`../../../public/${igloo.imagePath}`} alt={igloo.name} />
 				</div>
 				<div className="item-section__info col-12 col-md-7">
 					<h3 className="item-section__title">{igloo.name}</h3>
