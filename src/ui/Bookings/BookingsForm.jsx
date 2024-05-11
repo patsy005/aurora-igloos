@@ -10,7 +10,6 @@ import { fetchIgloos } from '../../slices/IglooSlice'
 import { setIsCreating, setIsEditing } from '../../slices/bookings'
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
-import DatePicker from '../../components/DatePicker'
 
 function BookingsForm({}) {
 	const igloos = data.igloos
