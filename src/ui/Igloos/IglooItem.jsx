@@ -38,7 +38,7 @@ function IglooItem() {
 
 			<div className="item-section__overview section-box section-margin flex-md-row">
 				<div className="item-img col-12 col-md-5 col-lg-4">
-					<img src={igloo.imagePath} alt={igloo.name} />
+					<img src={`.${igloo.imagePath}`} alt={igloo.name} />
 				</div>
 				<div className="item-section__info col-12 col-md-7">
 					<h3 className="item-section__title">{igloo.name}</h3>

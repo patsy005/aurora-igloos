@@ -22,7 +22,7 @@ function UserItem() {
 
 			<div className="item-section__overview section-box section-margin flex-md-row user-item">
 				<div className="user-img col-12 col-md-5 col-lg-4">
-					<img src={`../../../public/${user.img}`} alt={user.name} />
+					<img src={`/${user.img}`} alt={user.name} />
 				</div>
 
 				<div className="item-section__info col-12 col-md-7">
