@@ -23,6 +23,7 @@ function BookingsTable() {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const navigate = useNavigate()
 
+
 	const columns = useMemo(() => [
 		{
 			header: 'Igloo',
