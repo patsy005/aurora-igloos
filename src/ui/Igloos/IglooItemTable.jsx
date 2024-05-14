@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import data from '../../../public/data.json'
-import { DeleteIcon, EditIcon, ViewIcon} from '../Icons'
+import { DeleteIcon, EditIcon } from '../Icons'
 import Table from '../Table/Table'
 import { useNavigate } from 'react-router-dom'
 
@@ -8,23 +8,15 @@ const bookings = data.bookings
 const customers = data.customers
 const igloos = data.igloos
 
-function BookingsTable() {
-	const [data, setData] = useState(bookings)
+function IglooItemTable({ iglooId }) {
+	const iglooBookings = bookings.filter(booking => booking.iglooId === +iglooId)
+	console.log(iglooBookings)
+	const [data, setData] = useState(iglooBookings)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const navigate = useNavigate()
 
-
 	const columns = useMemo(() => [
-		{
-			header: 'Igloo',
-			id: bookings.id,
-			accessorKey: 'iglooId',
-			cell: ({ row }) => {
-				const igloo = igloos.find(igloo => row.original.iglooId === igloo.id)
-				return <div className="bookings-table__igloo">{igloo.name}</div>
-			},
-		},
 		{
 			header: 'Guest',
 			id: bookings.id,
@@ -66,7 +58,7 @@ function BookingsTable() {
 			cell: ({ row }) => {
 				const hasChecked = row.original.status === 'in' || row.original.status === 'out'
 				return (
-					<div className={`status status__${row.original.status}`}>
+					<div className={`status status__${row.original.status} status-item-section`}>
 						{hasChecked && 'checked '}
 						{row.original.status}
 					</div>
@@ -84,9 +76,6 @@ function BookingsTable() {
 						<span onClick={() => navigate(`/bookings/${row.original.id}/edit`)}>
 							<EditIcon />
 						</span>
-						<span onClick={() => navigate(`/bookings/${row.original.id}`)}>
-                            <ViewIcon />
-                        </span>
 						<span>
 							<DeleteIcon />
 						</span>
@@ -95,7 +84,6 @@ function BookingsTable() {
 			},
 		},
 	])
-
 	return (
 		<Table
 			data={data}
@@ -109,4 +97,4 @@ function BookingsTable() {
 	)
 }
 
-export default BookingsTable
+export default IglooItemTable

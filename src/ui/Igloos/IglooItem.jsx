@@ -8,6 +8,7 @@ import DatePicker from 'react-multi-date-picker'
 import DatePanel from 'react-multi-date-picker/plugins/date_panel'
 import IglooItemCard from './IglooItemCard'
 import { DeleteIcon, EditIcon, GoBackIcon, ViewIcon } from '../Icons'
+import IglooItemTable from './IglooItemTable'
 
 function IglooItem() {
 	const { iglooId } = useParams()
@@ -84,6 +85,11 @@ function IglooItem() {
 						</span>
 					</div>
 				</div>
+			</div>
+
+			<div className="section-margin user-item tasks">
+				<h3>Bookings</h3>
+				<IglooItemTable iglooId={iglooId} />
 			</div>
 		</section>
 	)

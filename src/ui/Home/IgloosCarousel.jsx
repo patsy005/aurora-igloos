@@ -49,7 +49,7 @@ function IgloosCarousel() {
 				{igloos.map(igloo => {
 					return (
 						<>
-							<div className="igloo" key={igloo.id} id={igloo.id} onClick={() => navigate(`igloo/${igloo.id}`)}>
+							<div className="igloo" key={igloo.id} id={igloo.id} onClick={() => navigate(`igloos/${igloo.id}`)}>
 								<div className="igloo-img">
 									<img src={igloo.imagePath} alt="" />
 								</div>

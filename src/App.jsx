@@ -7,9 +7,9 @@ import Igloos from './pages/Igloos'
 import Users from './pages/Users'
 import Promotions from './pages/Promotions'
 import PromoItem from './ui/Promotions/PromoItem'
-import CreativeCorner from './pages/CreativeCorner'
 import EditBooking from './ui/Bookings/EditBooking'
 import Customers from './pages/Customers'
+import CustomerItem from './ui/Customers/CustomerItem'
 import IglooItem from './ui/Igloos/IglooItem'
 import EditIgloo from './ui/Igloos/EditIgloo'
 import UserItem from './ui/Users/UserItem'
@@ -17,6 +17,7 @@ import EditUser from './ui/Users/EditUser'
 import EditPromotion from './ui/Promotions/EditPromotion'
 import EditCustomer from './ui/Customers/EditCustomer'
 import BookingItem from './ui/Bookings/BookingItem'
+import Forum from './pages/Forum'
 
 const router = createBrowserRouter([
 	{
@@ -80,12 +81,16 @@ const router = createBrowserRouter([
 				element: <Customers />,
 			},
 			{
+				path: '/customers/:customerId',
+				element: <CustomerItem />,
+			},
+			{
 				path: '/customers/:customerId/edit',
 				element: <EditCustomer />,
 			},
 			{
-				path: '/creative-corner',
-				element: <CreativeCorner />,
+				path: '/forum',
+				element: <Forum />,
 			},
 		],
 	},

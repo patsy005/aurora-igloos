@@ -5,6 +5,7 @@ import BookingsForm from './BookingsForm'
 import BookingsTable from './BookingsTable'
 import { useDispatch, useSelector } from 'react-redux'
 import { setIsCreating } from '../../slices/bookings'
+import BookingsTodayStats from './BookingsTodayStats'
 
 function BookingsView() {
 	// const [isCreating, setIsCreating] = useState(false)
@@ -18,6 +19,7 @@ function BookingsView() {
 	return (
 		<>
 			<SectionHeading sectionTitle="bookings" />
+			<BookingsTodayStats />
 			<div className="text-end">{!isCreating && <Button onClick={handleAddBooking}>Add booking</Button>}</div>
 			{isCreating && <BookingsForm setIsCreating={setIsCreating} />}
 			<BookingsTable />

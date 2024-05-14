@@ -1,13 +1,82 @@
 .user-item {
-    .user-img {
-        height: 20rem;
+	h3 {
+		font-weight: 600;
+		font-size: 2rem;
+	}
+}
+.tasks {
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 2rem;
     }
+	.task-box {
+		gap: 5rem !important;
+	}
 }
 
-@media (min-width: 768px) {
-    .user-item {
-        .user-img{
-            height: unset;
-        }
+.working-schedlue {
+	&__top {
+		color: $primary-86;
+		margin-bottom: 3rem !important;
+		gap: 3rem;
+
+		p {
+			font-size: 1.6rem;
+			font-weight: 300;
+		}
+
+		span {
+			font-weight: 600;
+			font-size: 1.4rem;
+			letter-spacing: 2px;
+		}
+	}
+
+	&__dropdown {
+		gap: 3rem;
+		align-items: center;
+	}
+
+	.react-select__control {
+		width: 30rem !important;
+	}
+
+	&__day {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		position: relative;
+
+		// &:not(:last-of-type):after {
+		//     position: absolute;
+		//     width: 1px;
+		//     height: 100%;
+		//     background-color: $primary-67;
+		//     right: -20%;
+		//     // transform: translateX(50%);
+		//     top: 0;
+		//     content: '';
+		// }
+
+		.day {
+			font-size: 1.4rem;
+			font-weight: 600;
+			color: $primary-67;
+		}
+
+		.time {
+			font-weight: 300;
+			// font-size: 1.2rem;
+		}
+	}
+}
+
+.users-table {
+    &__task {
+        font-weight: 600;
+        letter-spacing: 1.2px;
     }
 }

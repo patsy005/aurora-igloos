@@ -10,7 +10,7 @@ function NavLinkBox({ to, page }) {
 				{page === 'Igloos' && <IgloosIcon />}
 				{page === 'Users' && <UsersIcon />}
 				{page === 'Promo' && <PromoIcon />}
-				{page === 'Creative' && <CreativeCornerIcon />}
+				{page === 'Forum' && <CreativeCornerIcon />}
 				{page === 'Customers' && <CustomersIcon />} 
 				<span className="d-none d-md-block">{page}</span>
 				<div className="route-box">

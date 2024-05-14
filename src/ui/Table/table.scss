@@ -1,7 +1,8 @@
 // @import '../../colors';
 
 .customers-table {
-	&__phone, &__nationality {
+	&__phone,
+	&__nationality {
 		color: $grey-light;
 		font-size: 1.3rem;
 	}
@@ -249,7 +250,8 @@
 		background-color: #e8e8e8;
 	}
 
-	&__in {
+	&__in,
+	&__completed {
 		color: #28be2e;
 		border: 1px solid #28be2e;
 		background-color: #ceffd0;
@@ -261,7 +263,8 @@
 		background-color: #cffaff;
 	}
 
-	&__unconfirmed {
+	&__unconfirmed,
+	&__pending {
 		border: 1px solid #ec7d1a;
 		background-color: #ffd4ab;
 		color: #ec7d1a;
@@ -290,7 +293,7 @@
 	background-color: $white;
 	border-radius: 4px;
 	border: 1px solid $primary-6;
-	
+
 	p {
 		text-align: center;
 		padding-top: 1rem;

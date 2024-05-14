@@ -14,7 +14,77 @@
 				"country": "Iceland",
 				"postalCode": "101"
 			},
-			"img": "./images/users/user_3.jpg"
+			"img": "./images/users/user_3.jpg",
+			"schedule": {
+				"01.06.2024": "9:00 AM - 5:00 PM",
+				"02.06.2024": "9:00 AM - 5:00 PM",
+				"03.06.2024": "9:00 AM - 5:00 PM",
+				"04.06.2024": "9:00 AM - 5:00 PM",
+				"05.06.2024": "9:00 AM - 5:00 PM",
+				"06.06.2024": "Off",
+				"07.06.2024": "Off"
+			},
+			"tasks": [
+				{
+					"id": 1,
+					"title": "Check-in guests",
+					"status": "completed",
+					"date": "2024-05-10",
+					"time": "9:00 AM",
+					"location": "Cozy Cabin",
+					"guests": 4
+				},
+				{
+					"id": 2,
+					"title": "Check-out guests",
+					"status": "pending",
+					"date": "2024-05-14",
+					"time": "11:00 AM",
+					"location": "Cozy Cabin",
+					"guests": 4
+				},
+				{
+					"id": 3,
+					"title": "Answer phone calls",
+					"status": "pending",
+					"date": "2024-05-15",
+					"time": "10:00 AM",
+					"location": "Main Office"
+				},
+				{
+					"id": 4,
+					"title": "Respond to emails",
+					"status": "pending",
+					"date": "2024-05-20",
+					"time": "2:00 PM",
+					"location": "Main Office"
+				}
+			],
+			"statistics": {
+				"bookingsCompleted": 32,
+				"averageRating": 4.5,
+				"totalRevenue": 15000
+			},
+			"reviews": [
+				{
+					"id": 1,
+					"rating": 5,
+					"comment": "Great service, friendly staff!",
+					"date": "2024-05-01"
+				},
+				{
+					"id": 2,
+					"rating": 4,
+					"comment": "Nice place, good location.",
+					"date": "2024-04-15"
+				},
+				{
+					"id": 3,
+					"rating": 5,
+					"comment": "Amazing experience, would recommend!",
+					"date": "2024-03-20"
+				}
+			]
 		},
 		{
 			"id": 102,
@@ -30,7 +100,77 @@
 				"country": "Iceland",
 				"postalCode": "101"
 			},
-			"img": "./images/users/user_2.jpg"
+			"img": "./images/users/user_2.jpg",
+			"schedule": {
+				"01.06.2024": "9:00 AM - 5:00 PM",
+				"02.06.2024": "9:00 AM - 5:00 PM",
+				"03.06.2024": "9:00 AM - 5:00 PM",
+				"04.06.2024": "9:00 AM - 5:00 PM",
+				"05.06.2024": "9:00 AM - 5:00 PM",
+				"06.06.2024": "Off",
+				"07.06.2024": "Off"
+			},
+			"tasks": [
+				{
+					"id": 1,
+					"title": "Check-in guests",
+					"status": "completed",
+					"date": "2024-05-10",
+					"time": "9:00 AM",
+					"location": "Cozy Cabin",
+					"guests": 4
+				},
+				{
+					"id": 2,
+					"title": "Check-out guests",
+					"status": "pending",
+					"date": "2024-05-14",
+					"time": "11:00 AM",
+					"location": "Cozy Cabin",
+					"guests": 4
+				},
+				{
+					"id": 3,
+					"title": "Answer phone calls",
+					"status": "pending",
+					"date": "2024-05-15",
+					"time": "10:00 AM",
+					"location": "Main Office"
+				},
+				{
+					"id": 4,
+					"title": "Respond to emails",
+					"status": "pending",
+					"date": "2024-05-20",
+					"time": "2:00 PM",
+					"location": "Main Office"
+				}
+			],
+			"statistics": {
+				"bookingsCompleted": 32,
+				"averageRating": 4.5,
+				"totalRevenue": 15000
+			},
+			"reviews": [
+				{
+					"id": 1,
+					"rating": 5,
+					"comment": "Great service, friendly staff!",
+					"date": "2024-05-01"
+				},
+				{
+					"id": 2,
+					"rating": 4,
+					"comment": "Nice place, good location.",
+					"date": "2024-04-15"
+				},
+				{
+					"id": 3,
+					"rating": 5,
+					"comment": "Amazing experience, would recommend!",
+					"date": "2024-03-20"
+				}
+			]
 		},
 		{
 			"id": 103,
@@ -46,7 +186,77 @@
 				"country": "Iceland",
 				"postalCode": "101"
 			},
-			"img": "./images/user.jpg"
+			"img": "./images/user.jpg",
+			"schedule": {
+				"01.06.2024": "9:00 AM - 5:00 PM",
+				"02.06.2024": "9:00 AM - 5:00 PM",
+				"03.06.2024": "9:00 AM - 5:00 PM",
+				"04.06.2024": "9:00 AM - 5:00 PM",
+				"05.06.2024": "9:00 AM - 5:00 PM",
+				"06.06.2024": "Off",
+				"07.06.2024": "Off"
+			},
+			"tasks": [
+				{
+					"id": 1,
+					"title": "Check-in guests",
+					"status": "completed",
+					"date": "2024-05-10",
+					"time": "9:00 AM",
+					"location": "Cozy Cabin",
+					"guests": 4
+				},
+				{
+					"id": 2,
+					"title": "Check-out guests",
+					"status": "pending",
+					"date": "2024-05-14",
+					"time": "11:00 AM",
+					"location": "Cozy Cabin",
+					"guests": 4
+				},
+				{
+					"id": 3,
+					"title": "Answer phone calls",
+					"status": "pending",
+					"date": "2024-05-15",
+					"time": "10:00 AM",
+					"location": "Main Office"
+				},
+				{
+					"id": 4,
+					"title": "Respond to emails",
+					"status": "pending",
+					"date": "2024-05-20",
+					"time": "2:00 PM",
+					"location": "Main Office"
+				}
+			],
+			"statistics": {
+				"bookingsCompleted": 32,
+				"averageRating": 4.5,
+				"totalRevenue": 15000
+			},
+			"reviews": [
+				{
+					"id": 1,
+					"rating": 5,
+					"comment": "Great service, friendly staff!",
+					"date": "2024-05-01"
+				},
+				{
+					"id": 2,
+					"rating": 4,
+					"comment": "Nice place, good location.",
+					"date": "2024-04-15"
+				},
+				{
+					"id": 3,
+					"rating": 5,
+					"comment": "Amazing experience, would recommend!",
+					"date": "2024-03-20"
+				}
+			]
 		}
 	],
 	"customers": [
@@ -345,7 +555,35 @@
 			"capacity": 4,
 			"status": "booked",
 			"imagePath": "./images/igloo_1.png",
-			"pricePerNight": 200
+			"pricePerNight": 200,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		},
 		{
 			"id": 202,
@@ -353,7 +591,35 @@
 			"capacity": 2,
 			"status": "available",
 			"imagePath": "./images/igloo_2.png",
-			"pricePerNight": 200
+			"pricePerNight": 200,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		},
 		{
 			"id": 203,
@@ -361,7 +627,35 @@
 			"capacity": 3,
 			"status": "available",
 			"imagePath": "./images/igloo_3.png",
-			"pricePerNight": 200
+			"pricePerNight": 200,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		},
 		{
 			"id": 204,
@@ -369,7 +663,35 @@
 			"capacity": 2,
 			"status": "booked",
 			"imagePath": "./images/igloo_7.jpg",
-			"pricePerNight": 200
+			"pricePerNight": 200,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		},
 		{
 			"id": 205,
@@ -377,7 +699,35 @@
 			"capacity": 5,
 			"status": "available",
 			"imagePath": "./images/igloo_6.jpg",
-			"pricePerNight": 200
+			"pricePerNight": 200,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		},
 		{
 			"id": 206,
@@ -385,7 +735,35 @@
 			"capacity": 3,
 			"status": "available",
 			"imagePath": "./images/igloo_1.png",
-			"pricePerNight": 200
+			"pricePerNight": 200,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		},
 		{
 			"id": 207,
@@ -393,7 +771,35 @@
 			"capacity": 6,
 			"status": "available",
 			"imagePath": "./images/igloo_2.png",
-			"pricePerNight": 500
+			"pricePerNight": 500,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		},
 		{
 			"id": 208,
@@ -401,7 +807,35 @@
 			"capacity": 2,
 			"status": "available",
 			"imagePath": "./images/igloo_3.png",
-			"pricePerNight": 170
+			"pricePerNight": 170,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		},
 		{
 			"id": 209,
@@ -409,7 +843,35 @@
 			"capacity": 4,
 			"status": "available",
 			"imagePath": "./images/igloo_4.jpg",
-			"pricePerNight": 340
+			"pricePerNight": 340,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		},
 		{
 			"id": 210,
@@ -417,7 +879,35 @@
 			"capacity": 3,
 			"status": "booked",
 			"imagePath": "./images/igloo_1.png",
-			"pricePerNight": 200
+			"pricePerNight": 200,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		},
 		{
 			"id": 211,
@@ -425,7 +915,35 @@
 			"capacity": 2,
 			"status": "available",
 			"imagePath": "./images/igloo_6.jpg",
-			"pricePerNight": 100
+			"pricePerNight": 100,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		},
 		{
 			"id": 212,
@@ -433,7 +951,35 @@
 			"capacity": 5,
 			"status": "available",
 			"imagePath": "./images/igloo_7.jpg",
-			"pricePerNight": 350
+			"pricePerNight": 350,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		},
 		{
 			"id": 213,
@@ -441,7 +987,35 @@
 			"capacity": 4,
 			"status": "available",
 			"imagePath": "./images/igloo_1.png",
-			"pricePerNight": 250
+			"pricePerNight": 250,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		},
 		{
 			"id": 214,
@@ -449,7 +1023,35 @@
 			"capacity": 3,
 			"status": "available",
 			"imagePath": "./images/igloo_6.jpg",
-			"pricePerNight": 200
+			"pricePerNight": 200,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		},
 		{
 			"id": 215,
@@ -457,7 +1059,35 @@
 			"capacity": 6,
 			"status": "booked",
 			"imagePath": "./images/igloo_7.jpg",
-			"pricePerNight": 400
+			"pricePerNight": 400,
+			"rating": 4.5,
+			"reviews": [
+				{
+					"customerId": 101,
+					"rating": 5,
+					"comment": "Great place, would recommend!"
+				},
+				{
+					"customerId": 106,
+					"rating": 4,
+					"comment": "Nice location, friendly staff."
+				},
+				{
+					"customerId": 111,
+					"rating": 5,
+					"comment": "Amazing experience, would come back!"
+				},
+				{
+					"customerId": 112,
+					"rating": 4,
+					"comment": "Good value for money."
+				},
+				{
+					"customerId": 104,
+					"rating": 5,
+					"comment": "Great service, friendly staff!"
+				}
+			]
 		}
 	],
 	"promotions": [
@@ -623,5 +1253,117 @@
 			"last14Days": 80,
 			"last30Days": 67
 		}
-	}
+	},
+	"forum": [
+		{
+		  "id": 1,
+		  "topic": "Best practices for managing bookings",
+		  "description": "Share and discuss best practices for managing igloo bookings efficiently.",
+		  "commentsCount": 18,
+		  "date": "2024-05-01",
+		  "status": "active",
+		  "userId": 101,
+		  "views": 5,
+		  "tags": ["Bookings", "Management", "Efficiency"]
+		},
+		{
+		  "id": 2,
+		  "topic": "Customer service tips",
+		  "description": "Tips and strategies for providing excellent customer service to our igloo guests.",
+		  "commentsCount": 25,
+		  "date": "2024-04-20",
+		  "status": "active",
+		  "userId": 102,
+		  "views": 10,
+		  "tags": ["CC", "Tips", "Guests"]
+		},
+		{
+		  "id": 3,
+		  "topic": "Igloo maintenance schedule",
+		  "description": "Discuss the maintenance schedule for igloos and share tips on keeping them in top condition.",
+		  "commentsCount": 12,
+		  "date": "2024-03-15",
+		  "status": "active",
+		  "userId": 103,
+		  "views": 7,
+		  "tags": ["Maintenance", "Igloo", "Schedule"]
+		},
+		{
+		  "id": 4,
+		  "topic": "Handling guest complaints",
+		  "description": "Strategies and experiences on effectively handling and resolving guest complaints.",
+		  "commentsCount": 10,
+		  "date": "2024-02-28",
+		  "status": "closed",
+		  "userId": 101,
+		  "views": 3,
+		  "tags": ["Complaints", "Resolution", "CC"]
+		},
+		{
+		  "id": 5,
+		  "topic": "Promotions and marketing strategies",
+		  "description": "Discuss and share successful promotion and marketing strategies for increasing igloo bookings.",
+		  "commentsCount": 14,
+		  "date": "2024-01-25",
+		  "status": "active",
+		  "userId": 101,
+		  "views": 6,
+		  "tags": ["Promotions", "Marketing", "Bookings"]
+		},
+		{
+		  "id": 6,
+		  "topic": "Winterizing igloos: Best practices",
+		  "description": "Discuss best practices for preparing igloos for the winter season.",
+		  "commentsCount": 9,
+		  "date": "2024-05-05",
+		  "status": "active",
+		  "userId": 103,
+		  "views": 2,
+		  "tags": ["Winter", "Igloo", "Maintenance"]
+		},
+		{
+		  "id": 7,
+		  "topic": "Training new staff members",
+		  "description": "Share tips and resources for training new staff members on igloo management.",
+		  "commentsCount": 16,
+		  "date": "2024-04-10",
+		  "status": "active",
+		  "userId": 101,
+		  "views": 8,
+		  "tags": ["Training", "Staff", "Management"]
+		},
+		{
+		  "id": 8,
+		  "topic": "Dealing with overbookings",
+		  "description": "Strategies for handling situations where igloos are overbooked.",
+		  "commentsCount": 13,
+		  "date": "2024-03-20",
+		  "status": "active",
+		  "userId": 102,
+		  "views": 5,
+		  "tags": ["Overbooking", "Management", "Strategy"]
+		},
+		{
+		  "id": 9,
+		  "topic": "Effective communication with guests",
+		  "description": "Tips on how to effectively communicate with guests before, during, and after their stay.",
+		  "commentsCount": 20,
+		  "date": "2024-02-25",
+		  "status": "closed",
+		  "userId": 103,
+		  "views": 24,
+		  "tags": ["Communication", "Guests", "Tips"]
+		},
+		{
+		  "id": 10,
+		  "topic": "Eco-friendly igloo practices",
+		  "description": "Discuss eco-friendly practices for maintaining and operating igloos.",
+		  "commentsCount": 11,
+		  "date": "2024-01-30",
+		  "status": "active",
+		  "userId": 103,
+		  "views": 7,
+		  "tags": ["Eco-friendly", "Igloo", "Sustainability"]
+		}
+	  ]
 }

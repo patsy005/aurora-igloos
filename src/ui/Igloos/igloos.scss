@@ -16,9 +16,9 @@
 		font-size: 1.4rem;
 	}
 
-	.status {
-		width: 15% !important;
-	}
+	// .status {
+	// 	width: 15% !important;
+	// }
 
 	.action-icon {
 		border-radius: 6px;
@@ -68,11 +68,11 @@
 		}
 	}
 
-	&__user-role {
-		.role-title {
-			text-transform: capitalize;
-		}
-	}
+	// &__user-role {
+	// 	.role-title {
+	// 		text-transform: capitalize;
+	// 	}
+	// }
 
 	.item-img,
 	.user-img {
@@ -189,6 +189,12 @@
 	@media (min-width: 768px) {
 		.item-img {
 			height: unset;
+		}
+	}
+
+	@media (min-width: 1400px){
+		.user-status {
+			width: 15% !important;
 		}
 	}
 }
