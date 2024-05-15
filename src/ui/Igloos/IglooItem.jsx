@@ -7,8 +7,9 @@ import { useState } from 'react'
 import DatePicker from 'react-multi-date-picker'
 import DatePanel from 'react-multi-date-picker/plugins/date_panel'
 import IglooItemCard from './IglooItemCard'
-import { DeleteIcon, EditIcon, GoBackIcon, ViewIcon } from '../Icons'
+import { DeleteIcon, EditIcon, GoBackIcon, StarIcon, ViewIcon } from '../Icons'
 import IglooItemTable from './IglooItemTable'
+import IglooReviewsList from './IglooReviewsList'
 
 function IglooItem() {
 	const { iglooId } = useParams()
@@ -41,7 +42,7 @@ function IglooItem() {
 				<div className="item-img col-12 col-md-5 col-lg-4">
 					<img src={`.${igloo.imagePath}`} alt={igloo.name} />
 				</div>
-				<div className="item-section__info col-12 col-md-7">
+				<div className="item-section__info col-12 col-md-7 justify-content-between">
 					<h3 className="item-section__title">{igloo.name}</h3>
 					<div className="item-section__promo">
 						<p className="promo uppercase-text">
@@ -76,6 +77,14 @@ function IglooItem() {
 						</div>
 					</div>
 
+					<div className="item-section__promo mt-3">
+						<p className="promo uppercase-text">Rating</p>
+						<div className="promo-title mt-2 d-flex align-items-center gap-2">
+							<StarIcon />
+							<span>{igloo.rating}</span>
+						</div>
+					</div>
+
 					<div className="item-section__actions mt-3">
 						<span className="action-icon" onClick={() => navigate(`/igloos/${iglooId}/edit`)}>
 							<EditIcon />
@@ -90,6 +99,11 @@ function IglooItem() {
 			<div className="section-margin user-item tasks">
 				<h3>Bookings</h3>
 				<IglooItemTable iglooId={iglooId} />
+			</div>
+
+			<div className="section-margin user-item tasks">
+				<h3>Reviews</h3>
+				<IglooReviewsList igloo={igloo} />
 			</div>
 		</section>
 	)
