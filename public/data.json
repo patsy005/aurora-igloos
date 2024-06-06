@@ -6,7 +6,7 @@
 			"surname": "Doe",
 			"email": "j.doe@mail.com",
 			"role": "receptionist",
-			"phoneNumber": "+354 1111111",
+			"phoneNumber": "+3541111111",
 			"status": "active",
 			"address": {
 				"street": "Main Street 123",
@@ -92,7 +92,7 @@
 			"surname": "Smith",
 			"email": "j.smith@mail.com",
 			"role": "user",
-			"phoneNumber": "+354 222222",
+			"phoneNumber": "+354222222",
 			"status": "active",
 			"address": {
 				"street": "First Avenue 456",
@@ -178,7 +178,7 @@
 			"surname": "Wonderland",
 			"email": "a.wonderland@mail.com",
 			"role": "admin",
-			"phoneNumber": "+354 1111111",
+			"phoneNumber": "+3541111111",
 			"status": "inactive",
 			"address": {
 				"street": "Broadway 789",
@@ -267,7 +267,7 @@
 			"email": "john@example.com",
 			"role": "customer",
 			"bookingId": 1,
-			"phoneNumber": "+354 1111111",
+			"phoneNumber": "+3541111111",
 			"nationality": "Icelandic"
 		},
 		{
@@ -277,7 +277,7 @@
 			"email": "jane@example.com",
 			"role": "customer",
 			"bookingId": 2,
-			"phoneNumber": "+354 222222",
+			"phoneNumber": "+354222222",
 			"nationality": "Icelandic"
 		},
 		{
@@ -287,7 +287,7 @@
 			"email": "a.wonderland@mail.com",
 			"role": "customer",
 			"bookingId": 3,
-			"phoneNumber": "+354 1111111",
+			"phoneNumber": "+3541111111",
 			"nationality": "Icelandic"
 		},
 		{
@@ -297,7 +297,7 @@
 			"email": "michael@example.com",
 			"role": "customer",
 			"bookingId": 4,
-			"phoneNumber": "+354 1111111",
+			"phoneNumber": "+3541111111",
 			"nationality": "American"
 		},
 		{
@@ -307,7 +307,7 @@
 			"email": "emily@example.com",
 			"role": "customer",
 			"bookingId": 5,
-			"phoneNumber": "+44 123456789",
+			"phoneNumber": "+44123456789",
 			"nationality": "British"
 		},
 		{
@@ -317,7 +317,7 @@
 			"email": "daniel@example.com",
 			"role": "customer",
 			"bookingId": 6,
-			"phoneNumber": "+81 123456789",
+			"phoneNumber": "+81123456789",
 			"nationality": "Japanese"
 		},
 		{
@@ -327,7 +327,7 @@
 			"email": "sophia@example.com",
 			"role": "customer",
 			"bookingId": 7,
-			"phoneNumber": "+46 123456789",
+			"phoneNumber": "+46123456789",
 			"nationality": "Swedish"
 		},
 		{
@@ -337,7 +337,7 @@
 			"email": "matthew@example.com",
 			"role": "customer",
 			"bookingId": 8,
-			"phoneNumber": "+61 123456789",
+			"phoneNumber": "+61123456789",
 			"nationality": "Australian"
 		},
 		{
@@ -347,7 +347,7 @@
 			"email": "olivia@example.com",
 			"role": "customer",
 			"bookingId": 9,
-			"phoneNumber": "+52 123456789",
+			"phoneNumber": "+52123456789",
 			"nationality": "Mexican"
 		},
 		{
@@ -357,7 +357,7 @@
 			"email": "ethan@example.com",
 			"role": "customer",
 			"bookingId": 10,
-			"phoneNumber": "+1 123456789",
+			"phoneNumber": "+1123456789",
 			"nationality": "American"
 		},
 		{
@@ -367,7 +367,7 @@
 			"email": "ava@example.com",
 			"role": "customer",
 			"bookingId": 11,
-			"phoneNumber": "+44 123456789",
+			"phoneNumber": "+44123456789",
 			"nationality": "British"
 		},
 		{
@@ -377,7 +377,7 @@
 			"email": "noah@example.com",
 			"role": "customer",
 			"bookingId": 12,
-			"phoneNumber": "+81 123456789",
+			"phoneNumber": "+81123456789",
 			"nationality": "Japanese"
 		},
 		{
@@ -387,7 +387,7 @@
 			"email": "isabella@example.com",
 			"role": "customer",
 			"bookingId": 13,
-			"phoneNumber": "+46 123456789",
+			"phoneNumber": "+46123456789",
 			"nationality": "Swedish"
 		},
 		{
@@ -397,7 +397,7 @@
 			"email": "liam@example.com",
 			"role": "customer",
 			"bookingId": 14,
-			"phoneNumber": "+61 123456789",
+			"phoneNumber": "+61123456789",
 			"nationality": "Australian"
 		},
 		{
@@ -407,7 +407,7 @@
 			"email": "mia@example.com",
 			"role": "customer",
 			"bookingId": 15,
-			"phoneNumber": "+52 123456789",
+			"phoneNumber": "+52123456789",
 			"nationality": "Mexican"
 		}
 	],
@@ -419,7 +419,8 @@
 			"checkInDate": "2024-05-10",
 			"checkOutDate": "2024-05-14",
 			"status": "confirmed",
-			"amount": 200
+			"amount": 200,
+			"paymentMethod": "Cretid Card"
 		},
 		{
 			"id": 2,
@@ -428,7 +429,8 @@
 			"checkInDate": "2024-05-20",
 			"checkOutDate": "2024-05-23",
 			"status": "in",
-			"amount": 250
+			"amount": 250,
+			"paymentMethod": "Cretid Card"
 		},
 		{
 			"id": 3,
@@ -437,7 +439,8 @@
 			"checkInDate": "2024-05-30",
 			"checkOutDate": "2024-06-02",
 			"status": "out",
-			"amount": 300
+			"amount": 300,
+			"paymentMethod": "PayPal"
 		},
 		{
 			"id": 4,
@@ -446,7 +449,8 @@
 			"checkInDate": "2024-06-05",
 			"checkOutDate": "2024-06-09",
 			"status": "unconfirmed",
-			"amount": 220
+			"amount": 220,
+			"paymentMethod": "Cretid Card"
 		},
 		{
 			"id": 5,
@@ -455,7 +459,8 @@
 			"checkInDate": "2024-06-15",
 			"checkOutDate": "2024-06-17",
 			"status": "cancelled",
-			"amount": 270
+			"amount": 270,
+			"paymentMethod": "Cretid Card"
 		},
 		{
 			"id": 6,
@@ -464,7 +469,8 @@
 			"checkInDate": "2024-06-25",
 			"checkOutDate": "2024-06-28",
 			"status": "confirmed",
-			"amount": 230
+			"amount": 230,
+			"paymentMethod": "Cretid Card"
 		},
 		{
 			"id": 7,
@@ -473,7 +479,8 @@
 			"checkInDate": "2024-07-05",
 			"checkOutDate": "2024-07-03",
 			"status": "confirmed",
-			"amount": 280
+			"amount": 280,
+			"paymentMethod": "Cretid Card"
 		},
 		{
 			"id": 8,
@@ -482,7 +489,8 @@
 			"checkInDate": "2024-07-15",
 			"checkOutDate": "2024-07-17",
 			"status": "in",
-			"amount": 320
+			"amount": 320,
+			"paymentMethod": "PayPal"
 		},
 		{
 			"id": 9,
@@ -491,7 +499,8 @@
 			"checkInDate": "2024-07-25",
 			"checkOutDate": "2024-07-29",
 			"status": "out",
-			"amount": 240
+			"amount": 240,
+			"paymentMethod": "Cretid Card"
 		},
 		{
 			"id": 10,
@@ -500,7 +509,8 @@
 			"checkInDate": "2024-08-05",
 			"checkOutDate": "2024-08-09",
 			"status": "unconfirmed",
-			"amount": 290
+			"amount": 290,
+			"paymentMethod": "Cretid Card"
 		},
 		{
 			"id": 11,
@@ -509,7 +519,8 @@
 			"checkInDate": "2024-08-15",
 			"checkOutDate": "2024-08-18",
 			"status": "confirmed",
-			"amount": 310
+			"amount": 310,
+			"paymentMethod": "Cretid Card"
 		},
 		{
 			"id": 12,
@@ -518,7 +529,8 @@
 			"checkInDate": "2024-08-25",
 			"checkOutDate": "2024-08-27",
 			"status": "confirmed",
-			"amount": 260
+			"amount": 260,
+			"paymentMethod": "Cretid Card"
 		},
 		{
 			"id": 13,
@@ -527,7 +539,8 @@
 			"checkInDate": "2024-09-05",
 			"checkOutDate": "2024-09-08",
 			"status": "unconfirmed",
-			"amount": 330
+			"amount": 330,
+			"paymentMethod": "PayPal"
 		},
 		{
 			"id": 14,
@@ -536,7 +549,8 @@
 			"checkInDate": "2024-09-15",
 			"checkOutDate": "2024-09-19",
 			"status": "in",
-			"amount": 250
+			"amount": 250,
+			"paymentMethod": "Cretid Card"
 		},
 		{
 			"id": 15,
@@ -545,7 +559,8 @@
 			"checkInDate": "2024-09-25",
 			"checkOutDate": "2024-09-29",
 			"status": "out",
-			"amount": 300
+			"amount": 300,
+			"paymentMethod": "Cretid Card"
 		}
 	],
 	"igloos": [

@@ -1,18 +1,17 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from 'react-hook-form'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Button from '../../components/Button'
 import FormBox from '../Form/FormBox'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
 import { setIsCreating, setIsEditing } from '../../slices/IglooSlice'
+import toast from 'react-hot-toast'
 
 function IgloosForm() {
 	const { iglooId } = useParams()
-	const isEditing = useSelector(state => state.igloos.isEditing)
-	const isCreating = useSelector(state => state.igloos.isCreating)
 	const igloos = data.igloos
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
@@ -21,11 +20,20 @@ function IgloosForm() {
 		register,
 		handleSubmit,
 		setValue,
-		formState: { errors, isValid },
-	} = useForm()
+		formState: { errors },
+	} = useForm({
+		defaultValues: {
+			name: iglooId ? igloos.find(igloo => igloo.id === +iglooId).name : '',
+			capacity: iglooId ? igloos.find(igloo => igloo.id === +iglooId).capacity : '',
+			price: iglooId ? igloos.find(igloo => igloo.id === +iglooId).pricePerNight : '',
+		},
+	})
 
 	const onSubmit = data => {
 		console.log(data)
+		dispatch(setIsCreating(false))
+		iglooId ? toast.success('Igloo edited successfully') : toast.success('Igloo added successfully')
+		iglooId && navigate(-1)
 	}
 
 	const getIglooInfo = () => {
@@ -52,7 +60,13 @@ function IgloosForm() {
 					id="name"
 					className={`input ${errors.name ? 'input-error' : ''}`}
 					name="name"
-					{...register('name', { required: 'Igloo name is required' })}
+					{...register('name', {
+						required: 'Name can not be empty',
+						minLength: {
+							value: 2,
+							message: 'Igloo name must be at least 2 characters long',
+						},
+					})}
 				/>
 			</FormBox>
 			<FormBox label="capacity" error={errors?.capacity?.message}>
@@ -61,7 +75,13 @@ function IgloosForm() {
 					id="capacity"
 					className={`input ${errors.capacity ? 'input-error' : ''}`}
 					name="capacity"
-					{...register('capacity', { required: 'Igloo capacity is required' })}
+					{...register('capacity', {
+						required: 'Igloo capacity is required',
+						min: {
+							value: 1,
+							message: 'Igloo capacity must be at least 1 person',
+						},
+					})}
 				/>
 			</FormBox>
 			<FormBox label="price" error={errors?.price?.message}>
@@ -70,7 +90,13 @@ function IgloosForm() {
 					id="price"
 					className={`input ${errors.price ? 'input-error' : ''}`}
 					name="price"
-					{...register('price', { required: 'Igloo price is required' })}
+					{...register('price', {
+						required: 'Igloo price is required',
+						min: {
+							value: 1,
+							message: 'Igloo price must be at least $1',
+						},
+					})}
 				/>
 			</FormBox>
 			<FormBox label="img" error={errors?.img?.message} labelClassName="file-upload">
@@ -80,7 +106,10 @@ function IgloosForm() {
 					id="img"
 					className={`input ${errors.img ? 'input-error' : ''}`}
 					name="img"
-					{...register('img', { required: 'Igloo image is required' })}
+					{...register('img', {
+						required: 'Igloo image is required',
+						validate: value => value[0].size < 1000000 || 'Image size must be less than 1MB',
+					})}
 				/>
 			</FormBox>
 
@@ -94,7 +123,7 @@ function IgloosForm() {
 					}}>
 					Cancel
 				</Button>
-				<Button>{!isEditing ? 'Add igloo' : 'Edit igloo'}</Button>
+				<Button>{!iglooId ? 'Add igloo' : 'Edit igloo'}</Button>
 			</div>
 		</form>
 	)

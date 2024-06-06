@@ -42,6 +42,7 @@
 
 	&__menu {
 		color: $primary-6 !important;
+		z-index: 10 !important;
 	}
 
 	&__option {
@@ -62,9 +63,9 @@
 		}
 	}
 
-	// &__value-container {
-	//     padding: 0 !important;
-	// }
+	&__value-container {
+	    flex-wrap: nowrap !important;
+	}
 }
 
 .item-section {

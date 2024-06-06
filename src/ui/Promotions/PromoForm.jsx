@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
 import { Controller, useForm } from 'react-hook-form'
@@ -9,38 +9,40 @@ import ReactDatePicker from 'react-datepicker'
 import { DatePickerIcon } from '../Icons'
 import Button from '../../components/Button'
 import { setIsCreating, setIsEditing } from '../../slices/promoSlice'
+import toast from 'react-hot-toast'
 
 function PromoForm() {
 	const { promoId } = useParams()
 	const promotions = data.promotions
 	const [validFrom, setValidFrom] = useState(promoId ? promotions.find(promo => promo.id === +promoId).validFrom : null)
 	const [validTo, setValidTo] = useState(promoId ? promotions.find(promo => promo.id === +promoId).validTo : null)
-	const isEditing = useSelector(state => state.promo.isEditing)
 	const igloos = data.igloos
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	const allIglooOptions = igloos.map(igloo => ({ value: igloo.id, label: igloo.name }))
-
-	// const tempIglooOptions = promoId && promotions.find(promo => promo.id === +promoId).iglooId
-	// const iglooOptions = tempIglooOptions?.map(iglooId => {
-	// 	const igloo = igloos.find(igloo => igloo.id === iglooId)
-	// 	return {
-	// 		value: igloo.id,
-	// 		label: igloo.name,
-	// 	}
-	// })
+	const selectedIgloosIds =
+		promoId &&
+		allIglooOptions.filter(igloo => promotions.find(promo => promo.id === +promoId).iglooId.includes(igloo.value))
 	const [iglooOptionsState, setIglooOptionsState] = useState([])
+
+	const onChangeIgloo = igloo => {
+		setIglooOptionsState(prevState => [...prevState, igloo])
+		setValue('igloos', iglooOptionsState)
+	}
 
 	const {
 		register,
 		handleSubmit,
 		setValue,
 		control,
-		formState: { errors, isValid },
+		formState: { errors },
 	} = useForm()
 
 	const onSubmit = data => {
 		console.log(data)
+		dispatch(setIsCreating(false))
+		promoId ? toast.success('Promo edited successfully') : toast.success('Promo added successfully')
+		promoId && navigate(-1)
 	}
 
 	const getPromoInfo = () => {
@@ -65,6 +67,7 @@ function PromoForm() {
 		const [start, end] = dates
 		setValidFrom(start)
 		setValidTo(end)
+		setValue('dates', [start, end])
 	}
 
 	return (
@@ -75,27 +78,53 @@ function PromoForm() {
 					id="name"
 					className={`input ${errors.name ? 'input-error' : ''}`}
 					name="name"
-					{...register('name', { required: 'Igloo name is required' })}
+					{...register('name', {
+						required: 'Igloo name is required',
+						minLength: {
+							value: 2,
+							message: 'Igloo name must be at least 2 characters long',
+						},
+					})}
 				/>
 			</FormBox>
 			<FormBox label="discount" error={errors?.discount?.message}>
 				<input
 					type="number"
 					id="discount"
-					// placeholder={!isEditing ? '% discount' : promotions.find(promo => promo.id === +promoId).discount}
-					// placeholder="$ discount"
+					placeholder={promoId ? promotions.find(promo => promo.id === +promoId).discount : 'In %'}
 					className={`input ${errors.discount ? 'input-error' : ''}`}
 					name="discount"
-					{...register('discount', { required: 'Discount is required' })}
+					{...register('discount', {
+						required: 'Discount is required',
+						min: {
+							value: 1,
+							message: 'Discount must be at least 1',
+						},
+					})}
 				/>
 			</FormBox>
 			<FormBox label="description" error={errors?.description?.message}>
 				<input
-					type="text"
+					// type="text"
 					id="description"
 					className={`input ${errors.description ? 'input-error' : ''}`}
 					name="description"
-					{...register('description', { required: 'Discount is required' })}
+					{...register('description', {
+						required: 'Description is required',
+						minLength: {
+							value: 2,
+							message: 'Description must be at least 2 characters long',
+						},
+
+						maxLength: {
+							value: 50,
+							message: 'Description must be at least 2 characters long',
+						},
+						pattern: {
+							value: /^[\s\S]*$/,
+							message: 'Description contains invalid characters',
+						},
+					})}
 				/>
 			</FormBox>
 			<div className="form__box col-12 col-sm-5">
@@ -108,12 +137,15 @@ function PromoForm() {
 						<ReactSelect
 							closeMenuOnSelect={false}
 							isMulti
-							defaultValue={isEditing ? [allIglooOptions[1], allIglooOptions[2], allIglooOptions[3]] : []}
+							defaultValue={promoId ? selectedIgloosIds : []}
 							options={allIglooOptions}
 							classNamePrefix="react-select"
+							hideSelectedOptions={false}
+							onChange={onChangeIgloo}
 						/>
 					)}
 				/>
+				{errors.igloos && <p className="error-msg">You must select igloo</p>}
 			</div>
 			<div className="form__box col-12 col-sm-5">
 				<label className="label">Dates</label>
@@ -126,12 +158,9 @@ function PromoForm() {
 							<>
 								<ReactDatePicker
 									className={`input form-control ${errors.dates ? 'input-error' : ''}`}
-									// defaultValue={new Date()}
 									dateFormat="dd.MM.yyyy"
 									minDate={new Date()}
-									// placeholderText="Select date"
 									shouldCloseOnSelect={true}
-									// selected={new Date()}
 									selectsRange={true}
 									onChange={onChangeDate}
 									startDate={validFrom}
@@ -157,7 +186,7 @@ function PromoForm() {
 					}}>
 					Cancel
 				</Button>
-				<Button>{isEditing ? 'Edit booking' : 'Add booking'}</Button>
+				<Button>{promoId ? 'Edit promotion' : 'Add promotion'}</Button>
 			</div>
 		</form>
 	)

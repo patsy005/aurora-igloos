@@ -1,9 +1,7 @@
 import ReactSelect from 'react-select'
-import { EditIcon, ExitIcon, ExitIconSmall, SearchIcon } from '../Icons'
-import { useState } from 'react'
+import SearchInput from '../../components/SearchInput'
 
 function ForumActions() {
-	const [search, setSearch] = useState('')
 	const options = [
 		{ value: 'all', label: 'All' },
 		{ value: 'recent', label: 'Recent' },
@@ -23,11 +21,7 @@ function ForumActions() {
 				/>
 			</div>
 
-			<div className="forum__actions--search input col-8 col-sm-4">
-				{search === '' && <SearchIcon />}
-				{search !== '' && <ExitIconSmall onClick={() => setSearch('')} />}
-				<input type="search" value={search} placeholder="Search" onChange={e => setSearch(e.target.value)} />
-			</div>
+			<SearchInput />
 		</div>
 	)
 }

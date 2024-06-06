@@ -5,15 +5,15 @@ import { DatePickerIcon } from '../Icons'
 import { useEffect, useState } from 'react'
 import Button from '../../components/Button'
 import FormBox from '../Form/FormBox'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchIgloos } from '../../slices/IglooSlice'
+import { useDispatch } from 'react-redux'
 import { setIsCreating, setIsEditing } from '../../slices/bookings'
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
+import ReactSelect from 'react-select'
+import toast from 'react-hot-toast'
 
-function BookingsForm({}) {
+function BookingsForm() {
 	const igloos = data.igloos
-	const isEditing = useSelector(state => state.bookings.isEditing)
 	const { bookingId } = useParams()
 	const dispatch = useDispatch()
 	const bookings = data.bookings
@@ -24,23 +24,39 @@ function BookingsForm({}) {
 		if (bookingId) {
 			dispatch(setIsEditing(true))
 		}
-	})
+	}, [bookingId, setIsEditing])
 
 	const {
 		register,
 		handleSubmit,
 		control,
 		setValue,
-		formState: { errors, isValid },
-	} = useForm()
+		formState: { errors },
+	} = useForm({
+		defaultValues: {
+			name: bookingId ? bookings.find(booking => booking.id === +bookingId).name : '',
+			surname: bookingId ? bookings.find(booking => booking.id === +bookingId).surname : '',
+			email: bookingId ? bookings.find(booking => booking.id === +bookingId).email : '',
+			igloo: bookingId ? bookings.find(booking => booking.id === +bookingId).igloo : '',
+			dates: bookingId ? [bookings.find(booking => booking.id === +bookingId).dates] : '',
+			paymentMethod: bookingId ? bookings.find(booking => booking.id === +bookingId).paymentMethod : '',
+			status: bookingId ? bookings.find(booking => booking.id === +bookingId).status : '',
+		}
+	})
+
 	const [startDate, setStartDate] = useState(
 		bookingId ? bookings.find(booking => booking.id === +bookingId).checkInDate : new Date()
 	)
 	const [endDate, setEndDate] = useState(
 		bookingId ? bookings.find(booking => booking.id === +bookingId).checkOutDate : null
 	)
-	const [paymentMethod, setPaymentMethod] = useState('')
+	const [paymentMethod, setPaymentMethod] = useState(bookingId ?'paypalPayment' : "")
 	const statusArr = ['confirmed', 'unconfirmed', 'checked-in', 'checked-out', 'cancelled']
+
+	const igloosOptions = igloos.map(igloo => ({ value: igloo.id, label: igloo.name }))
+	const statusOptions = statusArr.map(status => ({ value: status, label: status }))
+	const selectedIglooId = bookingId ? igloosOptions.find(iglooOp => iglooOp.value === +bookingId) : null
+	const [igloo, setIgloo] = useState(bookingId ? igloosOptions.find(igloo => igloo.id === selectedIglooId) : null)
 
 	const handlePaymentChange = value => {
 		setPaymentMethod(value)
@@ -50,11 +66,19 @@ function BookingsForm({}) {
 		const [start, end] = dates
 		setStartDate(new Date(start))
 		setEndDate(new Date(end))
+		setValue('dates', [start, end])
+	}
+
+	const onIglooChange = igloo => {
+		setIgloo(igloo)
+		setValue('igloo', igloo)
 	}
 
 	const onSubmit = data => {
 		console.log(data)
 		dispatch(setIsCreating(false))
+		bookingId ? toast.success('Booking edited successfully') : toast.success('Booking added successfully')
+		bookingId && navigate(-1)
 	}
 
 	const getBookingInfo = () => {
@@ -86,7 +110,13 @@ function BookingsForm({}) {
 					id="name"
 					className={`input ${errors.name ? 'input-error' : ''}`}
 					name="name"
-					{...register('name', { required: 'Name can not be empty' })}
+					{...register('name', {
+						required: 'Name can not be empty',
+						minLength: {
+							value: 2,
+							message: 'Name must be at least 2 characters long',
+						},
+					})}
 				/>
 			</FormBox>
 			<FormBox label="surname" error={errors?.surname?.message}>
@@ -94,7 +124,13 @@ function BookingsForm({}) {
 					id="surname"
 					className={`input ${errors.surname ? 'input-error' : ''}`}
 					name="surname"
-					{...register('surname', { required: 'Surname can not be empty' })}
+					{...register('surname', {
+						required: 'Surname can not be empty',
+						minLength: {
+							value: 2,
+							message: 'Surname must be at least 2 characters long',
+						},
+					})}
 				/>
 			</FormBox>
 			<FormBox label="e-mail" error={errors?.email?.message}>
@@ -102,7 +138,13 @@ function BookingsForm({}) {
 					id="email"
 					className={`input ${errors.email ? 'input-error' : ''}`}
 					name="email"
-					{...register('email', { required: 'Email can not be empty' })}
+					{...register('email', {
+						required: 'Email can not be empty',
+						pattern: {
+							value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+							message: 'Invalid email address',
+						},
+					})}
 				/>
 			</FormBox>
 			<div className="form__box col-12 col-sm-5">
@@ -112,18 +154,15 @@ function BookingsForm({}) {
 					control={control}
 					rules={{ required: true }}
 					render={() => (
-						<select className="input igloos-dropdown" {...register('igloo', { required: true })}>
-							{igloos.map(igloo => {
-								return (
-									<option key={igloo.id} value={igloo.name}>
-										{igloo.name}
-									</option>
-								)
-							})}
-						</select>
+						<ReactSelect
+							defaultValue={bookingId ? igloo : []}
+							options={igloosOptions}
+							classNamePrefix="react-select"
+							onChange={onIglooChange}
+						/>
 					)}
 				/>
-				{<p className="error-msg invisible">lll</p>}
+				{errors.igloo && <p className="error-msg">You must select igloo</p>}
 			</div>
 			<div className="form__box col-12 col-sm-5">
 				<label className="label">Dates</label>
@@ -153,19 +192,10 @@ function BookingsForm({}) {
 				</div>
 				{errors.dates && <p className="error-msg">Dates can not be empty</p>}
 			</div>
-			{isEditing && (
+			{bookingId && (
 				<div className="form__box col-12 col-sm-5">
 					<label className="label">Booking status</label>
-					<select className="input igloos-dropdown" {...register('status', { required: true })}>
-						{statusArr.map((status, index) => {
-							return (
-								<option key={index} value={status}>
-									{status}
-								</option>
-							)
-						})}
-						{}
-					</select>
+					<ReactSelect defaultValue={statusOptions[1]} options={statusOptions} classNamePrefix="react-select" />
 					{errors.igloo && <p className="error-msg">You must choose igloo</p>}
 				</div>
 			)}
@@ -211,7 +241,7 @@ function BookingsForm({}) {
 					}}>
 					Cancel
 				</Button>
-				<Button>{isEditing ? 'Edit booking' : 'Add booking'}</Button>
+				<Button>{bookingId ? 'Edit booking' : 'Add booking'}</Button>
 			</div>
 		</form>
 	)

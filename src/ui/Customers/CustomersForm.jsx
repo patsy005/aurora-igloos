@@ -1,15 +1,15 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { setIsCreating, setIsEditing } from '../../slices/customersSLice'
 import { useForm } from 'react-hook-form'
 import FormBox from '../Form/FormBox'
 import Button from '../../components/Button'
+import toast from 'react-hot-toast'
 
 function CustomersForm() {
 	const { customerId } = useParams()
-	const isEditing = useSelector(state => state.customers.isEditing)
 	const customers = data.customers
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
@@ -23,14 +23,15 @@ function CustomersForm() {
 	const {
 		register,
 		handleSubmit,
-		control,
 		setValue,
-		formState: { errors, isValid },
+		formState: { errors },
 	} = useForm()
 
 	const onSubmit = data => {
 		console.log(data)
 		dispatch(setIsCreating(false))
+		customerId ? toast.success('Customer edited successfully') : toast.success('Customer added successfully')
+		customerId && navigate(-1)
 	}
 
 	const getCustomerInfo = () => {
@@ -49,7 +50,7 @@ function CustomersForm() {
 			setValue('phone', customer.phoneNumber)
 			setValue('nationality', customer.nationality)
 		}
-	}, [])
+	}, [customerId])
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
@@ -58,7 +59,13 @@ function CustomersForm() {
 					id="name"
 					className={`input ${errors.name ? 'input-error' : ''}`}
 					name="name"
-					{...register('name', { required: 'Name can not be empty' })}
+					{...register('name', {
+						required: 'Name can not be empty',
+						minLength: {
+							value: 2,
+							message: 'Name must be at least 2 characters long',
+						},
+					})}
 				/>
 			</FormBox>
 			<FormBox label="surname" error={errors?.surname?.message}>
@@ -66,7 +73,13 @@ function CustomersForm() {
 					id="surname"
 					className={`input ${errors.surname ? 'input-error' : ''}`}
 					name="surname"
-					{...register('surname', { required: 'Surname can not be empty' })}
+					{...register('surname', {
+						required: 'Surname can not be empty',
+						minLength: {
+							value: 2,
+							message: 'Surname must be at least 2 characters long',
+						},
+					})}
 				/>
 			</FormBox>
 			<FormBox label="e-mail" error={errors?.email?.message}>
@@ -74,7 +87,13 @@ function CustomersForm() {
 					id="email"
 					className={`input ${errors.email ? 'input-error' : ''}`}
 					name="email"
-					{...register('email', { required: 'Email can not be empty' })}
+					{...register('email', {
+						required: 'Email can not be empty',
+						pattern: {
+							value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+							message: 'Invalid email address',
+						},
+					})}
 				/>
 			</FormBox>
 			<FormBox label="phone" error={errors?.phone?.message}>
@@ -82,7 +101,13 @@ function CustomersForm() {
 					id="phone"
 					className={`input ${errors.phone ? 'input-error' : ''}`}
 					name="phone"
-					{...register('phone', { required: 'Phone number can not be empty' })}
+					{...register('phone', { 
+						required: 'Phone number can not be empty',
+						pattern: {
+							value: /^\+?[1-9]\d{1,14}$/,
+							message: 'Invalid phone number',
+						}, 
+					})}
 				/>
 			</FormBox>
 			<FormBox label="nationality" error={errors?.nationality?.message}>
@@ -90,7 +115,13 @@ function CustomersForm() {
 					id="nationality"
 					className={`input ${errors.nationality ? 'input-error' : ''}`}
 					name="nationality"
-					{...register('nationality', { required: 'Nationality number can not be empty' })}
+					{...register('nationality', { 
+						required: 'Nationality number can not be empty',
+						minLength: {
+							value: 2,
+							message: "Nationality must be at least 2 characters long"
+						},
+					})}
 				/>
 			</FormBox>
 
@@ -104,7 +135,7 @@ function CustomersForm() {
 					}}>
 					Cancel
 				</Button>
-				<Button>{isEditing ? 'Edit customer' : 'Add customer'}</Button>
+				<Button>{customerId ? 'Edit customer' : 'Add customer'}</Button>
 			</div>
 		</form>
 	)
