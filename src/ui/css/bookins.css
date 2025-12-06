@@ -1,0 +1,15 @@
+.form-btns {
+  gap: 1.5rem !important;
+  margin-top: 2rem !important;
+}
+
+.cancel-btn {
+  background: -webkit-gradient(linear, left top, right top, from(#fff), to(#708e92)) !important;
+  background: linear-gradient(90deg, #fff 0%, #708e92 100%) !important;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.cancel-btn:hover {
+  background: -webkit-gradient(linear, left top, right top, from(#EDEDED), to(#47656A)) !important;
+  background: linear-gradient(90deg, #EDEDED 0%, #47656A 100%) !important;
+}/*# sourceMappingURL=bookins.css.map */

@@ -1,60 +1,115 @@
 /* eslint-disable no-unused-vars */
-import { useForm } from 'react-hook-form'
-import { useEffect } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
 import Button from '../../components/Button'
 import FormBox from '../Form/FormBox'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
-import { setIsCreating, setIsEditing } from '../../slices/IglooSlice'
+import { addNewIgloo, editIgloo, setIsCreating, setIsEditing } from '../../slices/igloosSlice'
 import toast from 'react-hot-toast'
+import SelectComponent from '../../components/select/SelectComponent'
+import { closeModal, selectModalProps } from '../../slices/modalSlice'
 
 function IgloosForm() {
-	const { iglooId } = useParams()
-	const igloos = data.igloos
+	const iglooToEdit = useSelector(selectModalProps)
+
+	const igloos = useSelector(state => state.igloos.igloos)
+	const discounts = useSelector(state => state.discounts.discounts)
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
+
+	console.log(iglooToEdit)
 
 	const {
 		register,
 		handleSubmit,
 		setValue,
-		formState: { errors },
+		control,
+		formState: { errors, isLoading: isFormLoading },
 	} = useForm({
 		defaultValues: {
-			name: iglooId ? igloos.find(igloo => igloo.id === +iglooId).name : '',
-			capacity: iglooId ? igloos.find(igloo => igloo.id === +iglooId).capacity : '',
-			price: iglooId ? igloos.find(igloo => igloo.id === +iglooId).pricePerNight : '',
+			name: iglooToEdit.id ? igloos.find(igloo => igloo.id === +iglooToEdit.id).name : '',
+			capacity: iglooToEdit.id ? igloos.find(igloo => igloo.id === +iglooToEdit.id).capacity : '',
+			price: iglooToEdit.id ? igloos.find(igloo => igloo.id === +iglooToEdit.id).pricePerNight : '',
+			description: iglooToEdit.id ? igloos.find(igloo => igloo.id === +iglooToEdit.id).description : '',
+			img: iglooToEdit.id ? igloos.find(igloo => igloo.id === +iglooToEdit.id).photoUrl : '',
+			idDiscount: iglooToEdit.id ? igloos.find(igloo => igloo.id === +iglooToEdit.id).idDiscount : null,
 		},
 	})
 
+	const handleCloseModal = () => dispatch(closeModal())
+
+	const discountOptions = [
+		{ value: '', label: 'No discount' },
+		...discounts.map(discount => ({
+			value: discount.id,
+			label: discount.name,
+		})),
+	]
+
 	const onSubmit = data => {
-		console.log(data)
-		dispatch(setIsCreating(false))
-		iglooId ? toast.success('Igloo edited successfully') : toast.success('Igloo added successfully')
-		iglooId && navigate(-1)
+		const formData = new FormData()
+
+		formData.append('Name', data.name)
+		formData.append('Capacity', data.capacity)
+		formData.append('PricePerNight', data.price)
+		formData.append('Description', data.description ?? '')
+
+
+		if (data.idDiscount !== null) {
+			formData.append('IdDiscount', data.idDiscount)
+		}
+
+		if (data.img && data.img.length > 0) {
+			formData.append('PhotoFile', data.img[0])
+		}
+
+		if (iglooToEdit.id) {
+			setFormTitle('Edit igloo')
+			formData.append('Id', iglooToEdit.id)
+			dispatch(editIgloo({ id: iglooToEdit.id, updatedIgloo: formData }))
+				.unwrap()
+				.then(() => toast.success('Igloo edited successfully'))
+				.then(() => navigate(-1))
+				.catch(() => toast.error('Failed to edit igloo'))
+		} else {
+			console.log(formData)
+			dispatch(addNewIgloo(formData))
+				.unwrap()
+				.then(() => toast.success('Igloo added successfully'))
+				.then(() => navigate(-1))
+				.catch(() => toast.error('Failed to add igloo'))
+		}
+
+		for (const [k, v] of formData.entries()) {
+			console.log(k, v)
+		}
 	}
 
 	const getIglooInfo = () => {
-		if (iglooId) {
-			const igloo = igloos.find(igloo => igloo.id === +iglooId)
+		if (iglooToEdit.id) {
+			const igloo = igloos.find(igloo => igloo.id === +iglooToEdit.id)
 			return igloo
 		}
 	}
 
 	useEffect(() => {
-		if (iglooId) {
+		if (iglooToEdit.id) {
 			const igloo = getIglooInfo()
 			setValue('name', igloo.name)
 			setValue('capacity', igloo.capacity)
 			setValue('price', igloo.pricePerNight)
+			setValue('description', igloo.description)
+			setValue('idDiscount', igloo.idDiscount ?? null)
 		}
 	}, [])
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
-			<FormBox label="name" error={errors?.name?.message}>
+			<h3 className='form-title'>{iglooToEdit.id ? 'Edit Igloo' : 'Add Igloo'}</h3>
+			<FormBox label="name" error={errors?.name?.message} className='mt-4'>
 				<input
 					type="text"
 					id="name"
@@ -69,7 +124,7 @@ function IgloosForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="capacity" error={errors?.capacity?.message}>
+			<FormBox label="capacity" error={errors?.capacity?.message} className='mt-4'>
 				<input
 					type="text"
 					id="capacity"
@@ -84,7 +139,7 @@ function IgloosForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="price" error={errors?.price?.message}>
+			<FormBox label="price per night" error={errors?.price?.message}>
 				<input
 					type="text"
 					id="price"
@@ -99,7 +154,7 @@ function IgloosForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="img" error={errors?.img?.message} labelClassName="file-upload">
+			<FormBox label="Image" error={errors?.img?.message} labelClassName="file-upload">
 				<input
 					type="file"
 					accept="image/png, image/jpeg"
@@ -107,9 +162,42 @@ function IgloosForm() {
 					className={`input ${errors.img ? 'input-error' : ''}`}
 					name="img"
 					{...register('img', {
-						required: 'Igloo image is required',
-						validate: value => value[0].size < 1000000 || 'Image size must be less than 1MB',
+						// validate: value => value[0].size < 1000000 || 'Image size must be less than 1MB',
 					})}
+				/>
+			</FormBox>
+
+			<FormBox label="Description" error={errors?.description?.message}>
+				<input
+					type="text"
+					id="description"
+					className={`input ${errors.description ? 'input-error' : ''}`}
+					name="description"
+					{...register('description')}
+				/>
+			</FormBox>
+
+			<FormBox label={'Discount'} error={errors?.idDiscount?.message}>
+				<Controller
+					control={control}
+					name="idDiscount"
+					// rules={{
+					// 	required: 'Please select a discount',
+					// 	validate: value => value !== '' || 'Please select a discount',
+					// }}
+					render={({ field: { onChange, value } }) => (
+						<SelectComponent
+							id="idDiscount"
+							className={`react-select ${errors.idDiscount ? 'input-error' : ''}`}
+							classNamePrefix="react-select"
+							name="idDiscount"
+							options={discountOptions}
+							// {...register('idDiscount')}
+							value={discountOptions.find(option => option.value === value) ?? discountOptions[0]}
+							placeholder="Select discount"
+							onChangeFn={onChange}
+						/>
+					)}
 				/>
 			</FormBox>
 
@@ -117,13 +205,12 @@ function IgloosForm() {
 				<Button
 					className="cancel-btn"
 					onClick={() => {
-						dispatch(setIsCreating(false))
-						dispatch(setIsEditing(false))
-						iglooId && navigate(-1)
-					}}>
+						handleCloseModal()
+					}}
+					type={'button'}>
 					Cancel
 				</Button>
-				<Button>{!iglooId ? 'Add igloo' : 'Edit igloo'}</Button>
+				<Button type={'submit'}>{!iglooToEdit.id ? 'Add igloo' : 'Edit igloo'}</Button>
 			</div>
 		</form>
 	)

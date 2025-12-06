@@ -1,0 +1,35 @@
+.pagination {
+  max-width: 480px;
+  margin: 0 auto;
+  z-index: -1;
+}
+.pagination .page-link {
+  font-size: 14px;
+  border-radius: 5px;
+  width: unset;
+  max-width: unset;
+  min-width: 32px;
+  height: 32px;
+  text-align: center;
+  margin-right: 13px;
+  line-height: 24px;
+}
+.pagination .page-item.active {
+  z-index: 0;
+}
+.pagination .page-item.active .page-link {
+  color: #fff;
+  font-weight: 500;
+}
+.pagination .page-item:first-child {
+  margin-left: auto;
+}
+.pagination .page-item:last-child {
+  margin-right: auto;
+}
+
+select.select-text {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}/*# sourceMappingURL=pagination.css.map */

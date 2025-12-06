@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { fetchIgloos } from '../slices/IglooSlice'
+import { fetchIgloos } from '../slices/igloosSlice'
 import HomePopularIgloos from '../ui/Home/HomePopularIgloos'
 import HomeOverview from '../ui/Home/HomeOverview'
 import data from '../../public/data.json'

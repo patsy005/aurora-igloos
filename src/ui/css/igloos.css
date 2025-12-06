@@ -1,0 +1,282 @@
+.item-section .go-back:hover svg {
+  cursor: pointer;
+}
+.item-section .go-back:hover svg path {
+  stroke: #b8f8ff;
+}
+.item-section .additional {
+  font-size: 1.4rem;
+}
+.item-section .action-icon {
+  border-radius: 6px;
+  background: none;
+  padding: 1rem 0.6rem;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+.item-section .action-icon:hover {
+  background: #015862;
+}
+.item-section .section-box {
+  gap: 2rem;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.item-section__title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #b8f8ff;
+  margin-bottom: 2rem !important;
+}
+.item-section__info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1rem;
+}
+.item-section .uppercase-text,
+.item-section .promo {
+  font-size: 1.1rem;
+  font-weight: 300;
+  line-height: 136.345%;
+  letter-spacing: 1.62px;
+  text-transform: uppercase;
+  color: #c8c8c8;
+}
+.item-section__promo .promo-title,
+.item-section__promo .role-title, .item-section__user-role .promo-title,
+.item-section__user-role .role-title {
+  color: #56efff;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+.item-section .item-img,
+.item-section .user-img {
+  border-radius: 6px;
+}
+.item-section .item-img img,
+.item-section .user-img img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  aspect-ratio: 1/1;
+  border-radius: 6px;
+}
+.item-section__overview {
+  background-color: #102e31;
+  white-space: nowrap;
+  border-radius: 6px;
+  padding: 1.5rem 2.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 2rem;
+}
+.item-section .overview-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: #001c1f;
+  border-radius: 6px;
+  gap: 1rem;
+}
+.item-section .overview-card__icon-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+.item-section .overview-card__stats {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.item-section .overview-card__stats--title {
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 136.345%;
+  letter-spacing: 1.62px;
+  text-transform: uppercase;
+  color: #c8c8c8;
+}
+.item-section .overview-card__stats--number {
+  color: #56efff;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.item-section .input {
+  border-radius: 6px;
+  background-color: #076570;
+  padding: 1rem 1.5rem;
+  color: #cffaff;
+  font-size: 1.2rem;
+  border: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  position: initial;
+  z-index: 2;
+  width: 100%;
+}
+.item-section__boxes {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1rem;
+}
+.item-section__actions {
+  -ms-flex-item-align: end;
+      align-self: end;
+}
+.item-section .item-img {
+  height: 20rem;
+}
+@media (min-width: 768px) {
+  .item-section .item-img {
+    height: unset;
+  }
+}
+@media (min-width: 1400px) {
+  .item-section .user-status {
+    width: 15% !important;
+  }
+}
+
+.custom-calendar.rmdp-wrapper,
+.rmdp-container .custom-calendar.ep-arrow::after {
+  background-color: #fff;
+}
+
+.rmdp-container .custom-calendar.ep-arrow[direction=bottom] {
+  border-top: 1px solid #fff;
+}
+
+.rmdp-container .custom-calendar.ep-arrow[direction=top] {
+  border-bottom: 1px solid #fff;
+}
+
+.custom-calendar.rmdp-wrapper {
+  border: 1px solid #001c1f;
+}
+
+.custom-calendar .rmdp-today .sd {
+  background-color: #015862;
+}
+
+.custom-calendar .rmdp-range {
+  background-color: #2c8993;
+}
+
+.custom-calendar .rmdp-day:hover .sd {
+  background-color: #015862;
+}
+
+.custom-calendar .rmdp-header div:first-of-type {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.custom-calendar .rmdp-arrow {
+  border: solid #003c43;
+  border-width: 0 2px 2px 0;
+}
+
+.custom-calendar .rmdp-arrow-container:hover .rmdp-arrow {
+  border: solid white;
+  border-width: 0 2px 2px 0;
+}
+
+.custom-calendar .rmdp-arrow-container {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.custom-calendar .rmdp-arrow-container:hover {
+  background-color: #2c8993;
+}
+
+.custom-calendar .rmdp-week-day {
+  color: #003c43;
+}
+
+.custom-calendar .rmdp-panel-body li {
+  background-color: #2c8993;
+}
+
+.custom-calendar .b-deselect {
+  background-color: #2c8993 !important;
+}
+
+.rmdp-container {
+  width: 100% !important;
+}
+
+.review-comment {
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+  color: white;
+}
+
+@media (min-witdh: 768px) {
+  .item-section .section-box {
+    gap: 2rem;
+    -webkit-box-orient: horizontal !important;
+    -webkit-box-direction: normal !important;
+        -ms-flex-direction: row !important;
+            flex-direction: row !important;
+  }
+}
+@media (min-width: 996px) {
+  .item-section .section-box {
+    padding: 2rem 2.5rem;
+  }
+  .item-section__title {
+    font-size: 3rem;
+  }
+  .item-section__boxes {
+    -webkit-box-orient: horizontal !important;
+    -webkit-box-direction: normal !important;
+        -ms-flex-direction: row !important;
+            flex-direction: row !important;
+  }
+}/*# sourceMappingURL=igloos.css.map */

@@ -47,6 +47,103 @@ body {
 	outline: 1px solid #015862;
 }
 
+.modal__overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.75);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+	width: 100%;
+	height: 100%;
+	padding: 2rem;
+
+	.modal__content {
+		width: 100%;
+	}
+}
+
+.form-title {
+	position: relative;
+	
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: -0.7rem;
+		left: 0;
+		width: 100%;
+		height: 2px;
+		background-color: #56efff;
+		border-radius: 2px;
+		opacity: 0.5;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.modal__overlay {
+		.modal__content {
+			width: 70%;
+			margin: 0 auto;
+		}
+	}
+}
+
+@media screen and (min-width: 2560px) {
+	.modal__overlay {
+		.modal__content {
+			width: 30%;
+		}
+	}
+}
+
+.delete-confirmation {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	background-color: $box-bg;
+	padding: 2rem;
+	border-radius: 8px;
+
+	&__top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10.1rem;
+	}
+
+	&__title {
+		margin-bottom: 0;
+	}
+
+	&__text {
+		font-size: 1.4rem;
+		color: #ddd;
+	}
+
+    &__actions {
+        display: flex;
+        justify-content: end;
+		gap: 4rem;
+    }
+
+	&__exit-button {
+		background: transparent;
+		border: none;
+		cursor: pointer;
+		font-size: 2rem;
+		color: #fff;
+		transition: color 0.3s ease-in-out;
+
+		&:hover {
+			color: #b8f8ff;
+		}
+	}
+}
+
+
 .row {
 	--bs-gutter-x: 0;
 }
@@ -235,10 +332,20 @@ body {
 	&:disabled {
 		background: $btn-bg-hover;
 	}
+
+	&__destroy {
+		background: $btn-secondary;
+		color: $primary-6;
+		border: 1px solid $btn-border;
+
+		&:hover {
+			background: $btn-secondary-hover;
+		}
+	}
 }
 
 .input:-webkit-autofill,
-.input:-webkit-autofill:hover, 
+.input:-webkit-autofill:hover,
 .input:-webkit-autofill:focus {
 	border: 1px solid $primary-97 !important;
 	-webkit-text-fill-color: $primary-97 !important;
