@@ -6,21 +6,23 @@ import FormBox from '../Form/FormBox'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useNavigate, useParams } from 'react-router-dom'
-import data from '../../../public/data.json'
-import { addNewIgloo, editIgloo, setIsCreating, setIsEditing } from '../../slices/igloosSlice'
+import { addNewIgloo, editIgloo, fetchIgloos} from '../../slices/igloosSlice'
 import toast from 'react-hot-toast'
 import SelectComponent from '../../components/select/SelectComponent'
 import { closeModal, selectModalProps } from '../../slices/modalSlice'
+import { useModal } from '../../contexts/modalContext'
 
 function IgloosForm() {
-	const iglooToEdit = useSelector(selectModalProps)
-
+	
+	// const iglooToEdit = useSelector(selectModalProps)
 	const igloos = useSelector(state => state.igloos.igloos)
 	const discounts = useSelector(state => state.discounts.discounts)
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
+	const {closeModal, props} = useModal()
+	const iglooToEdit = props
 
-	console.log(iglooToEdit)
+	console.log('props in IgloosForm:', props)
 
 	const {
 		register,
@@ -39,7 +41,8 @@ function IgloosForm() {
 		},
 	})
 
-	const handleCloseModal = () => dispatch(closeModal())
+	// const handleCloseModal = () => dispatch(closeModal())
+	const handleCloseModal = () => closeModal()
 
 	const discountOptions = [
 		{ value: '', label: 'No discount' },
@@ -57,7 +60,6 @@ function IgloosForm() {
 		formData.append('PricePerNight', data.price)
 		formData.append('Description', data.description ?? '')
 
-
 		if (data.idDiscount !== null) {
 			formData.append('IdDiscount', data.idDiscount)
 		}
@@ -67,25 +69,27 @@ function IgloosForm() {
 		}
 
 		if (iglooToEdit.id) {
-			setFormTitle('Edit igloo')
 			formData.append('Id', iglooToEdit.id)
+			console.log('formData for edit:', ...formData)
 			dispatch(editIgloo({ id: iglooToEdit.id, updatedIgloo: formData }))
 				.unwrap()
-				.then(() => toast.success('Igloo edited successfully'))
-				.then(() => navigate(-1))
+				.then(() => dispatch(fetchIgloos()))
+				.then(() => {
+					toast.success('Igloo edited successfully')
+					handleCloseModal()
+				})
 				.catch(() => toast.error('Failed to edit igloo'))
 		} else {
 			console.log(formData)
 			dispatch(addNewIgloo(formData))
 				.unwrap()
-				.then(() => toast.success('Igloo added successfully'))
-				.then(() => navigate(-1))
+				.then(() => {
+					toast.success('Igloo added successfully')
+					handleCloseModal()
+				})
 				.catch(() => toast.error('Failed to add igloo'))
 		}
 
-		for (const [k, v] of formData.entries()) {
-			console.log(k, v)
-		}
 	}
 
 	const getIglooInfo = () => {
@@ -108,8 +112,8 @@ function IgloosForm() {
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
-			<h3 className='form-title'>{iglooToEdit.id ? 'Edit Igloo' : 'Add Igloo'}</h3>
-			<FormBox label="name" error={errors?.name?.message} className='mt-4'>
+			<h3 className="form-title">{iglooToEdit.id ? 'Edit Igloo' : 'Add Igloo'}</h3>
+			<FormBox label="name" error={errors?.name?.message} className="mt-4">
 				<input
 					type="text"
 					id="name"
@@ -124,7 +128,7 @@ function IgloosForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="capacity" error={errors?.capacity?.message} className='mt-4'>
+			<FormBox label="capacity" error={errors?.capacity?.message} className="mt-4">
 				<input
 					type="text"
 					id="capacity"

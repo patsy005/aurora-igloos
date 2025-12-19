@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
 import { Controller, useForm } from 'react-hook-form'
@@ -10,24 +10,36 @@ import { DatePickerIcon } from '../Icons'
 import Button from '../../components/Button'
 import { setIsCreating, setIsEditing } from '../../slices/promoSlice'
 import toast from 'react-hot-toast'
+import { useModal } from '../../contexts/modalContext'
+import { addNewDiscount, editDiscount } from '../../slices/discountsSlice'
 
 function PromoForm() {
-	const { promoId } = useParams()
-	const promotions = data.promotions
-	const [validFrom, setValidFrom] = useState(promoId ? promotions.find(promo => promo.id === +promoId).validFrom : null)
-	const [validTo, setValidTo] = useState(promoId ? promotions.find(promo => promo.id === +promoId).validTo : null)
-	const igloos = data.igloos
+	const discounts = useSelector(state => state.discounts.discounts)
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
-	const allIglooOptions = igloos.map(igloo => ({ value: igloo.id, label: igloo.name }))
-	const selectedIgloosIds =
-		promoId &&
-		allIglooOptions.filter(igloo => promotions.find(promo => promo.id === +promoId).iglooId.includes(igloo.value))
-	const [iglooOptionsState, setIglooOptionsState] = useState([])
+	const { closeModal, props } = useModal()
+	const discountToEdit = props
 
-	const onChangeIgloo = igloo => {
-		setIglooOptionsState(prevState => [...prevState, igloo])
-		setValue('igloos', iglooOptionsState)
+	const [validFrom, setValidFrom] = useState(
+		discountToEdit.id ? discounts.find(promo => promo.id === +discountToEdit.id).validFrom : null
+	)
+	const [validTo, setValidTo] = useState(
+		discountToEdit.id ? discounts.find(promo => promo.id === +discountToEdit.id).validTo : null
+	)
+
+	const formatDateOnly = date => {
+		if (!date) return null
+		const year = date.getFullYear()
+
+		// padStart ensures two digits
+		const month = String(date.getMonth() + 1).padStart(2, '0')
+		const day = String(date.getDate()).padStart(2, '0')
+		return `${year}-${month}-${day}`
+	}
+
+	const parseDateOnly = string => {
+		if (!string) return null
+		return new Date(string + 'T00:00:00')
 	}
 
 	const {
@@ -35,31 +47,73 @@ function PromoForm() {
 		handleSubmit,
 		setValue,
 		control,
-		formState: { errors },
-	} = useForm()
+		formState: { errors, isLoading: isFormLoading },
+	} = useForm({
+		defaultValues: {
+			name: discountToEdit.id ? discounts.find(discount => discount.id === +discountToEdit.id).name : '',
+			discount: discountToEdit?.id ? discounts.find(discount => discount.id === +discountToEdit.id).discount : '',
+			description: discountToEdit?.id ? discounts.find(discount => discount.id === +discountToEdit.id).description : '',
+			dates: discountToEdit?.id
+				? [
+						parseDateOnly(discounts.find(discount => discount.id === +discountToEdit.id).validFrom),
+						parseDateOnly(discounts.find(discount => discount.id === +discountToEdit.id).validTo),
+				  ]
+				: [null, null],
+		},
+	})
+
+	const handleCloseModal = () => closeModal()
 
 	const onSubmit = data => {
 		console.log(data)
-		dispatch(setIsCreating(false))
-		promoId ? toast.success('Promo edited successfully') : toast.success('Promo added successfully')
-		promoId && navigate(-1)
+
+		const [validFrom, validTo] = data.dates
+
+		const newDiscount = {
+			name: data.name,
+			discount: +data.discount,
+			description: data.description,
+			validFrom: formatDateOnly(validFrom),
+			validTo: formatDateOnly(validTo),
+		}
+
+		if (discountToEdit.id) {
+			dispatch(editDiscount({ id: +discountToEdit.id, updatedDiscount: { ...newDiscount, id: +discountToEdit.id } }))
+				.unwrap()
+				.then(() => {
+					toast.success('Discount edited successfully')
+					handleCloseModal()
+				})
+				.catch(() => {
+					toast.error('Failed to edit discount')
+				})
+		} else {
+			dispatch(addNewDiscount(newDiscount))
+				.unwrap()
+				.then(() => {
+					toast.success('Discount added successfully')
+					handleCloseModal()
+				})
+				.catch(() => {
+					toast.error('Failed to add discount')
+				})
+		}
 	}
 
 	const getPromoInfo = () => {
-		if (promoId) {
-			const promo = promotions.find(promo => promo.id === +promoId)
+		if (discountToEdit.id) {
+			const promo = discounts.find(promo => promo.id === +discountToEdit.id)
 			return promo
 		}
 	}
 
 	useEffect(() => {
-		if (promoId) {
+		if (discountToEdit.id) {
 			const promo = getPromoInfo()
 			setValue('name', promo.name)
 			setValue('discount', parseInt(promo.discount))
 			setValue('description', promo.description)
-			setValue('igloos', iglooOptionsState)
-			setValue('dates', [validFrom, validTo])
+			setValue('dates', [parseDateOnly(promo.validFrom), parseDateOnly(promo.validTo)])
 		}
 	}, [])
 
@@ -72,7 +126,8 @@ function PromoForm() {
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
-			<FormBox label="name" error={errors?.name?.message}>
+			<h3 className="form-title">{discountToEdit.id ? 'Edit Discount' : 'Add Discount'}</h3>
+			<FormBox label="name" error={errors?.name?.message} className="mt-4">
 				<input
 					type="text"
 					id="name"
@@ -87,11 +142,11 @@ function PromoForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="discount" error={errors?.discount?.message}>
+			<FormBox label="discount" error={errors?.discount?.message} className="mt-4">
 				<input
 					type="number"
 					id="discount"
-					placeholder={promoId ? promotions.find(promo => promo.id === +promoId).discount : 'In %'}
+					placeholder={discountToEdit.id ? discounts.find(promo => promo.id === +discountToEdit.id).discount : 'In %'}
 					className={`input ${errors.discount ? 'input-error' : ''}`}
 					name="discount"
 					{...register('discount', {
@@ -105,7 +160,6 @@ function PromoForm() {
 			</FormBox>
 			<FormBox label="description" error={errors?.description?.message}>
 				<input
-					// type="text"
 					id="description"
 					className={`input ${errors.description ? 'input-error' : ''}`}
 					name="description"
@@ -127,26 +181,6 @@ function PromoForm() {
 					})}
 				/>
 			</FormBox>
-			<div className="form__box col-12 col-sm-5">
-				<label className="label">Igloos</label>
-				<Controller
-					name="igloos"
-					control={control}
-					rules={{ required: true }}
-					render={() => (
-						<ReactSelect
-							closeMenuOnSelect={false}
-							isMulti
-							defaultValue={promoId ? selectedIgloosIds : []}
-							options={allIglooOptions}
-							classNamePrefix="react-select"
-							hideSelectedOptions={false}
-							onChange={onChangeIgloo}
-						/>
-					)}
-				/>
-				{errors.igloos && <p className="error-msg">You must select igloo</p>}
-			</div>
 			<div className="form__box col-12 col-sm-5">
 				<label className="label">Dates</label>
 				<div className="datepicker-wrapper">
@@ -180,13 +214,12 @@ function PromoForm() {
 				<Button
 					className="cancel-btn"
 					onClick={() => {
-						dispatch(setIsCreating(false))
-						dispatch(setIsEditing(false))
-						promoId && navigate(-1)
-					}}>
+						handleCloseModal()
+					}}
+					type={'button'}>
 					Cancel
 				</Button>
-				<Button>{promoId ? 'Edit promotion' : 'Add promotion'}</Button>
+				<Button type="submit">{discountToEdit.id ? 'Edit discount' : 'Add discount'}</Button>
 			</div>
 		</form>
 	)

@@ -6,17 +6,16 @@ const initialState = {
 	status: 'idle',
 	isFetching: false,
 	isCreating: false,
-    isEditing: false,
+	isEditing: false,
 }
 
 export const fetchIgloos = createAsyncThunk('igloos/fetchIgloos', async () => {
 	const res = await fetch('http://localhost:5212/api/Igloos')
 	const data = await res.json()
-	console.log(data)
 	return data
 })
 
-export const addNewIgloo = createAsyncThunk('igloos/addNewIgloo', async (newIgloo, {rejectWithValue}) => {
+export const addNewIgloo = createAsyncThunk('igloos/addNewIgloo', async (newIgloo, { rejectWithValue }) => {
 	const res = await fetch('http://localhost:5212/api/Igloos', {
 		method: 'POST',
 		// headers: {
@@ -27,44 +26,47 @@ export const addNewIgloo = createAsyncThunk('igloos/addNewIgloo', async (newIglo
 		body: newIgloo,
 	})
 
-	if(!res.ok) {
-		throw rejectWithValue({message: 'Failed to add new igloo'})
+	if (!res.ok) {
+		throw rejectWithValue({ message: 'Failed to add new igloo' })
 	}
 
 	const data = await res.json()
 	return data
 })
 
-export const editIgloo = createAsyncThunk(
-  'igloos/editIgloo',
-  async ({ id, updatedIgloo }, { rejectWithValue }) => {
-    try {
-      const res = await fetch(`http://localhost:5212/api/Igloos/${id}`, {
-        method: 'PUT',
-        body: updatedIgloo,
-      })
+export const editIgloo = createAsyncThunk('igloos/editIgloo', async ({ id, updatedIgloo }, { rejectWithValue }) => {
+	try {
+		const res = await fetch(`http://localhost:5212/api/Igloos/${id}`, {
+			method: 'PUT',
+			body: updatedIgloo,
+		})
 
-      if (!res.ok) {
-        const errorBody = await res.json().catch(() => null)
-        console.error('Error response body:', errorBody)
-        return rejectWithValue(errorBody || { message: 'Failed to edit igloo' })
-      }
+		if (!res.ok) {
+			const errorBody = await res.json().catch(() => null)
+			console.error('Error response body:', errorBody)
+			return rejectWithValue(errorBody || { message: 'Failed to edit igloo' })
+		}
 
-      // 204 NoContent – nie próbujemy parsować JSON-a
-      return { id }
-    } catch (err) {
-      return rejectWithValue(err.message)
-    }
-  }
-)
+		// 204 NoContent – nie próbujemy parsować JSON-a
+		return { id }
+	} catch (err) {
+		return rejectWithValue(err.message)
+	}
+})
 
-export const deleteIgloo = createAsyncThunk('igloos/deleteIgloo', async (id, {rejectWithValue}) => {
+export const deleteIgloo = createAsyncThunk('igloos/deleteIgloo', async (id, { rejectWithValue }) => {
 	const res = await fetch(`http://localhost:5212/api/Igloos/${id}`, {
 		method: 'DELETE',
 	})
 
-	if(!res.ok) {
-		throw rejectWithValue({message: 'Failed to delete igloo'})
+	if (!res.ok) {
+		// throw rejectWithValue({ message: 'Failed to delete igloo' })
+		try {
+			const errorBody = await res.json()
+			return rejectWithValue(errorBody.message)
+		} catch {
+			return rejectWithValue('Failed to delete igloo')
+		}
 	}
 
 	return id
@@ -75,11 +77,11 @@ const igloosSlice = createSlice({
 	initialState,
 	reducers: {
 		setIsCreating: (state, action) => {
-            state.isCreating = action.payload
-        },
-        setIsEditing: (state, action) => {
-            state.isEditing = action.payload
-        },
+			state.isCreating = action.payload
+		},
+		setIsEditing: (state, action) => {
+			state.isEditing = action.payload
+		},
 	},
 	extraReducers: builder => {
 		builder
@@ -120,8 +122,8 @@ const igloosSlice = createSlice({
 				state.isFetching = true
 			})
 			.addCase(editIgloo.fulfilled, (state, action) => {
-				const index = state.igloos.findIndex(igloo => igloo.id === action.payload.id)
-				state.igloos[index] = action.payload
+				// const index = state.igloos.findIndex(igloo => igloo.id === action.payload.id)
+				// state.igloos[index] = action.payload
 				state.isCreating = false
 				state.isFetching = false
 				state.error = ''
@@ -147,5 +149,5 @@ const igloosSlice = createSlice({
 	},
 })
 
-export const { setIsCreating, setIsEditing} = igloosSlice.actions
+export const { setIsCreating, setIsEditing } = igloosSlice.actions
 export default igloosSlice.reducer

@@ -4,10 +4,17 @@ import Header from '../components/Header'
 import data from '../../public/data.json'
 import Footer from '../components/Footer'
 import { Toaster } from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectIsModalOpen, selectModalProps } from '../slices/modalSlice'
 
 function Layout() {
 	const users = data.users
 	const user = users.find(user => user.id === 103)
+
+	const dispatch = useDispatch()
+	const isOpen = useSelector(selectIsModalOpen)
+
+
 	return (
 		<div className="row">
 			<div className="col-2 col-sm-2 col-md-3 col-lg-2 nav-bg">

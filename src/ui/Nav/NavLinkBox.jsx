@@ -9,6 +9,7 @@ function NavLinkBox({ to, page }) {
 				{page === 'Bookings' && <CalendarIcon />}
 				{page === 'Igloos' && <IgloosIcon />}
 				{page === 'Users' && <UsersIcon />}
+				{page === 'Employees' && <UsersIcon />}
 				{page === 'Promo' && <PromoIcon />}
 				{page === 'Forum' && <CreativeCornerIcon />}
 				{page === 'Customers' && <CustomersIcon />} 

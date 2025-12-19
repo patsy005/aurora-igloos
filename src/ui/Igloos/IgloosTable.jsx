@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import data from '../../../public/data.json'
 import { DeleteIcon, EditIcon, ViewIcon } from '../Icons'
 import { openModal } from '../../slices/modalSlice'
-
-// const igloos = data.igloos
-// const promotions = data.promotions
+import { useModal } from '../../contexts/modalContext'
+import IgloosForm from './IgloosForm'
+import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 
 function IgloosTable() {
 	const igloos = useSelector(state => state.igloos.igloos)
@@ -18,6 +18,7 @@ function IgloosTable() {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
+	const { openModal } = useModal()
 
 	const setIgloosCallback = useCallback(() => {
 		setData(igloos)
@@ -27,6 +28,15 @@ function IgloosTable() {
 		setIgloosCallback()
 	}, [igloos, setIgloosCallback])
 
+	const openEditIglooModal = iglooId => {
+		openModal(IgloosForm, { id: iglooId })
+	}
+
+	const openDeleteIglooModal = iglooId => {
+		const itemToDelete = igloos.find(i => i.id === +iglooId)
+		openModal(DeleteConfirmation, { id: iglooId, category: 'igloo', itemToDelete })
+	}
+
 	const columns = useMemo(
 		() => [
 			{
@@ -34,6 +44,7 @@ function IgloosTable() {
 				id: 'iglooImg',
 				accessorKey: 'img',
 				cell: ({ row }) => {
+					console.log(row.original.id)
 					const src = row.original.photoUrl
 						? `http://localhost:5212/${row.original.photoUrl}`
 						: '/images/igloo-placeholder.png'
@@ -94,7 +105,7 @@ function IgloosTable() {
 						<div className="igloos-table__actions">
 							<span
 								className="edit-icon"
-								onClick={() => dispatch(openModal({ id: row.original.id, type: 'editIgloo', category: 'igloo' }))}>
+								onClick={() => openEditIglooModal(row.original.id)}>
 								<EditIcon />
 							</span>
 							<span
@@ -107,7 +118,7 @@ function IgloosTable() {
 							</span>
 							<span
 								className="delete-icon"
-								onClick={() => dispatch(openModal({ id: row.original.id, type: 'deleteIgloo', category: 'igloo' }))}>
+								onClick={() => openDeleteIglooModal(row.original.id)}>
 								<DeleteIcon />
 							</span>
 						</div>

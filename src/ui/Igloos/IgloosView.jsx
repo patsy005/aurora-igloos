@@ -11,13 +11,14 @@ import { useNavigate } from 'react-router-dom'
 import { openModal, selectIsModalOpen, selectModalProps } from '../../slices/modalSlice'
 import Modal from '../../components/modal/Modal'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
+import { useModal } from '../../contexts/modalContext'
 
 function IgloosView() {
 	const dispatch = useDispatch()
-	const navigate = useNavigate()
 	const igloos = useSelector(state => state.igloos.igloos)
-	const modalProps = useSelector(selectModalProps)
-	const isOpen = useSelector(selectIsModalOpen)
+	// const modalProps = useSelector(selectModalProps)
+	// const isOpen = useSelector(selectIsModalOpen)
+	const { openModal } = useModal()
 
 	useEffect(() => {
 		dispatch(fetchIgloos())
@@ -26,32 +27,34 @@ function IgloosView() {
 
 	if (!igloos.length) return null
 
-	// const handleAddIgloo = () => {
-	// 	// dispatch(setIsCreating(true))
-	// 	navigate(`/igloos/add`)
+	const openAddIglooModal = () => {
+		// dispatch(openModal({ type: 'addIgloo', category: 'igloo' }))
+		openModal(IgloosForm)
+	}
+
+	// const openEditIglooModal = iglooId => {
+	// 	openModal(IgloosForm, { id: iglooId })
 	// }
 
-	const openAddIglooModal = () => {
-		dispatch(openModal({ type: 'addIgloo', category: 'igloo' }))
-	}
+	// const openDeleteIglooModal = iglooId => {
+	// 	openModal(DeleteConfirmation, { id: iglooId, category: 'igloo' })
+	// }
 
-	const generateModalContent = () => {
-		if (modalProps) {
-			console.log('adding modal content for type:', modalProps.type)
-			if (modalProps.type === 'addIgloo' || modalProps.type === 'editIgloo') {
-				return <IgloosForm />
-			}
+	// const generateModalContent = () => {
+	// 	if (modalProps) {
+	// 		if (modalProps.type === 'addIgloo' || modalProps.type === 'editIgloo') {
+	// 			return <IgloosForm />
+	// 		}
 
-			if (modalProps.type === 'deleteIgloo') {
-				const itemToDelete = igloos.find(i => i.id === +modalProps?.id)
-				console.log(itemToDelete)
-				return itemToDelete ? <DeleteConfirmation itemToDelete={itemToDelete} /> : null
-			}
-		}
-	}
+	// 		if (modalProps.type === 'deleteIgloo') {
+	// 			const itemToDelete = igloos.find(i => i.id === +modalProps?.id)
+	// 			return itemToDelete ? <DeleteConfirmation itemToDelete={itemToDelete} /> : null
+	// 		}
+	// 	}
+	// }
 	return (
 		<>
-			<Modal isOpen={isOpen}>{generateModalContent()}</Modal>
+			{/* <Modal isOpen={isOpen}>{generateModalContent()}</Modal> */}
 			<SectionHeading sectionTitle="igloos" />
 			<div className="text-end">
 				<Button onClick={openAddIglooModal}>Add igloo</Button>

@@ -4,24 +4,27 @@ import Layout from './ui/Layout'
 import Home from './pages/Home'
 import Bookings from './pages/Bookings'
 import Igloos from './pages/Igloos'
-import Users from './pages/Users'
 import Promotions from './pages/Promotions'
 import PromoItem from './ui/Promotions/PromoItem'
 import EditBooking from './ui/Bookings/EditBooking'
 import Customers from './pages/Customers'
 import CustomerItem from './ui/Customers/CustomerItem'
 import IglooItem from './ui/Igloos/IglooItem'
-import UserItem from './ui/Users/UserItem'
-import EditUser from './ui/Users/EditUser'
-import EditPromotion from './ui/Promotions/EditPromotion'
 import EditCustomer from './ui/Customers/EditCustomer'
 import BookingItem from './ui/Bookings/BookingItem'
 import Forum from './pages/Forum'
 import IgloosForm from './ui/Igloos/IgloosForm'
+import Employees from './pages/Employees/Employees'
+import { ModalProvider } from './contexts/modalContext'
+import EmployeesItem from './pages/Employees/EmployeesItem'
 
 const router = createBrowserRouter([
 	{
-		element: <Layout />,
+		element: (
+			<ModalProvider>
+				<Layout />
+			</ModalProvider>
+		),
 
 		children: [
 			{
@@ -57,16 +60,12 @@ const router = createBrowserRouter([
 				element: <IgloosForm />,
 			},
 			{
-				path: '/users',
-				element: <Users />,
+				path: '/employees',
+				element: <Employees />,
 			},
 			{
-				path: '/users/:userId',
-				element: <UserItem />,
-			},
-			{
-				path: '/users/:userId/edit',
-				element: <EditUser />,
+				path: '/employees/:employeeId',
+				element: <EmployeesItem />,
 			},
 			{
 				path: '/promotions',
@@ -76,10 +75,7 @@ const router = createBrowserRouter([
 				path: '/promotions/:promoId',
 				element: <PromoItem />,
 			},
-			{
-				path: '/promotions/:promoId/edit',
-				element: <EditPromotion />,
-			},
+
 			{
 				path: '/customers',
 				element: <Customers />,

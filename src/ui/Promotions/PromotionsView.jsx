@@ -4,19 +4,33 @@ import PromotionsTable from './PromotionsTable'
 import { setIsCreating } from '../../slices/promoSlice'
 import Button from '../../components/Button'
 import PromoForm from './PromoForm'
+import { useModal } from '../../contexts/modalContext'
+import { useEffect } from 'react'
+import { fetchDiscounts } from '../../slices/discountsSlice'
+import { fetchIgloos } from '../../slices/igloosSlice'
 
 function PromotionsView() {
-	const isCreating = useSelector(state => state.promo.isCreating)
 	const dispatch = useDispatch()
+	const discounts = useSelector(state => state.discounts.discounts)
+	const { openModal } = useModal()
 
-	const handleAddPromo = () => {
-		dispatch(setIsCreating(true))
+	useEffect(() => {
+		dispatch(fetchDiscounts())
+		dispatch(fetchIgloos())
+	}, [])
+
+	if (!discounts.length) return null
+
+	const openAddDiscountModal = () => {
+		openModal(PromoForm)
 	}
+
 	return (
 		<>
-			<SectionHeading sectionTitle="promotions" />
-			<div className="text-end">{!isCreating && <Button onClick={handleAddPromo}>Add promotion</Button>}</div>
-			{isCreating && <PromoForm />}
+			<SectionHeading sectionTitle="discounts" />
+			<div className="text-end">
+				<Button onClick={openAddDiscountModal}>Add discount</Button>
+			</div>
 			<PromotionsTable />
 		</>
 	)

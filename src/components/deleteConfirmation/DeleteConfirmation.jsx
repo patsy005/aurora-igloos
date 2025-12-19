@@ -3,23 +3,48 @@ import { closeModal, selectModalProps } from '../../slices/modalSlice'
 import { deleteIgloo } from '../../slices/igloosSlice'
 import toast from 'react-hot-toast'
 import Button from '../Button'
+import { deleteDiscount } from '../../slices/discountsSlice'
+import { deleteEmployee } from '../../slices/employeesSlice'
+import { useModal } from '../../contexts/modalContext'
 
-function DeleteConfirmation({ itemToDelete }) {
+function DeleteConfirmation({ itemToDelete, category }) {
 	const dispath = useDispatch()
-	const modalProps = useSelector(selectModalProps)
+	// const {props} = useModal()
+	// const modalProps = props
+	const { closeModal } = useModal()
+
+	console.log('item to delete in DeleteConfirmation:', itemToDelete)
+	console.log('item category in DeleteConfirmation:', category)
 
 	const closeModalHandler = () => {
-		dispath(closeModal())
+		closeModal()
 	}
 
 	const deleteItemHandler = () => {
-        console.log('deleting item in category:', modalProps.category)
-		switch (modalProps.category) {
+		console.log('deleting item in category:', category)
+		switch (category) {
 			case 'igloo':
 				dispath(deleteIgloo(itemToDelete.id))
 					.unwrap()
 					.then(() => closeModalHandler())
 					.then(() => toast.success('Igloo deleted successfully'))
+					.catch(message => {
+						toast.error(message)
+						closeModalHandler()
+					})
+				break
+			case 'discount':
+				dispath(deleteDiscount(itemToDelete.id))
+					.unwrap()
+					.then(() => closeModalHandler())
+					.then(() => toast.success('Discount deleted successfully'))
+				break
+			case 'employee':
+				dispath(deleteEmployee(itemToDelete.id))
+					.unwrap()
+					.then(() => closeModalHandler())
+					.then(() => toast.success('Employee deleted successfully'))
+				break
 		}
 	}
 	return (
