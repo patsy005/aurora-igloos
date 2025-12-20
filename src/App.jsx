@@ -7,8 +7,6 @@ import Igloos from './pages/Igloos'
 import Promotions from './pages/Promotions'
 import PromoItem from './ui/Promotions/PromoItem'
 import EditBooking from './ui/Bookings/EditBooking'
-import Customers from './pages/Customers'
-import CustomerItem from './ui/Customers/CustomerItem'
 import IglooItem from './ui/Igloos/IglooItem'
 import EditCustomer from './ui/Customers/EditCustomer'
 import BookingItem from './ui/Bookings/BookingItem'
@@ -17,6 +15,8 @@ import IgloosForm from './ui/Igloos/IgloosForm'
 import Employees from './pages/Employees/Employees'
 import { ModalProvider } from './contexts/modalContext'
 import EmployeesItem from './pages/Employees/EmployeesItem'
+import Customers from './pages/Customers/Customers'
+import CustomersItem from './pages/Customers/CustomersItem'
 
 const router = createBrowserRouter([
 	{
@@ -82,11 +82,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/customers/:customerId',
-				element: <CustomerItem />,
-			},
-			{
-				path: '/customers/:customerId/edit',
-				element: <EditCustomer />,
+				element: <CustomersItem />,
 			},
 			{
 				path: '/forum',

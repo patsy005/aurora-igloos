@@ -67,7 +67,7 @@ body {
 
 .form-title {
 	position: relative;
-	
+
 	&::after {
 		content: '';
 		position: absolute;
@@ -123,11 +123,11 @@ body {
 		color: #ddd;
 	}
 
-    &__actions {
-        display: flex;
-        justify-content: end;
+	&__actions {
+		display: flex;
+		justify-content: end;
 		gap: 4rem;
-    }
+	}
 
 	&__exit-button {
 		background: transparent;
@@ -142,7 +142,6 @@ body {
 		}
 	}
 }
-
 
 .row {
 	--bs-gutter-x: 0;
@@ -438,6 +437,43 @@ body {
 		width: 15px;
 		height: 15px;
 		cursor: pointer;
+	}
+
+	.checkbox-input {
+		appearance: none;
+		-webkit-appearance: none;
+		width: 15px;
+		height: 15px;
+		border-radius: 50%;
+		border: 1px solid $primary-67;
+		background-color: transparent;
+		cursor: pointer;
+		display: grid;
+		place-content: center;
+		transition: border 0.2s ease;
+
+		&::before {
+			content: '';
+			width: 9px;
+			height: 9px;
+			border-radius: 50%;
+			background-color: $primary-67;
+			transform: scale(0);
+			transition: transform 0.2s ease;
+		}
+
+		&:checked::before {
+			transform: scale(1);
+		}
+
+		&:hover {
+			border-color: $grey-light;
+		}
+
+		&:focus-visible {
+			outline: 2px solid $primary-67;
+			outline-offset: 2px;
+		}
 	}
 
 	.radio-input {

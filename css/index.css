@@ -1571,6 +1571,45 @@ body {
   height: 15px;
   cursor: pointer;
 }
+.form .checkbox-input {
+  -moz-appearance: none;
+       appearance: none;
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid #56efff;
+  background-color: transparent;
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  -webkit-transition: border 0.2s ease;
+  transition: border 0.2s ease;
+}
+.form .checkbox-input::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: #56efff;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  -webkit-transition: -webkit-transform 0.2s ease;
+  transition: -webkit-transform 0.2s ease;
+  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, -webkit-transform 0.2s ease;
+}
+.form .checkbox-input:checked::before {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+.form .checkbox-input:hover {
+  border-color: #c8c8c8;
+}
+.form .checkbox-input:focus-visible {
+  outline: 2px solid #56efff;
+  outline-offset: 2px;
+}
 .form .radio-input {
   -moz-appearance: none;
        appearance: none;

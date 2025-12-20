@@ -6,12 +6,18 @@ import Button from '../Button'
 import { deleteDiscount } from '../../slices/discountsSlice'
 import { deleteEmployee } from '../../slices/employeesSlice'
 import { useModal } from '../../contexts/modalContext'
+import { deleteCustomer } from '../../slices/customersSLice'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 function DeleteConfirmation({ itemToDelete, category }) {
 	const dispath = useDispatch()
+	const location = useLocation()
+	const navigate = useNavigate()
 	// const {props} = useModal()
 	// const modalProps = props
 	const { closeModal } = useModal()
+
+	const isItemView = /\/\d+$/.test(location.pathname)
 
 	console.log('item to delete in DeleteConfirmation:', itemToDelete)
 	console.log('item category in DeleteConfirmation:', category)
@@ -28,6 +34,7 @@ function DeleteConfirmation({ itemToDelete, category }) {
 					.unwrap()
 					.then(() => closeModalHandler())
 					.then(() => toast.success('Igloo deleted successfully'))
+					.then(() => navigate('/igloos'))
 					.catch(message => {
 						toast.error(message)
 						closeModalHandler()
@@ -38,12 +45,33 @@ function DeleteConfirmation({ itemToDelete, category }) {
 					.unwrap()
 					.then(() => closeModalHandler())
 					.then(() => toast.success('Discount deleted successfully'))
+					.then(() => navigate('/promotions'))
+					.catch((message) => {
+						toast.error(message)
+						closeModalHandler()
+					})
 				break
 			case 'employee':
 				dispath(deleteEmployee(itemToDelete.id))
 					.unwrap()
 					.then(() => closeModalHandler())
 					.then(() => toast.success('Employee deleted successfully'))
+					.then(() => navigate('/employees'))
+					.catch(message => {
+						toast.error(message)
+						closeModalHandler()
+					})
+				break
+			case 'customer':
+				dispath(deleteCustomer(itemToDelete.id))
+					.unwrap()
+					.then(() => closeModalHandler())
+					.then(() => toast.success('Customer deleted successfully'))
+					.then(() => navigate('/customers'))
+					.catch(message => {
+						toast.error(message)
+						closeModalHandler()
+					})
 				break
 		}
 	}

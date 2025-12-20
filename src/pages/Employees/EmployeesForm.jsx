@@ -12,7 +12,7 @@ import { useModal } from '../../contexts/modalContext'
 import { fetchEmployeeRoles } from '../../slices/employeeRoleSlice'
 
 function EmployeesForm() {
-	 
+	const employees = useSelector(state => state.employees.employees)
 	const employeeRoles = useSelector(state => state.employeeRoles.employeeRoles)
 
 	const dispatch = useDispatch()
