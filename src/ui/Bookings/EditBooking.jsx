@@ -1,20 +1,20 @@
-import { useDispatch } from "react-redux"
-import BookingsForm from "./BookingsForm"
-import { useEffect } from "react"
-import { setIsCreating, setIsEditing } from "../../slices/bookings"
+import { useDispatch } from 'react-redux'
+import BookingsForm from './BookingsForm'
+import { useEffect } from 'react'
+import { setIsCreating, setIsEditing } from '../../slices/bookingsSlice'
 
 function EditBooking() {
-    const dispatch = useDispatch()
+	const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(setIsCreating(false))
-        dispatch(setIsEditing(true))
-    })
-    return (
-        <div>
-            <BookingsForm />
-        </div>
-    )
+	useEffect(() => {
+		dispatch(setIsCreating(false))
+		dispatch(setIsEditing(true))
+	})
+	return (
+		<div>
+			<BookingsForm />
+		</div>
+	)
 }
 
 export default EditBooking

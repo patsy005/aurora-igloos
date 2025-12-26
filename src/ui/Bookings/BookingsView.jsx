@@ -4,7 +4,7 @@ import SectionHeading from '../../components/SectionHeading'
 import BookingsForm from './BookingsForm'
 import BookingsTable from './BookingsTable'
 import { useDispatch, useSelector } from 'react-redux'
-import { setIsCreating } from '../../slices/bookings'
+import { setIsCreating } from '../../slices/bookingsSlice'
 import BookingsTodayStats from './BookingsTodayStats'
 
 function BookingsView() {

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import Button from '../../components/Button'
 import FormBox from '../Form/FormBox'
 import { useDispatch } from 'react-redux'
-import { setIsCreating, setIsEditing } from '../../slices/bookings'
+import { setIsCreating, setIsEditing } from '../../slices/bookingsSlice'
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
 import ReactSelect from 'react-select'
@@ -41,7 +41,7 @@ function BookingsForm() {
 			dates: bookingId ? [bookings.find(booking => booking.id === +bookingId).dates] : '',
 			paymentMethod: bookingId ? bookings.find(booking => booking.id === +bookingId).paymentMethod : '',
 			status: bookingId ? bookings.find(booking => booking.id === +bookingId).status : '',
-		}
+		},
 	})
 
 	const [startDate, setStartDate] = useState(
@@ -50,7 +50,7 @@ function BookingsForm() {
 	const [endDate, setEndDate] = useState(
 		bookingId ? bookings.find(booking => booking.id === +bookingId).checkOutDate : null
 	)
-	const [paymentMethod, setPaymentMethod] = useState(bookingId ?'paypalPayment' : "")
+	const [paymentMethod, setPaymentMethod] = useState(bookingId ? 'paypalPayment' : '')
 	const statusArr = ['confirmed', 'unconfirmed', 'checked-in', 'checked-out', 'cancelled']
 
 	const igloosOptions = igloos.map(igloo => ({ value: igloo.id, label: igloo.name }))

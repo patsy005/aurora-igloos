@@ -123,7 +123,7 @@ function CustomersTable() {
 				)
 			},
 		},
-	])
+	], [customers, navigate])
 	return (
 		<Table
 			className={'customers-table'}

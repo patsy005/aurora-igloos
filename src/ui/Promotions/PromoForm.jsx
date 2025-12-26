@@ -12,6 +12,7 @@ import { setIsCreating, setIsEditing } from '../../slices/promoSlice'
 import toast from 'react-hot-toast'
 import { useModal } from '../../contexts/modalContext'
 import { addNewDiscount, editDiscount } from '../../slices/discountsSlice'
+// import { formatDateOnly, parseDateOnly } from '../../utils/utils'
 
 function PromoForm() {
 	const discounts = useSelector(state => state.discounts.discounts)

@@ -15,6 +15,7 @@ function Nav() {
 						<NavLinkBox to="/" page="Home" />
 						<NavLinkBox to="/bookings" page="Bookings" />
 						<NavLinkBox to="/igloos" page="Igloos" />
+						<NavLinkBox to="/trips" page="Trips" />
 						<NavLinkBox to="/employees" page="Employees" />
 						<NavLinkBox to="/promotions" page="Promo" />
 						<NavLinkBox to="/customers" page="Customers" />

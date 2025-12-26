@@ -56,6 +56,9 @@
   color: #56efff;
   font-size: 1.6rem;
   font-weight: 700;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  white-space: normal;
 }
 .item-section .item-img,
 .item-section .user-img {

@@ -12,4 +12,14 @@
 .cancel-btn:hover {
   background: -webkit-gradient(linear, left top, right top, from(#EDEDED), to(#47656A)) !important;
   background: linear-gradient(90deg, #EDEDED 0%, #47656A 100%) !important;
+}
+
+.booking-type-badge {
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #b8f8ff;
+  backdrop-filter: blur(6px);
+  text-transform: uppercase;
+  border-radius: 999px;
+  font-size: 1.5rem;
 }/*# sourceMappingURL=bookins.css.map */

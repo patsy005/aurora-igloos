@@ -1,15 +1,12 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import 'react-datepicker/dist/react-datepicker.css'
 import './App.css'
 import Layout from './ui/Layout'
 import Home from './pages/Home'
-import Bookings from './pages/Bookings'
 import Igloos from './pages/Igloos'
 import Promotions from './pages/Promotions'
 import PromoItem from './ui/Promotions/PromoItem'
-import EditBooking from './ui/Bookings/EditBooking'
 import IglooItem from './ui/Igloos/IglooItem'
-import EditCustomer from './ui/Customers/EditCustomer'
-import BookingItem from './ui/Bookings/BookingItem'
 import Forum from './pages/Forum'
 import IgloosForm from './ui/Igloos/IgloosForm'
 import Employees from './pages/Employees/Employees'
@@ -17,6 +14,12 @@ import { ModalProvider } from './contexts/modalContext'
 import EmployeesItem from './pages/Employees/EmployeesItem'
 import Customers from './pages/Customers/Customers'
 import CustomersItem from './pages/Customers/CustomersItem'
+import Bookings from './pages/bookings/Bookings'
+import Trips from './pages/trips/Trips'
+import TripSeasons from './pages/tripSeasons/TripSeasons'
+import TripsItem from './pages/trips/TripsItem'
+import TripLevels from './pages/tripLevels/TripLevels'
+import BookingsItem from './pages/bookings/BookingsItem'
 
 const router = createBrowserRouter([
 	{
@@ -36,12 +39,8 @@ const router = createBrowserRouter([
 				element: <Bookings />,
 			},
 			{
-				path: '/bookings/:bookingId/edit',
-				element: <EditBooking />,
-			},
-			{
 				path: '/bookings/:bookingId',
-				element: <BookingItem />,
+				element: <BookingsItem />,
 			},
 			{
 				path: '/igloos',
@@ -87,6 +86,22 @@ const router = createBrowserRouter([
 			{
 				path: '/forum',
 				element: <Forum />,
+			},
+			{
+				path: '/trips',
+				element: <Trips />,
+			},
+			{
+				path: '/trips/:tripId',
+				element: <TripsItem />,
+			},
+			{
+				path: '/trip-seasons',
+				element: <TripSeasons />,
+			},
+			{
+				path: '/trip-levels',
+				element: <TripLevels />,
 			},
 		],
 	},

@@ -65,6 +65,9 @@
 			color: $primary-67;
 			font-size: 1.6rem;
 			font-weight: 700;
+			overflow-wrap: anywhere;
+			word-break: normal;
+			white-space: normal;
 		}
 	}
 
@@ -192,7 +195,7 @@
 		}
 	}
 
-	@media (min-width: 1400px){
+	@media (min-width: 1400px) {
 		.user-status {
 			width: 15% !important;
 		}
@@ -289,7 +292,7 @@
 .review-comment {
 	font-weight: 600;
 	font-size: 1.5rem;
-	letter-spacing: .5px;
+	letter-spacing: 0.5px;
 	color: white;
 }
 

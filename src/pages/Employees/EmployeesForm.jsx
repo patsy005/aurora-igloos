@@ -340,6 +340,19 @@ function EmployeesForm() {
 				/>
 			</FormBox>
 
+			<FormBox label="Image" error={errors?.img?.message} labelClassName="file-upload">
+				<input
+					type="file"
+					accept="image/png, image/jpeg"
+					id="img"
+					className={`input ${errors.img ? 'input-error' : ''}`}
+					name="img"
+					{...register('img', {
+						// validate: value => value[0].size < 1000000 || 'Image size must be less than 1MB',
+					})}
+				/>
+			</FormBox>
+
 			<div className="d-flex justify-content-end text-end form-btns">
 				<Button
 					className="cancel-btn"

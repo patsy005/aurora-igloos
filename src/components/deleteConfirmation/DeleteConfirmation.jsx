@@ -8,6 +8,10 @@ import { deleteEmployee } from '../../slices/employeesSlice'
 import { useModal } from '../../contexts/modalContext'
 import { deleteCustomer } from '../../slices/customersSLice'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { deleteTrip } from '../../slices/tripsSlice'
+import { deleteTripSeason } from '../../slices/tripSeasonSlice'
+import { deleteTripLevel } from '../../slices/tripLevelSlice'
+import { deleteBooking } from '../../slices/bookingsSlice'
 
 function DeleteConfirmation({ itemToDelete, category }) {
 	const dispath = useDispatch()
@@ -46,7 +50,7 @@ function DeleteConfirmation({ itemToDelete, category }) {
 					.then(() => closeModalHandler())
 					.then(() => toast.success('Discount deleted successfully'))
 					.then(() => navigate('/promotions'))
-					.catch((message) => {
+					.catch(message => {
 						toast.error(message)
 						closeModalHandler()
 					})
@@ -68,6 +72,50 @@ function DeleteConfirmation({ itemToDelete, category }) {
 					.then(() => closeModalHandler())
 					.then(() => toast.success('Customer deleted successfully'))
 					.then(() => navigate('/customers'))
+					.catch(message => {
+						toast.error(message)
+						closeModalHandler()
+					})
+				break
+			case 'trip':
+				dispath(deleteTrip(itemToDelete.id))
+					.unwrap()
+					.then(() => closeModalHandler())
+					.then(() => toast.success('Trip deleted successfully'))
+					.then(() => navigate('/trips'))
+					.catch(message => {
+						toast.error(message)
+						closeModalHandler()
+					})
+				break
+			case 'tripSeason':
+				dispath(deleteTripSeason(itemToDelete.id))
+					.unwrap()
+					.then(() => closeModalHandler())
+					.then(() => toast.success('Trip seasons deleted successfully'))
+					.then(() => navigate('/trip-seasons'))
+					.catch(message => {
+						toast.error(message)
+						closeModalHandler()
+					})
+				break
+			case 'tripLevel':
+				dispath(deleteTripLevel(itemToDelete.id))
+					.unwrap()
+					.then(() => closeModalHandler())
+					.then(() => toast.success('Trip level deleted successfully'))
+					.then(() => navigate('/trip-levels'))
+					.catch(message => {
+						toast.error(message)
+						closeModalHandler()
+					})
+				break
+			case 'booking':
+				dispath(deleteBooking(itemToDelete.id))
+					.unwrap()
+					.then(() => closeModalHandler())
+					.then(() => toast.success('Booking deleted successfully'))
+					.then(() => navigate('/bookings'))
 					.catch(message => {
 						toast.error(message)
 						closeModalHandler()
