@@ -7,7 +7,6 @@ import Igloos from './pages/Igloos'
 import Promotions from './pages/Promotions'
 import PromoItem from './ui/Promotions/PromoItem'
 import IglooItem from './ui/Igloos/IglooItem'
-import Forum from './pages/Forum'
 import IgloosForm from './ui/Igloos/IgloosForm'
 import Employees from './pages/Employees/Employees'
 import { ModalProvider } from './contexts/modalContext'
@@ -20,6 +19,9 @@ import TripSeasons from './pages/tripSeasons/TripSeasons'
 import TripsItem from './pages/trips/TripsItem'
 import TripLevels from './pages/tripLevels/TripLevels'
 import BookingsItem from './pages/bookings/BookingsItem'
+import ForumPosts from './pages/forum/ForumPosts'
+import ForumView from './ui/Forum/ForumView'
+import ForumCommentsList from './pages/forum/forumComments/ForumCommentsList'
 
 const router = createBrowserRouter([
 	{
@@ -85,7 +87,15 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/forum',
-				element: <Forum />,
+				element: <ForumPosts />,
+			},
+			// {
+			// 	path: '/forum',
+			// 	element: <ForumView />,
+			// },
+			{
+				path: '/forum-comments/:postId',
+				element: <ForumCommentsList />,
 			},
 			{
 				path: '/trips',
