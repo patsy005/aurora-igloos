@@ -8,11 +8,13 @@ import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfir
 import PromoForm from './PromoForm'
 import { useModal } from '../../contexts/modalContext'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 
 function PromotionsTable() {
 	const discounts = useSelector(state => state.discounts.discounts)
 	const igloos = useSelector(state => state.igloos.igloos)
+	const canManage = useSelector(selectCanManage)
+	const canDelete = useSelector(selectCanDelete)
 	const [data, setData] = useState(discounts)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
@@ -105,9 +107,11 @@ function PromotionsTable() {
 				cell: ({ row }) => {
 					return (
 						<div className="igloos-table__actions">
-							<span className="edit-icon" onClick={() => openEditDiscountModal(row.original.id)}>
-								<EditIcon />
-							</span>
+							{canManage && (
+								<span className="edit-icon" onClick={() => openEditDiscountModal(row.original.id)}>
+									<EditIcon />
+								</span>
+							)}
 							<span
 								className="view-icon"
 								onClick={() => {
@@ -115,9 +119,11 @@ function PromotionsTable() {
 								}}>
 								<ViewIcon />
 							</span>
-							<span className="delete-icon" onClick={() => openDeleteDiscountModal(row.original.id)}>
-								<DeleteIcon />
-							</span>
+							{canDelete && (
+								<span className="delete-icon" onClick={() => openDeleteDiscountModal(row.original.id)}>
+									<DeleteIcon />
+								</span>
+							)}
 						</div>
 					)
 				},

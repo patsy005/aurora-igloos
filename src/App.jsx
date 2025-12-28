@@ -22,13 +22,17 @@ import BookingsItem from './pages/bookings/BookingsItem'
 import ForumPosts from './pages/forum/ForumPosts'
 import ForumView from './ui/Forum/ForumView'
 import ForumCommentsList from './pages/forum/forumComments/ForumCommentsList'
+import Login from './pages/login/Login'
+import ProtectedRoute from './pages/protectedRoute/ProtectedRoute'
 
 const router = createBrowserRouter([
 	{
 		element: (
-			<ModalProvider>
-				<Layout />
-			</ModalProvider>
+			<ProtectedRoute>
+				<ModalProvider>
+					<Layout />
+				</ModalProvider>
+			</ProtectedRoute>
 		),
 
 		children: [
@@ -73,7 +77,7 @@ const router = createBrowserRouter([
 				element: <Promotions />,
 			},
 			{
-				path: '/promotions/:promoId',
+				path: '/promotions/:discountId',
 				element: <PromoItem />,
 			},
 
@@ -114,6 +118,10 @@ const router = createBrowserRouter([
 				element: <TripLevels />,
 			},
 		],
+	},
+	{
+		path: '/login',
+		element: <Login />,
 	},
 ])
 

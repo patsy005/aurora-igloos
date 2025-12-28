@@ -8,12 +8,15 @@ import { formatDate, formatDateOnly, parseDateOnly } from '../../utils/utils'
 import { useModal } from '../../contexts/modalContext'
 import BookingsForm from './BookingsForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
+import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 
 function BookingsItem() {
 	const { bookingId } = useParams()
 	const bookings = useSelector(state => state.bookings.bookings)
 	const igloos = useSelector(state => state.igloos.igloos)
 	const trips = useSelector(state => state.trips.trips)
+	const canManage = useSelector(selectCanManage)
+	const canDelete = useSelector(selectCanDelete)
 	const navigate = useNavigate()
 	const { openModal } = useModal()
 
@@ -79,16 +82,20 @@ function BookingsItem() {
 					</div>
 
 					<div className="item-section__actions mt-3">
-						<span className="action-icon" onClick={() => openModal(BookingsForm, { id: bookingId })}>
-							<EditIcon />
-						</span>
-						<span
-							className="action-icon"
-							onClick={() =>
-								openModal(DeleteConfirmation, { id: bookingId, category: 'booking', itemToDelete: booking })
-							}>
-							<DeleteIcon />
-						</span>
+						{canManage && (
+							<span className="action-icon" onClick={() => openModal(BookingsForm, { id: bookingId })}>
+								<EditIcon />
+							</span>
+						)}
+						{canDelete && (
+							<span
+								className="action-icon"
+								onClick={() =>
+									openModal(DeleteConfirmation, { id: bookingId, category: 'booking', itemToDelete: booking })
+								}>
+								<DeleteIcon />
+							</span>
+						)}
 					</div>
 				</div>
 			</div>

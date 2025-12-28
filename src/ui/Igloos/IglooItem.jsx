@@ -16,6 +16,7 @@ import { openModal } from '../../slices/modalSlice'
 import { useModal } from '../../contexts/modalContext'
 import IgloosForm from './IgloosForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
+import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 
 const idMap = {
 	1: 201,
@@ -32,17 +33,19 @@ function IglooItem() {
 	const { iglooId } = useParams()
 	const igloos = useSelector(state => state.igloos.igloos)
 	const isFetchingIgloos = useSelector(state => state.igloos.isFetching)
-	const bookings = data.bookings
+	const token = useSelector(state => state.auth.accessToken)
+	const canManage = useSelector(selectCanManage)
+	const canDelete = useSelector(selectCanDelete)
+	const bookings = useSelector(state => state.bookings.bookings)
+	// const bookings = data.bookings
 	const navigate = useNavigate()
 	const [datesState, setDatesState] = useState([])
-	const {openModal} = useModal()
-
-	console.log('data from json:', data)
-	console.log('data.bookings:', data.bookings)
+	const { openModal } = useModal()
 
 	useEffect(() => {
+		if (!token) return
 		dispatch(fetchIgloos())
-	}, [])
+	}, [token])
 
 	const igloo = igloos?.find(igloo => igloo.id === +iglooId)
 
@@ -128,14 +131,20 @@ function IglooItem() {
 							</div>
 
 							<div className="item-section__actions mt-3">
-								<span
-									className="action-icon"
-									onClick={() => openModal(IgloosForm, { id: iglooId })}>
-									<EditIcon />
-								</span>
-								<span className="action-icon" onClick={() => openModal(DeleteConfirmation, { id: iglooId, category: 'igloo', itemToDelete: igloo })}>
-									<DeleteIcon />
-								</span>
+								{canManage && (
+									<span className="action-icon" onClick={() => openModal(IgloosForm, { id: iglooId })}>
+										<EditIcon />
+									</span>
+								)}
+								{canDelete && (
+									<span
+										className="action-icon"
+										onClick={() =>
+											openModal(DeleteConfirmation, { id: iglooId, category: 'igloo', itemToDelete: igloo })
+										}>
+										<DeleteIcon />
+									</span>
+								)}
 							</div>
 						</div>
 					</div>

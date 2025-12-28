@@ -7,17 +7,21 @@ import EmployeesTable from './EmployeesTable'
 import Button from '../../components/Button'
 import { useModal } from '../../contexts/modalContext'
 import EmployeesForm from './EmployeesForm'
+import { selectCanManage } from '../../slices/authSlice'
 
 function Employees() {
 	const dispatch = useDispatch()
 	const employees = useSelector(state => state.employees.employees)
+	const canManage = useSelector(selectCanManage)
+	const token = useSelector(state => state.auth.accessToken)
 	const { openModal } = useModal()
 
 	useEffect(() => {
+		if (!token) return
 		dispatch(fetchEmployees())
 		dispatch(fetchEmployeeRoles())
-        console.log(employees)
-	}, [])
+		console.log(employees)
+	}, [token])
 
 	if (!employees.length) return null
 
@@ -26,15 +30,17 @@ function Employees() {
 	}
 
 	return (
-        <>
-            {/* <Modal isOpen={isOpen}>{generateModalContent()}</Modal> */}
-            <SectionHeading sectionTitle="Employees" />
-            <div className="text-end">
-                <Button onClick={openAddEmployeeModal}>Add employee</Button>
-            </div>
-            <EmployeesTable />
-        </>
-    )
+		<>
+			{/* <Modal isOpen={isOpen}>{generateModalContent()}</Modal> */}
+			<SectionHeading sectionTitle="Employees" />
+			{canManage && (
+				<div className="text-end">
+					<Button onClick={openAddEmployeeModal}>Add employee</Button>
+				</div>
+			)}
+			<EmployeesTable />
+		</>
+	)
 }
 
 export default Employees

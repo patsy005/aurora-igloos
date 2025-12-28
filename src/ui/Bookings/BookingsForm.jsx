@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import Button from '../../components/Button'
 import FormBox from '../Form/FormBox'
 import { useDispatch } from 'react-redux'
-import { setIsCreating, setIsEditing } from '../../slices/bookingsSlice'
+// import { setIsCreating, setIsEditing } from '../../slices/bookingsSlice'
 import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
 import ReactSelect from 'react-select'
@@ -20,11 +20,11 @@ function BookingsForm() {
 	const customers = data.customers
 	const navigate = useNavigate()
 
-	useEffect(() => {
-		if (bookingId) {
-			dispatch(setIsEditing(true))
-		}
-	}, [bookingId, setIsEditing])
+	// useEffect(() => {
+	// 	if (bookingId) {
+	// 		dispatch(setIsEditing(true))
+	// 	}
+	// }, [bookingId, setIsEditing])
 
 	const {
 		register,
@@ -76,7 +76,7 @@ function BookingsForm() {
 
 	const onSubmit = data => {
 		console.log(data)
-		dispatch(setIsCreating(false))
+		// dispatch(setIsCreating(false))
 		bookingId ? toast.success('Booking edited successfully') : toast.success('Booking added successfully')
 		bookingId && navigate(-1)
 	}
@@ -235,8 +235,8 @@ function BookingsForm() {
 				<Button
 					className="cancel-btn"
 					onClick={() => {
-						dispatch(setIsCreating(false))
-						dispatch(setIsEditing(false))
+						// dispatch(setIsCreating(false))
+						// dispatch(setIsEditing(false))
 						bookingId && navigate(-1)
 					}}>
 					Cancel

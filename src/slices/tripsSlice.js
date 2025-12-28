@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { logout } from './authSlice'
 
 const initialState = {
 	trips: [],
 	error: '',
 	status: 'idle',
 	isFetching: false,
-	isCreating: false,
-	isEditing: false,
 }
 
 export const fetchTrips = createAsyncThunk('trips/fetchTrips', async () => {
@@ -16,9 +15,13 @@ export const fetchTrips = createAsyncThunk('trips/fetchTrips', async () => {
 	return data
 })
 
-export const addNewTrip = createAsyncThunk('trips/addNewTrip', async (newTrip, { rejectWithValue }) => {
+export const addNewTrip = createAsyncThunk('trips/addNewTrip', async (newTrip, { getState, rejectWithValue }) => {
+	const token = getState().auth.accessToken
 	const res = await fetch('http://localhost:5212/api/Trip', {
 		method: 'POST',
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
 		// headers: {
 		// 	'Content-Type': 'application/json',
 		// },
@@ -34,33 +37,44 @@ export const addNewTrip = createAsyncThunk('trips/addNewTrip', async (newTrip, {
 	return data
 })
 
-export const editTrip = createAsyncThunk('trips/editTrip', async ({ id, updatedTrip }, { rejectWithValue }) => {
-	try {
-		const res = await fetch(`http://localhost:5212/api/Trip/${id}`, {
-			method: 'PUT',
-			// headers: {
-			// 	'Content-Type': 'application/json',
-			// },
-			// body: JSON.stringify(updatedTrip),
-			body: updatedTrip,
-		})
+export const editTrip = createAsyncThunk(
+	'trips/editTrip',
+	async ({ id, updatedTrip }, { getState, rejectWithValue }) => {
+		try {
+			const token = getState().auth.accessToken
+			const res = await fetch(`http://localhost:5212/api/Trip/${id}`, {
+				method: 'PUT',
+				// headers: {
+				// 	'Content-Type': 'application/json',
+				// },
+				// body: JSON.stringify(updatedTrip),
+				body: updatedTrip,
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
 
-		if (!res.ok) {
-			const errorBody = await res.json().catch(() => null)
-			console.error('Error response body:', errorBody)
-			return rejectWithValue(errorBody || { message: 'Failed to edit trip' })
+			if (!res.ok) {
+				const errorBody = await res.json().catch(() => null)
+				console.error('Error response body:', errorBody)
+				return rejectWithValue(errorBody || { message: 'Failed to edit trip' })
+			}
+
+			// 204 NoContent – nie próbujemy parsować JSON-a
+			return { id }
+		} catch (err) {
+			return rejectWithValue(err.message)
 		}
-
-		// 204 NoContent – nie próbujemy parsować JSON-a
-		return { id }
-	} catch (err) {
-		return rejectWithValue(err.message)
 	}
-})
+)
 
-export const deleteTrip = createAsyncThunk('trips/deleteTrip', async (id, { rejectWithValue }) => {
+export const deleteTrip = createAsyncThunk('trips/deleteTrip', async (id, { getState, rejectWithValue }) => {
+	const token = getState().auth.accessToken
 	const res = await fetch(`http://localhost:5212/api/Trip/${id}`, {
 		method: 'DELETE',
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
 	})
 
 	if (!res.ok) {
@@ -92,7 +106,6 @@ const tripsSlice = createSlice({
 			})
 			.addCase(addNewTrip.fulfilled, (state, action) => {
 				state.trips.push(action.payload)
-				state.isCreating = false
 				state.isFetching = false
 				state.status = 'idle'
 				state.error = ''
@@ -107,7 +120,6 @@ const tripsSlice = createSlice({
 				state.status = 'loading'
 			})
 			.addCase(editTrip.fulfilled, (state, action) => {
-				state.isEditing = false
 				state.isFetching = false
 				state.status = 'idle'
 				state.error = ''
@@ -134,6 +146,12 @@ const tripsSlice = createSlice({
 			})
 			.addCase(deleteTrip.pending, state => {
 				state.isFetching = true
+			})
+			.addCase(logout, state => {
+				state.trips = []
+				state.error = ''
+				state.status = 'idle'
+				state.isFetching = false
 			})
 	},
 })

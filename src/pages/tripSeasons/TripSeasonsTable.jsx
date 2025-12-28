@@ -6,9 +6,12 @@ import TripSeasonsForm from './TripSeasonsForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
 import Table from '../../ui/Table/Table'
+import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 
 function TripSeasonsTable() {
 	const tripSeasons = useSelector(state => state.tripSeasons.tripSeasons)
+	const canManage = useSelector(selectCanManage)
+	const canDelete = useSelector(selectCanDelete)
 	const [data, setData] = useState(tripSeasons)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
@@ -58,12 +61,16 @@ function TripSeasonsTable() {
 				cell: ({ row }) => {
 					return (
 						<div className="bookings-table__actions justify-content-end">
-							<span onClick={() => openEditTripSeasonModal(row.original.id)}>
-								<EditIcon />
-							</span>
-							<span className="delete-icon" onClick={() => openDeleteTripSeasonModal(row.original.id)}>
-								<DeleteIcon />
-							</span>
+							{canManage && (
+								<span onClick={() => openEditTripSeasonModal(row.original.id)}>
+									<EditIcon />
+								</span>
+							)}
+							{canDelete && (
+								<span className="delete-icon" onClick={() => openDeleteTripSeasonModal(row.original.id)}>
+									<DeleteIcon />
+								</span>
+							)}
 						</div>
 					)
 				},

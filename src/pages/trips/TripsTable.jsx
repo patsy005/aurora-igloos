@@ -6,9 +6,12 @@ import TripsForm from './TripsForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import Table from '../../ui/Table/Table'
 import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
+import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 
 function TripsTable() {
 	const trips = useSelector(state => state.trips.trips)
+	const canManage = useSelector(selectCanManage)
+	const canDelete = useSelector(selectCanDelete)
 	const [data, setData] = useState(trips)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
@@ -110,15 +113,19 @@ function TripsTable() {
 				cell: ({ row }) => {
 					return (
 						<div className="bookings-table__actions">
-							<span onClick={() => openModal(TripsForm, { id: row.original.id })}>
-								<EditIcon />
-							</span>
+							{canManage && (
+								<span onClick={() => openEditTripModal(row.original.id)}>
+									<EditIcon />
+								</span>
+							)}
 							<span onClick={() => navigate(`/trips/${row.original.id}`)}>
 								<ViewIcon />
 							</span>
-							<span className="delete-icon" onClick={() => openDeleteTripModal(row.original.id)}>
-								<DeleteIcon />
-							</span>
+							{canDelete && (
+								<span className="delete-icon" onClick={() => openDeleteTripModal(row.original.id)}>
+									<DeleteIcon />
+								</span>
+							)}
 						</div>
 					)
 				},

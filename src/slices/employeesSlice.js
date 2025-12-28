@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { logout } from './authSlice'
 
 const initialState = {
 	employees: [],
 	status: 'idle',
 	isFetching: false,
-	isCreating: false,
-	isEditing: false,
 	error: '',
 }
 
@@ -16,10 +15,14 @@ export const fetchEmployees = createAsyncThunk('employees/fetchEmployees', async
 	return data
 })
 
-export const addNewEmployee = createAsyncThunk('employees/addNewEmployee', async (newEmployye, { rejectWithValue }) => {
+export const addNewEmployee = createAsyncThunk('employees/addNewEmployee', async (newEmployye, {getState, rejectWithValue }) => {
+	const token = getState().auth.accessToken
 	const res = await fetch('http://localhost:5212/api/Employees', {
 		method: 'POST',
 		body: newEmployye,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
 	})
 
 	if (!res.ok) {
@@ -32,11 +35,15 @@ export const addNewEmployee = createAsyncThunk('employees/addNewEmployee', async
 
 export const editEmployee = createAsyncThunk(
 	'employees/editEmployee',
-	async ({ id, updatedEmployee }, { rejectWithValue }) => {
+	async ({ id, updatedEmployee }, {getState, rejectWithValue }) => {
 		try {
+			const token = getState().auth.accessToken
 			const res = await fetch(`http://localhost:5212/api/Employees/${id}`, {
 				method: 'PUT',
 				body: updatedEmployee,
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
 			})
 
 			if (!res.ok) {
@@ -53,9 +60,13 @@ export const editEmployee = createAsyncThunk(
 	}
 )
 
-export const deleteEmployee = createAsyncThunk('employees/deleteEmployee', async (id, { rejectWithValue }) => {
+export const deleteEmployee = createAsyncThunk('employees/deleteEmployee', async (id, {getState, rejectWithValue }) => {
+	const token = getState().auth.accessToken
 	const res = await fetch(`http://localhost:5212/api/Employees/${id}`, {
 		method: 'DELETE',
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
 	})
 
 	if (!res.ok) {
@@ -89,19 +100,16 @@ export const employeesSlice = createSlice({
 			.addCase(addNewEmployee.fulfilled, (state, action) => {
 				state.employees.push(action.payload)
 				state.error = ''
+				state.isFetching = false
 			})
 			.addCase(addNewEmployee.rejected, (state, action) => {
 				state.error = action.payload.message
+				state.isFetching = false
+			})
+			.addCase(addNewEmployee.pending, state => {
+				state.isFetching = true
 			})
 			.addCase(editEmployee.fulfilled, (state, action) => {
-				// const index = state.employees.findIndex(emp => emp.id === action.payload.id)
-				// if (index !== -1) {
-				// 	state.employees[index] = {
-				// 		...state.employees[index],
-				// 		...action.payload.updatedEmployee,
-				// 	}
-				// }
-				// state.error = ''
 				state.isEditing = false
 				state.isFetching = false
 				state.error = ''
@@ -109,12 +117,26 @@ export const employeesSlice = createSlice({
 			.addCase(editEmployee.rejected, (state, action) => {
 				state.error = action.payload.message
 			})
+			.addCase(editEmployee.pending, state => {
+				state.isFetching = true
+			})
 			.addCase(deleteEmployee.fulfilled, (state, action) => {
 				state.employees = state.employees.filter(emp => emp.id !== action.payload)
 				state.error = ''
+				state.isFetching = false
 			})
 			.addCase(deleteEmployee.rejected, (state, action) => {
 				state.error = action.payload.message
+				state.isFetching = false
+			})
+			.addCase(deleteEmployee.pending, state => {
+				state.isFetching = true
+			})
+			.addCase(logout, state => {
+				state.employees = []
+				state.error = ''
+				state.status = 'idle'
+				state.isFetching = false
 			})
 	},
 })

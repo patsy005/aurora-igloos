@@ -9,10 +9,13 @@ import { openModal } from '../../slices/modalSlice'
 import { useModal } from '../../contexts/modalContext'
 import IgloosForm from './IgloosForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
+import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 
 function IgloosTable() {
 	const igloos = useSelector(state => state.igloos.igloos)
 	const discounts = useSelector(state => state.discounts.discounts)
+	const canManage = useSelector(selectCanManage)
+	const canDelete = useSelector(selectCanDelete)
 	const [data, setData] = useState(igloos)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
@@ -103,11 +106,11 @@ function IgloosTable() {
 				cell: ({ row }) => {
 					return (
 						<div className="igloos-table__actions">
-							<span
-								className="edit-icon"
-								onClick={() => openEditIglooModal(row.original.id)}>
-								<EditIcon />
-							</span>
+							{canManage && (
+								<span className="edit-icon" onClick={() => openEditIglooModal(row.original.id)}>
+									<EditIcon />
+								</span>
+							)}
 							<span
 								className="view-icon"
 								onClick={() => {
@@ -116,11 +119,11 @@ function IgloosTable() {
 								}}>
 								<ViewIcon />
 							</span>
-							<span
-								className="delete-icon"
-								onClick={() => openDeleteIglooModal(row.original.id)}>
-								<DeleteIcon />
-							</span>
+							{canDelete && (
+								<span className="delete-icon" onClick={() => openDeleteIglooModal(row.original.id)}>
+									<DeleteIcon />
+								</span>
+							)}
 						</div>
 					)
 				},

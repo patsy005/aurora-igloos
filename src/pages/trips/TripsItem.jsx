@@ -8,14 +8,18 @@ import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfir
 import TripsForm from './TripsForm'
 import IglooItemCard from '../../ui/Igloos/IglooItemCard'
 import SectionHeading from '../../components/SectionHeading'
+import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 
 function TripsItem() {
 	const { tripId } = useParams()
 	const trips = useSelector(state => state.trips.trips)
+	const canManage = useSelector(selectCanManage)
+	const canDelete = useSelector(selectCanDelete)
 	const employees = useSelector(state => state.employees.employees)
 	const tripSeasons = useSelector(state => state.tripSeasons.tripSeasons)
 	const tripLevels = useSelector(state => state.tripLevels.tripLevels)
 	const isFething = useSelector(state => state.trips.isFetching)
+	const token = useSelector(state => state.auth.accessToken)
 
 	const { openModal } = useModal()
 
@@ -23,8 +27,9 @@ function TripsItem() {
 	const navigate = useNavigate()
 
 	useEffect(() => {
+		if (!token) return
 		dispatch(fetchTrips())
-	}, [])
+	}, [token])
 
 	const trip = trips?.find(trip => trip.id === +tripId)
 
@@ -64,14 +69,18 @@ function TripsItem() {
 					<div className={`status status__${trip.status} col-5 col-sm-3 col-xxl-2 mt-4 user-status`}>{trip.status}</div>
 
 					<div className="item-section__actions mt-3">
-						<span className="action-icon" onClick={() => openModal(TripsForm, { id: tripId })}>
-							<EditIcon />
-						</span>
-						<span
-							className="action-icon"
-							onClick={() => openModal(DeleteConfirmation, { id: tripId, category: 'trip', itemToDelete: trip })}>
-							<DeleteIcon />
-						</span>
+						{canManage && (
+							<span className="action-icon" onClick={() => openModal(TripsForm, { id: tripId })}>
+								<EditIcon />
+							</span>
+						)}
+						{canDelete && (
+							<span
+								className="action-icon"
+								onClick={() => openModal(DeleteConfirmation, { id: tripId, category: 'trip', itemToDelete: trip })}>
+								<DeleteIcon />
+							</span>
+						)}
 					</div>
 				</div>
 			</div>

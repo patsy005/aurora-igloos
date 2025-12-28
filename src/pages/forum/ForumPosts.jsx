@@ -7,15 +7,19 @@ import SectionHeading from '../../components/SectionHeading'
 import Button from '../../components/Button'
 import ForumActions from './ForumActions'
 import ForumPostsList from './ForumPostsList'
+import { selectCanManage } from '../../slices/authSlice'
 
 function ForumPosts() {
 	const dispatch = useDispatch()
 	const forumPosts = useSelector(state => state.forumPosts.forumPosts)
+	const token = useSelector(state => state.auth.accessToken)
+	const canManage = useSelector(selectCanManage)
 	const { openModal } = useModal()
 
 	useEffect(() => {
+		if (!token) return
 		dispatch(fetchForumPosts())
-	}, [])
+	}, [token])
 
 	if (!forumPosts.length) return null
 
@@ -25,9 +29,11 @@ function ForumPosts() {
 	return (
 		<>
 			<SectionHeading sectionTitle="Forum Posts" />
-			<div className="text-end">
-				<Button onClick={openAddForumPostModal}>Add Forum Post</Button>
-			</div>
+			{canManage && (
+				<div className="text-end">
+					<Button onClick={openAddForumPostModal}>Add Forum Post</Button>
+				</div>
+			)}
 
 			<div className="forum">
 				<ForumActions />

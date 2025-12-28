@@ -8,16 +8,20 @@ import SectionHeading from '../../components/SectionHeading'
 import { GoBackIcon } from '../../ui/Icons'
 import Button from '../../components/Button'
 import TripLevelsTable from './TripLevelsTable'
+import { selectCanManage } from '../../slices/authSlice'
 
 function TripLevels() {
 	const dispatch = useDispatch()
 	const tripLevels = useSelector(state => state.tripLevels.tripLevels)
+	const canManage = useSelector(selectCanManage)
+	const token = useSelector(state => state.auth.accessToken)
 	const { openModal } = useModal()
 	const navigate = useNavigate()
 
 	useEffect(() => {
+		if (!token) return
 		dispatch(fetchTripLevel())
-	}, [])
+	}, [token])
 
 	if (!tripLevels.length) return null
 
@@ -31,9 +35,11 @@ function TripLevels() {
 			<span onClick={() => navigate(-1)} className="go-back">
 				<GoBackIcon />
 			</span>
-			<div className="text-end">
-				<Button onClick={openTripLevelModal}>Add trip level</Button>
-			</div>
+			{canManage && (
+				<div className="text-end">
+					<Button onClick={openTripLevelModal}>Add trip level</Button>
+				</div>
+			)}
 			<TripLevelsTable />
 		</>
 	)

@@ -11,19 +11,23 @@ import { GoBackIcon } from '../../ui/Icons'
 import { fetchTripSeasons } from '../../slices/tripSeasonSlice'
 import { fetchTripLevel } from '../../slices/tripLevelSlice'
 import { fetchEmployees } from '../../slices/employeesSlice'
+import { selectCanManage } from '../../slices/authSlice'
 
 function Trips() {
 	const dispatch = useDispatch()
 	const trips = useSelector(state => state.trips.trips)
+	const token = useSelector(state => state.auth.accessToken)
+	const canManage = useSelector(selectCanManage)
 	const { openModal } = useModal()
 	const navigate = useNavigate()
 
 	useEffect(() => {
+		if (!token) return
 		dispatch(fetchTrips())
 		dispatch(fetchTripSeasons())
 		dispatch(fetchTripLevel())
 		dispatch(fetchEmployees())
-	}, [])
+	}, [token])
 
 	if (!trips.length) return null
 
@@ -49,9 +53,11 @@ function Trips() {
 					</span>
 				</span>
 			</div>
-			<div className="text-end">
-				<Button onClick={openAddTripModal}>Add trip</Button>
-			</div>
+			{canManage && (
+				<div className="text-end">
+					<Button onClick={openAddTripModal}>Add trip</Button>
+				</div>
+			)}
 			<TripsTable />
 		</>
 	)

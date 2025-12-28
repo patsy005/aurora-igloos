@@ -6,13 +6,18 @@ import Footer from '../components/Footer'
 import { Toaster } from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectIsModalOpen, selectModalProps } from '../slices/modalSlice'
+import { fetchMe, selectUser } from '../slices/authSlice'
+import { useEffect } from 'react'
 
 function Layout() {
-	const users = data.users
-	const user = users.find(user => user.id === 103)
+	const user = useSelector(selectUser)
+	const token = useSelector(state => state.auth.accessToken)
 
 	const dispatch = useDispatch()
-	const isOpen = useSelector(selectIsModalOpen)
+
+	useEffect(() => {
+		if (token) dispatch(fetchMe())
+	}, [])
 
 
 	return (
@@ -25,7 +30,7 @@ function Layout() {
 					<Toaster
 						position="top-center"
 						gutter={12}
-						containerStyle={{ margin: '8px'}}
+						containerStyle={{ margin: '8px' }}
 						toastOptions={{
 							success: {
 								duration: 5000,
@@ -37,7 +42,7 @@ function Layout() {
 								padding: '16px 24px',
 								backgroundColor: '#003c43',
 								color: '#cffaff',
-								border: "1px solid #b8f8ff",
+								border: '1px solid #b8f8ff',
 								gap: '8px',
 							},
 							iconTheme: {
@@ -46,7 +51,6 @@ function Layout() {
 							},
 							// className: "toast"
 						}}
-						
 					/>
 					<Header user={user} />
 					<Outlet />

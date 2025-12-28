@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { logout } from './authSlice'
 
 const initialState = {
 	tripSeasons: [],
 	error: '',
 	status: 'idle',
 	isFetching: false,
-	isCreating: false,
-	isEditing: false,
 }
 
 export const fetchTripSeasons = createAsyncThunk('tripSeasons/fetchTripSeasons', async () => {
@@ -17,11 +16,13 @@ export const fetchTripSeasons = createAsyncThunk('tripSeasons/fetchTripSeasons',
 
 export const addNewTripSeason = createAsyncThunk(
 	'tripSeasons/addNewTripSeason',
-	async (newTripSeason, { rejectWithValue }) => {
+	async (newTripSeason, { getState, rejectWithValue }) => {
+		const token = getState().auth.accessToken
 		const res = await fetch('http://localhost:5212/api/TripSeason', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(newTripSeason),
 		})
@@ -37,11 +38,13 @@ export const addNewTripSeason = createAsyncThunk(
 
 export const editTripSeason = createAsyncThunk(
 	'tripSeasons/editTripSeason',
-	async ({ id, updatedTripSeason }, { rejectWithValue }) => {
+	async ({ id, updatedTripSeason }, { getState, rejectWithValue }) => {
+		const token = getState().auth.accessToken
 		const res = await fetch(`http://localhost:5212/api/TripSeason/${id}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(updatedTripSeason),
 		})
@@ -59,17 +62,24 @@ export const editTripSeason = createAsyncThunk(
 	}
 )
 
-export const deleteTripSeason = createAsyncThunk('tripSeasons/deleteTripSeason', async (id, { rejectWithValue }) => {
-	const res = await fetch(`http://localhost:5212/api/TripSeason/${id}`, {
-		method: 'DELETE',
-	})
+export const deleteTripSeason = createAsyncThunk(
+	'tripSeasons/deleteTripSeason',
+	async (id, { getState, rejectWithValue }) => {
+		const token = getState().auth.accessToken
+		const res = await fetch(`http://localhost:5212/api/TripSeason/${id}`, {
+			method: 'DELETE',
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
 
-	if (!res.ok) {
-		return rejectWithValue('Failed to delete trip season')
+		if (!res.ok) {
+			return rejectWithValue('Failed to delete trip season')
+		}
+
+		return id
 	}
-
-	return id
-})
+)
 
 const tripSeasonSlice = createSlice({
 	name: 'tripSeasons',
@@ -131,6 +141,12 @@ const tripSeasonSlice = createSlice({
 			.addCase(deleteTripSeason.pending, state => {
 				state.isFetching = true
 				state.status = 'loading'
+			})
+			.addCase(logout, state => {
+				state.tripSeasons = []
+				state.error = ''
+				state.status = 'idle'
+				state.isFetching = false
 			})
 	},
 })

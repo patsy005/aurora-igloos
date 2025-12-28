@@ -1,44 +1,56 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { logout } from './authSlice'
 
 const initialState = {
 	customers: [],
 	error: '',
 	status: 'idle',
 	isFetching: false,
-	isCreating: false,
-    isEditing: false,
+	myProfile: null,
 }
 
-export const fetchCustomers = createAsyncThunk('customers/fetchCustomers', async () => {
-	const res = await fetch('http://localhost:5212/api/Customers')
-	const data = await res.json()
-	return data
-})
-
-export const addNewCustomer = createAsyncThunk('customers/addNewCustomer', async (newCustomer, { rejectWithValue }) => {
+export const fetchCustomers = createAsyncThunk('customers/fetchCustomers', async (_, { getState, rejectWithValue }) => {
+	const token = getState().auth.accessToken
 	const res = await fetch('http://localhost:5212/api/Customers', {
-		method: 'POST',
 		headers: {
-			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
 		},
-		body: JSON.stringify(newCustomer),
 	})
-
-	if (!res.ok) {
-		throw rejectWithValue({ message: 'Failed to add new customer' })
-	}
-	
 	const data = await res.json()
 	return data
 })
+
+export const addNewCustomer = createAsyncThunk(
+	'customers/addNewCustomer',
+	async (newCustomer, { getState, rejectWithValue }) => {
+		const token = getState().auth.accessToken
+		const res = await fetch('http://localhost:5212/api/Customers', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(newCustomer),
+		})
+
+		if (!res.ok) {
+			throw rejectWithValue({ message: 'Failed to add new customer' })
+		}
+
+		const data = await res.json()
+		return data
+	}
+)
 
 export const editCustomer = createAsyncThunk(
 	'customers/editCustomer',
-	async ({ id, updatedCustomer }, { rejectWithValue }) => {
+	async ({ id, updatedCustomer }, { getState, rejectWithValue }) => {
+		const token = getState().auth.accessToken
 		const res = await fetch(`http://localhost:5212/api/Customers/${id}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(updatedCustomer),
 		})
@@ -56,29 +68,48 @@ export const editCustomer = createAsyncThunk(
 	}
 )
 
-export const deleteCustomer = createAsyncThunk('customers/deleteCustomer', async (id, { rejectWithValue }) => {
-	const res = await fetch(`http://localhost:5212/api/Customers/${id}`, {
-		method: 'DELETE',
-	})
+export const deleteCustomer = createAsyncThunk(
+	'customers/deleteCustomer',
+	async (id, { getState, rejectWithValue }) => {
+		const token = getState().auth.accessToken
+		const res = await fetch(`http://localhost:5212/api/Customers/${id}`, {
+			method: 'DELETE',
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
 
-	if (!res.ok) {
-		throw rejectWithValue({ message: 'Failed to delete customer' })
+		if (!res.ok) {
+			throw rejectWithValue({ message: 'Failed to delete customer' })
+		}
+
+		return id
 	}
+)
 
-	return id
-})
+export const getMyCustomerProfile = createAsyncThunk(
+	'customers/getMyCustomerProfile',
+	async (_, { getState, rejectWithValue }) => {
+		const token = getState().auth.accessToken
+		const res = await fetch(`http://localhost:5212/api/Customers/my-profile`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+
+		if (!res.ok) {
+			throw rejectWithValue({ message: 'Failed to fetch customer profile' })
+		}
+
+		const data = await res.json()
+		return data
+	}
+)
 
 const customersSlice = createSlice({
 	name: 'customers',
 	initialState,
-	reducers: {
-		setIsCreating: (state, action) => {
-            state.isCreating = action.payload
-        },
-        setIsEditing: (state, action) => {
-            state.isEditing = action.payload
-        },
-	},
+	reducers: {},
 	extraReducers: builder => {
 		builder
 			.addCase(fetchCustomers.fulfilled, (state, action) => {
@@ -97,7 +128,7 @@ const customersSlice = createSlice({
 			})
 			.addCase(addNewCustomer.fulfilled, (state, action) => {
 				state.customers.push(action.payload)
-				state.isCreating = false
+				state.isFetching
 				state.error = ''
 			})
 			.addCase(addNewCustomer.rejected, (state, action) => {
@@ -107,7 +138,6 @@ const customersSlice = createSlice({
 				state.isFetching = true
 			})
 			.addCase(editCustomer.fulfilled, (state, action) => {
-				state.isEditing = false
 				state.isFetching = false
 				state.error = ''
 			})
@@ -126,9 +156,25 @@ const customersSlice = createSlice({
 			.addCase(deleteCustomer.pending, state => {
 				state.isFetching = true
 			})
-			
+			.addCase(getMyCustomerProfile.fulfilled, (state, action) => {
+				state.myProfile = action.payload
+				state.isFetching = false
+				state.error = ''
+			})
+			.addCase(getMyCustomerProfile.rejected, (state, action) => {
+				state.error = action.payload.message
+			})
+			.addCase(getMyCustomerProfile.pending, state => {
+				state.isFetching = true
+			})
+			.addCase(logout, state => {
+				state.myProfile = null
+				state.customers = []
+				state.error = ''
+				state.status = 'idle'
+				state.isFetching = false
+			})
 	},
 })
 
-export const { setIsCreating, setIsEditing} = customersSlice.actions
 export default customersSlice.reducer

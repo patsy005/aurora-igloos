@@ -11,20 +11,24 @@ import { fetchEmployees } from '../../slices/employeesSlice'
 import { fetchIgloos } from '../../slices/igloosSlice'
 import { fetchTrips } from '../../slices/tripsSlice'
 import { fetchCustomers } from '../../slices/customersSLice'
+import { selectCanManage } from '../../slices/authSlice'
 
 function Bookings() {
 	const dispatch = useDispatch()
 	const bookings = useSelector(state => state.bookings.bookings)
+	const token = useSelector(state => state.auth.accessToken)
+	const canManage = useSelector(selectCanManage)
 	const { openModal } = useModal()
 
 	useEffect(() => {
+		if (!token) return
 		dispatch(fetchBookings())
 		dispatch(fetchPaymentMethods())
 		dispatch(fetchEmployees())
 		dispatch(fetchIgloos())
 		dispatch(fetchTrips())
 		dispatch(fetchCustomers())
-	}, [])
+	}, [token])
 
 	if (!bookings.length) return null
 
@@ -37,9 +41,11 @@ function Bookings() {
 	return (
 		<>
 			<SectionHeading sectionTitle="Bookings" />
-			<div className="text-end">
-				<Button onClick={openAddBookingModal}>Add booking</Button>
-			</div>
+			{canManage && (
+				<div className="text-end">
+					<Button onClick={openAddBookingModal}>Add booking</Button>
+				</div>
+			)}
 			<BookingsTable />
 		</>
 	)

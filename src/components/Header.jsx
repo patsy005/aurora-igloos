@@ -1,11 +1,22 @@
-import { LogoutIcon, MsgIcon, NotificationIcon } from '../ui/Icons'
+import { useDispatch } from 'react-redux'
+import { LogoutIcon } from '../ui/Icons'
+import { logout } from '../slices/authSlice'
+import { useNavigate } from 'react-router-dom'
 
 function Header({ user }) {
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
+
+	const onLogout = () => {
+		dispatch(logout())
+		navigate('/login')
+	}
+
 	return (
 		<header className="header">
 			<div className="user">
 				<div className="user-img">
-					<img src="/images/user.jpg" alt="user image" />
+					<img src={`http://localhost:5212/${user.photoUrl}`} alt="user image" />
 					<div className="user-status user-status--active"></div>
 				</div>
 				<div className="user-data">
@@ -17,19 +28,8 @@ function Header({ user }) {
 					<p className="user-mail">{user.email}</p>
 				</div>
 			</div>
-			{/* <div className="action-btns-dropdown d-md-none">
-            <div className="actions-status actions-status--notification"></div>
-            <ArrowDownIcon />
-        </div> */}
 			<div className="action-btns d-flex">
-				<button className="btn">
-					<MsgIcon />
-					<div className="actions-status actions-status--notification"></div>
-				</button>
-				<button className="btn">
-					<NotificationIcon />
-				</button>
-				<button className="btn">
+				<button className="btn" onClick={onLogout}>
 					<LogoutIcon />
 				</button>
 			</div>

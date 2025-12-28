@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { logout } from './authSlice'
 
 const initialState = {
 	igloos: [],
 	error: '',
 	status: 'idle',
 	isFetching: false,
-	isCreating: false,
-	isEditing: false,
 }
 
 export const fetchIgloos = createAsyncThunk('igloos/fetchIgloos', async () => {
@@ -15,7 +14,8 @@ export const fetchIgloos = createAsyncThunk('igloos/fetchIgloos', async () => {
 	return data
 })
 
-export const addNewIgloo = createAsyncThunk('igloos/addNewIgloo', async (newIgloo, { rejectWithValue }) => {
+export const addNewIgloo = createAsyncThunk('igloos/addNewIgloo', async (newIgloo, { getState, rejectWithValue }) => {
+	const token = getState().auth.accessToken
 	const res = await fetch('http://localhost:5212/api/Igloos', {
 		method: 'POST',
 		// headers: {
@@ -24,6 +24,9 @@ export const addNewIgloo = createAsyncThunk('igloos/addNewIgloo', async (newIglo
 		// body: JSON.stringify(newIgloo),
 		// bo backend przyjmuje form data
 		body: newIgloo,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
 	})
 
 	if (!res.ok) {
@@ -34,29 +37,40 @@ export const addNewIgloo = createAsyncThunk('igloos/addNewIgloo', async (newIglo
 	return data
 })
 
-export const editIgloo = createAsyncThunk('igloos/editIgloo', async ({ id, updatedIgloo }, { rejectWithValue }) => {
-	try {
-		const res = await fetch(`http://localhost:5212/api/Igloos/${id}`, {
-			method: 'PUT',
-			body: updatedIgloo,
-		})
+export const editIgloo = createAsyncThunk(
+	'igloos/editIgloo',
+	async ({ id, updatedIgloo }, { getState, rejectWithValue }) => {
+		const token = getState().auth.accessToken
+		try {
+			const res = await fetch(`http://localhost:5212/api/Igloos/${id}`, {
+				method: 'PUT',
+				body: updatedIgloo,
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
 
-		if (!res.ok) {
-			const errorBody = await res.json().catch(() => null)
-			console.error('Error response body:', errorBody)
-			return rejectWithValue(errorBody || { message: 'Failed to edit igloo' })
+			if (!res.ok) {
+				const errorBody = await res.json().catch(() => null)
+				console.error('Error response body:', errorBody)
+				return rejectWithValue(errorBody || { message: 'Failed to edit igloo' })
+			}
+
+			// 204 NoContent – nie próbujemy parsować JSON-a
+			return { id }
+		} catch (err) {
+			return rejectWithValue(err.message)
 		}
-
-		// 204 NoContent – nie próbujemy parsować JSON-a
-		return { id }
-	} catch (err) {
-		return rejectWithValue(err.message)
 	}
-})
+)
 
-export const deleteIgloo = createAsyncThunk('igloos/deleteIgloo', async (id, { rejectWithValue }) => {
+export const deleteIgloo = createAsyncThunk('igloos/deleteIgloo', async (id, { getState, rejectWithValue }) => {
+	const token = getState().auth.accessToken
 	const res = await fetch(`http://localhost:5212/api/Igloos/${id}`, {
 		method: 'DELETE',
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
 	})
 
 	if (!res.ok) {
@@ -75,14 +89,7 @@ export const deleteIgloo = createAsyncThunk('igloos/deleteIgloo', async (id, { r
 const igloosSlice = createSlice({
 	name: 'igloos',
 	initialState,
-	reducers: {
-		setIsCreating: (state, action) => {
-			state.isCreating = action.payload
-		},
-		setIsEditing: (state, action) => {
-			state.isEditing = action.payload
-		},
-	},
+	reducers: {},
 	extraReducers: builder => {
 		builder
 			.addCase(fetchIgloos.fulfilled, (state, action) => {
@@ -103,13 +110,11 @@ const igloosSlice = createSlice({
 
 			.addCase(addNewIgloo.fulfilled, (state, action) => {
 				state.igloos = [...state.igloos, action.payload]
-				state.isCreating = false
 				state.isFetching = false
 				state.error = ''
 			})
 			.addCase(addNewIgloo.rejected, (state, action) => {
 				state.error = action.payload.message
-				state.isCreating = false
 				state.isFetching = false
 				state.error = action.payload.message
 			})
@@ -118,19 +123,16 @@ const igloosSlice = createSlice({
 			})
 
 			.addCase(editIgloo.pending, state => {
-				state.isCreating = true
 				state.isFetching = true
 			})
 			.addCase(editIgloo.fulfilled, (state, action) => {
 				// const index = state.igloos.findIndex(igloo => igloo.id === action.payload.id)
 				// state.igloos[index] = action.payload
-				state.isCreating = false
 				state.isFetching = false
 				state.error = ''
 			})
 			.addCase(editIgloo.rejected, (state, action) => {
 				state.error = action.payload.message
-				state.isCreating = false
 				state.isFetching = false
 				state.error = action.payload.message
 			})
@@ -146,8 +148,13 @@ const igloosSlice = createSlice({
 			.addCase(deleteIgloo.pending, state => {
 				state.isFetching = true
 			})
+			.addCase(logout, state => {
+				state.igloos = []
+				state.error = ''
+				state.status = 'idle'
+				state.isFetching = false
+			})
 	},
 })
 
-export const { setIsCreating, setIsEditing } = igloosSlice.actions
 export default igloosSlice.reducer

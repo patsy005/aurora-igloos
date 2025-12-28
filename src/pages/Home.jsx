@@ -1,14 +1,21 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { fetchIgloos } from '../slices/igloosSlice'
 import HomePopularIgloos from '../ui/Home/HomePopularIgloos'
 import HomeOverview from '../ui/Home/HomeOverview'
 import data from '../../public/data.json'
 import SalesChart from '../ui/Home/SalesChart'
+import { useEffect } from 'react'
+import { fetchMe, selectUser } from '../slices/authSlice'
 
 function Home() {
+	const user = useSelector(selectUser)
+	const token = useSelector(state => state.auth.accessToken)
+
 	const dispatch = useDispatch()
-	const users = data.users
-	const user = users.find(user => user.id === 103)
+
+	useEffect(() => {
+		if (token) dispatch(fetchMe())
+	}, [token])
 
 	dispatch(fetchIgloos())
 	return (

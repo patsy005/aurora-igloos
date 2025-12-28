@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { logout } from './authSlice'
 
 const initialState = {
 	paymentMethods: [],
 	error: '',
 	status: 'idle',
 	isFetching: false,
-	isCreating: false,
-	isEditing: false,
 }
 
 export const fetchPaymentMethods = createAsyncThunk('paymentMethods/fetchPaymentMethods', async () => {
@@ -17,11 +16,13 @@ export const fetchPaymentMethods = createAsyncThunk('paymentMethods/fetchPayment
 
 export const addNewPaymentMethod = createAsyncThunk(
 	'paymentMethods/addNewPaymentMethod',
-	async (newPaymentMethod, { rejectWithValue }) => {
+	async (newPaymentMethod, { getState, rejectWithValue }) => {
+		const token = getState().auth.accessToken
 		const res = await fetch('http://localhost:5212/api/PaymentMethods', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(newPaymentMethod),
 		})
@@ -37,11 +38,13 @@ export const addNewPaymentMethod = createAsyncThunk(
 
 export const editPaymentMethod = createAsyncThunk(
 	'paymentMethods/editPaymentMethod',
-	async ({ id, updatedPaymentMethod }, { rejectWithValue }) => {
+	async ({ id, updatedPaymentMethod }, { getState, rejectWithValue }) => {
+		const token = getState().auth.accessToken
 		const res = await fetch(`http://localhost:5212/api/PaymentMethods/${id}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(updatedPaymentMethod),
 		})
@@ -61,9 +64,13 @@ export const editPaymentMethod = createAsyncThunk(
 
 export const deletePaymentMethod = createAsyncThunk(
 	'paymentMethods/deletePaymentMethod',
-	async (id, { rejectWithValue }) => {
+	async (id, { getState, rejectWithValue }) => {
+		const token = getState().auth.accessToken
 		const res = await fetch(`http://localhost:5212/api/PaymentMethods/${id}`, {
 			method: 'DELETE',
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
 		})
 
 		if (!res.ok) {
@@ -138,6 +145,12 @@ const paymentMethodSlice = createSlice({
 			.addCase(deletePaymentMethod.pending, state => {
 				state.isFetching = true
 				state.status = 'loading'
+			})
+			.addCase(logout, state => {
+				state.paymentMethods = []
+				state.error = ''
+				state.status = 'idle'
+				state.isFetching = false
 			})
 	},
 })

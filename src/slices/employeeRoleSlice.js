@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { logout } from "./authSlice"
 
 const initialState = {
     employeeRoles : [],
@@ -6,17 +7,24 @@ const initialState = {
     error: '',
 }
 
-export const fetchEmployeeRoles = createAsyncThunk('employeeRoles/fetchEmployeeRoles', async () => {
-    const res = await fetch('http://localhost:5212/api/EmployeeRoles')
+export const fetchEmployeeRoles = createAsyncThunk('employeeRoles/fetchEmployeeRoles', async (_, {getState, rejectWithValue}) => {
+    const token = getState().auth.accessToken
+    const res = await fetch('http://localhost:5212/api/EmployeeRoles', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
     const data = await res.json()
     return data
 })
 
-export const addNewEmployeeRole = createAsyncThunk('employeeRoles/addNewEmployeeRole', async (newEmployeeRole, { rejectWithValue }) => {
+export const addNewEmployeeRole = createAsyncThunk('employeeRoles/addNewEmployeeRole', async (newEmployeeRole, {getState, rejectWithValue }) => {
+    const token = getState().auth.accessToken
     const res = await fetch('http://localhost:5212/api/EmployeeRoles', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
         },
         body: newEmployeeRole,
     })
@@ -31,12 +39,14 @@ export const addNewEmployeeRole = createAsyncThunk('employeeRoles/addNewEmployee
 
 export const editEmployeeRole = createAsyncThunk(
     'employeeRoles/editEmployeeRole',
-    async ({ id, updatedEmployeeRole }, { rejectWithValue }) => {
+    async ({ id, updatedEmployeeRole }, {getState, rejectWithValue }) => {
         try {
+            const token = getState().auth.accessToken
             const res = await fetch(`http://localhost:5212/api/EmployeeRoles/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
                 },
                 body: updatedEmployeeRole,
             })
@@ -55,9 +65,13 @@ export const editEmployeeRole = createAsyncThunk(
     }
 )
 
-export const deleteEmployeeRole = createAsyncThunk('employeeRoles/deleteEmployeeRole', async (id, { rejectWithValue }) => {
+export const deleteEmployeeRole = createAsyncThunk('employeeRoles/deleteEmployeeRole', async (id, {getState, rejectWithValue }) => {
+    const token = getState().auth.accessToken
     const res = await fetch(`http://localhost:5212/api/EmployeeRoles/${id}`, {
         method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
     })
 
     if (!res.ok) {
@@ -86,6 +100,15 @@ export const employeeRoleSlice = createSlice({
             })
             .addCase(addNewEmployeeRole.fulfilled, (state, action) => {
                 state.employeeRoles.push(action.payload)
+                state.isFetching = false
+                state.error = ''
+            })
+            .addCase(addNewEmployeeRole.rejected, (state, action) => {
+                state.isFetching = false
+                state.error = action.error.message
+            })
+            .addCase(addNewEmployeeRole.pending, (state) => {
+                state.isFetching = true
             })
             .addCase(editEmployeeRole.fulfilled, (state, action) => {
                 const index = state.employeeRoles.findIndex((role) => role.id === action.payload.id)
@@ -95,9 +118,32 @@ export const employeeRoleSlice = createSlice({
                         ...action.payload.updatedEmployeeRole,
                     }
                 }
+                state.isFetching = false
+                state.error = ''
+            })
+            .addCase(editEmployeeRole.rejected, (state, action) => {
+                state.isFetching = false
+                state.error = action.error.message
+            })
+            .addCase(editEmployeeRole.pending, (state) => {
+                state.isFetching = true
             })
             .addCase(deleteEmployeeRole.fulfilled, (state, action) => {
                 state.employeeRoles = state.employeeRoles.filter((role) => role.id !== action.payload)
+                state.error = ''
+                state.isFetching = false
+            })
+            .addCase(deleteEmployeeRole.rejected, (state, action) => {
+                state.isFetching = false
+                state.error = action.error.message
+            })
+            .addCase(deleteEmployeeRole.pending, (state) => {
+                state.isFetching = true
+            })
+            .addCase(logout, state => {
+                state.employeeRoles = []
+                state.error = ''
+                state.isFetching = false
             })
     },
 })

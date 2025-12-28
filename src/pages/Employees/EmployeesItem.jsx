@@ -8,18 +8,23 @@ import SectionHeading from '../../components/SectionHeading'
 import IglooItemCard from '../../ui/Igloos/IglooItemCard'
 import EmployeesForm from './EmployeesForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
+import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 
 function EmployeesItem() {
 	const { employeeId } = useParams()
 	const dispatch = useDispatch()
 	const { openModal } = useModal()
 	const employees = useSelector(state => state.employees.employees)
+	const token = useSelector(state => state.auth.accessToken)
 	const isFetchingEmployees = useSelector(state => state.employees.isFetching)
+	const canManage = useSelector(selectCanManage)
+	const canDelete = useSelector(selectCanDelete)
 	const navigate = useNavigate()
 
 	useEffect(() => {
+		if (!token) return
 		dispatch(fetchEmployees())
-	}, [])
+	}, [token])
 
 	const employee = employees?.find(e => e.id === +employeeId)
 
@@ -28,7 +33,7 @@ function EmployeesItem() {
 	}, [employee])
 
 	console.log('employee:', employee)
-    console.log('employee id:', employeeId)
+	console.log('employee id:', employeeId)
 
 	return (
 		<>
@@ -71,16 +76,20 @@ function EmployeesItem() {
 							</div>
 
 							<div className="item-section__actions mt-3">
-								<span className="action-icon" onClick={() => openModal(EmployeesForm, { id: employeeId })}>
-									<EditIcon />
-								</span>
-								<span
-									className="action-icon"
-									onClick={() =>
-										openModal(DeleteConfirmation, { id: employeeId, category: 'employee', itemToDelete: employee })
-									}>
-									<DeleteIcon />
-								</span>
+								{canManage && (
+									<span className="action-icon" onClick={() => openModal(EmployeesForm, { id: employeeId })}>
+										<EditIcon />
+									</span>
+								)}
+								{canDelete && (
+									<span
+										className="action-icon"
+										onClick={() =>
+											openModal(DeleteConfirmation, { id: employeeId, category: 'employee', itemToDelete: employee })
+										}>
+										<DeleteIcon />
+									</span>
+								)}
 							</div>
 						</div>
 					</div>

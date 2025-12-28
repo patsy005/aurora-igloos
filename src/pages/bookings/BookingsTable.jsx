@@ -6,9 +6,12 @@ import { useNavigate } from 'react-router-dom'
 import { useModal } from '../../contexts/modalContext'
 import BookingsForm from './BookingsForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
+import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 
 function BookingsTable() {
 	const bookings = useSelector(state => state.bookings.bookings)
+	const canManage = useSelector(selectCanManage)
+	const canDelete = useSelector(selectCanDelete)
 	const [data, setData] = useState(bookings)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
@@ -40,7 +43,6 @@ function BookingsTable() {
 				accessorKey: 'iglooId',
 				cell: ({ row }) => {
 					const igloo = row.original.iglooName ? row.original.iglooName : '-'
-					// const igloo = igloos.find(igloo => row.original.idIgloo === igloo.id)
 					return <div className="bookings-table__igloo">{igloo}</div>
 				},
 			},
@@ -58,7 +60,6 @@ function BookingsTable() {
 				id: 'bookings.guest',
 				accessorKey: 'customerId',
 				cell: ({ row }) => {
-					// const customer = customers.find(customer => row.original.customerId === customer.id)
 					return (
 						<div className="bookings-table__guest">
 							<span className="name">
@@ -115,20 +116,6 @@ function BookingsTable() {
 					return <div className="bookings-table__amount">$ {row.original.amount}</div>
 				},
 			},
-			// {
-			// 	header: 'Status',
-			// 	id: bookings.id,
-			// 	accessorKey: 'status',
-			// 	cell: ({ row }) => {
-			// 		const hasChecked = row.original.status === 'in' || row.original.status === 'out'
-			// 		return (
-			// 			<div className={`status status__${row.original.status}`}>
-			// 				{hasChecked && 'checked '}
-			// 				{row.original.status}
-			// 			</div>
-			// 		)
-			// 	},
-			// },
 			{
 				header: '',
 				accessorKey: 'bookings.actions',
@@ -137,15 +124,19 @@ function BookingsTable() {
 				cell: ({ row }) => {
 					return (
 						<div className="bookings-table__actions">
-							<span onClick={() => openEditBookingModal(row.original.id)}>
-								<EditIcon />
-							</span>
+							{canManage && (
+								<span onClick={() => openEditBookingModal(row.original.id)}>
+									<EditIcon />
+								</span>
+							)}
 							<span onClick={() => navigate(`/bookings/${row.original.id}`)}>
 								<ViewIcon />
 							</span>
-							<span className="delete-icon" onClick={() => openDeleteBookingModal(row.original.id)}>
-								<DeleteIcon />
-							</span>
+							{canDelete && (
+								<span className="delete-icon" onClick={() => openDeleteBookingModal(row.original.id)}>
+									<DeleteIcon />
+								</span>
+							)}
 						</div>
 					)
 				},

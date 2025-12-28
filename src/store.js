@@ -14,6 +14,7 @@ import tripLevelSlice from './slices/tripLevelSlice'
 import tripSeasonSlice from './slices/tripSeasonSlice'
 import paymentMethodSlice from './slices/paymentMethodSlice'
 import forumPostsSlice from './slices/forumPostsSlice'
+import authSlice from './slices/authSlice'
 
 const store = configureStore({
 	reducer: {
@@ -32,6 +33,7 @@ const store = configureStore({
 		tripSeasons: tripSeasonSlice,
 		paymentMethods: paymentMethodSlice,
 		forumPosts: forumPostsSlice,
+		auth: authSlice,
 	},
 })
 

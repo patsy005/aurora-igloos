@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import FormBox from '../Form/FormBox'
 import Button from '../../components/Button'
 import { useDispatch } from 'react-redux'
-import { setIsCreating } from '../../slices/forum'
+// import { setIsCreating } from '../../slices/forum'
 import toast from 'react-hot-toast'
 
 function ForumForm() {
@@ -15,7 +15,7 @@ function ForumForm() {
 
 	const onSubmit = data => {
 		console.log(data)
-		dispatch(setIsCreating(false))
+		// dispatch(setIsCreating(false))
 		toast.success('Post added successfully')
 	}
 
@@ -77,7 +77,7 @@ function ForumForm() {
 				<Button
 					className="cancel-btn"
 					onClick={() => {
-						dispatch(setIsCreating(false))
+						// dispatch(setIsCreating(false))
 					}}>
 					Cancel
 				</Button>

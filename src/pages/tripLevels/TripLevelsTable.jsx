@@ -6,9 +6,12 @@ import TripLevelsForm from './TripLevelsForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { DeleteIcon, EditIcon } from '../../ui/Icons'
 import Table from '../../ui/Table/Table'
+import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 
 function TripLevelsTable() {
 	const tripLevels = useSelector(state => state.tripLevels.tripLevels)
+	const canManage = useSelector(selectCanManage)
+	const canDelete = useSelector(selectCanDelete)
 	const [data, setData] = useState(tripLevels)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
@@ -66,12 +69,16 @@ function TripLevelsTable() {
 				cell: ({ row }) => {
 					return (
 						<div className="bookings-table__actions justify-content-end">
-							<span onClick={() => openEditTripLevelModal(row.original.id)}>
-								<EditIcon />
-							</span>
-							<span className="delete-icon" onClick={() => openDeleteTripLevelModal(row.original.id)}>
-								<DeleteIcon />
-							</span>
+							{canManage && (
+								<span onClick={() => openEditTripLevelModal(row.original.id)}>
+									<EditIcon />
+								</span>
+							)}
+							{canDelete && (
+								<span className="delete-icon" onClick={() => openDeleteTripLevelModal(row.original.id)}>
+									<DeleteIcon />
+								</span>
+							)}
 						</div>
 					)
 				},

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import SectionHeading from '../../components/SectionHeading'
-import { setIsCreating } from '../../slices/forum'
+// import { setIsCreating } from '../../slices/forum'
 import Button from '../../components/Button'
 import ForumList from './ForumList'
 import ForumActions from './ForumActions'
@@ -11,7 +11,7 @@ function ForumView() {
 	const dispatch = useDispatch()
 
 	const handleAddBooking = () => {
-		dispatch(setIsCreating(true))
+		// dispatch(setIsCreating(true))
 	}
 	return (
 		<>
