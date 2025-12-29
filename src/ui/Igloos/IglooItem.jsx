@@ -4,12 +4,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
 import SectionHeading from '../../components/SectionHeading'
 import { useEffect, useState } from 'react'
-import DatePicker from 'react-multi-date-picker'
+import DatePicker, { DateObject } from 'react-multi-date-picker'
 import DatePanel from 'react-multi-date-picker/plugins/date_panel'
 import IglooItemCard from './IglooItemCard'
 import { DeleteIcon, EditIcon, GoBackIcon, StarIcon, ViewIcon } from '../Icons'
 import IglooItemTable from './IglooItemTable'
-import IglooReviewsList from './IglooReviewsList'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchIgloos } from '../../slices/igloosSlice'
 import { openModal } from '../../slices/modalSlice'
@@ -17,16 +16,8 @@ import { useModal } from '../../contexts/modalContext'
 import IgloosForm from './IgloosForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import { fetchBookings } from '../../slices/bookingsSlice'
 
-const idMap = {
-	1: 201,
-	2: 202,
-	3: 203,
-	4: 204,
-	5: 205,
-	6: 201,
-	7: 202,
-}
 
 function IglooItem() {
 	const dispatch = useDispatch()
@@ -45,29 +36,24 @@ function IglooItem() {
 	useEffect(() => {
 		if (!token) return
 		dispatch(fetchIgloos())
+		dispatch(fetchBookings())
 	}, [token])
 
 	const igloo = igloos?.find(igloo => igloo.id === +iglooId)
 
 	useEffect(() => {
-		if (!igloo) return
+		if (!iglooId || bookings.length === 0) return
 
-		const iglooBookings = bookings.filter(b => b.iglooId === idMap[+iglooId])
-		const bookingDates = iglooBookings.map(booking => ({
-			checkIn: new Date(booking.checkInDate),
-			checkOut: new Date(booking.checkOutDate),
-		}))
+		const iglooBookings = bookings.filter(b => b.idIgloo === Number(iglooId)).filter(b => b.checkIn && b.checkOut)
 
-		const dates = bookingDates.map(booking => [booking.checkIn, booking.checkOut])
+		const dates = iglooBookings.map(b => [
+			new DateObject({ date: b.checkIn, format: 'YYYY-MM-DD' }),
+			new DateObject({ date: b.checkOut, format: 'YYYY-MM-DD' }),
+		])
 
 		setDatesState(dates)
-	}, [igloo, bookings, iglooId])
+	}, [bookings, iglooId])
 
-	console.log(igloos)
-
-	console.log('dates:', datesState)
-
-	console.log('bookings', bookings)
 
 	const iglooDiscount = igloo?.discount ?? null
 
@@ -118,17 +104,18 @@ function IglooItem() {
 										rangeHover
 										monthYearSeparator="|"
 										portal
+										
 									/>
 								</div>
 							</div>
 
-							<div className="item-section__promo mt-3">
+							{/* <div className="item-section__promo mt-3">
 								<p className="promo uppercase-text">Rating</p>
 								<div className="promo-title mt-2 d-flex align-items-center gap-2">
 									<StarIcon />
 									<span>{igloo.rating}</span>
 								</div>
-							</div>
+							</div> */}
 
 							<div className="item-section__actions mt-3">
 								{canManage && (
@@ -154,11 +141,6 @@ function IglooItem() {
 							<div className="section-margin user-item tasks">
 								<h3>Bookings</h3>
 								<IglooItemTable iglooId={iglooId} />
-							</div>
-
-							<div className="section-margin user-item tasks">
-								<h3>Reviews</h3>
-								<IglooReviewsList igloo={igloo} />
 							</div>
 						</>
 					)}

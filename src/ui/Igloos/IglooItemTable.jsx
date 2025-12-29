@@ -1,20 +1,30 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import data from '../../../public/data.json'
 import { DeleteIcon, EditIcon } from '../Icons'
 import Table from '../Table/Table'
 import { useNavigate } from 'react-router-dom'
-
-const bookings = data.bookings
-const customers = data.customers
-const igloos = data.igloos
+import { useSelector } from 'react-redux'
+import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import { useModal } from '../../contexts/modalContext'
+import IgloosForm from './IgloosForm'
+import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
+import BookingsForm from '../../pages/bookings/BookingsForm'
 
 function IglooItemTable({ iglooId }) {
-	const iglooBookings = bookings.filter(booking => booking.iglooId === +iglooId)
-	console.log(iglooBookings)
+	const bookings = useSelector(state => state.bookings?.bookings ?? [])
+
+	const canManage = useSelector(selectCanManage)
+	const canDelete = useSelector(selectCanDelete)
+
+	const iglooBookings = useMemo(() => {
+		return (bookings ?? []).filter(b => b.idIgloo === Number(iglooId))
+	}, [bookings, iglooId])
+
 	const [data, setData] = useState(iglooBookings)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const navigate = useNavigate()
+	const { openModal } = useModal()
 
 	const columns = useMemo(() => [
 		{
@@ -22,13 +32,12 @@ function IglooItemTable({ iglooId }) {
 			id: bookings.id,
 			accessorKey: 'customerId',
 			cell: ({ row }) => {
-				const customer = customers.find(customer => row.original.customerId === customer.id)
 				return (
 					<div className="bookings-table__guest">
 						<span className="name">
-							{customer.name} {customer.surname}
+							{row.original.customerName} {row.original.customerSurname}
 						</span>
-						<span className="email">{customer.email}</span>
+						<span className="email">{row.original.customerEmail}</span>
 					</div>
 				)
 			},
@@ -38,9 +47,7 @@ function IglooItemTable({ iglooId }) {
 			id: bookings.id,
 			accessorKey: 'checkInDate checkOutDate',
 			cell: ({ row }) => {
-				return (
-					<div className="bookings-table__dates">{`${row.original.checkInDate} - ${row.original.checkOutDate}`}</div>
-				)
+				return <div className="bookings-table__dates">{`${row.original.checkIn} - ${row.original.checkOut}`}</div>
 			},
 		},
 		{
@@ -52,38 +59,37 @@ function IglooItemTable({ iglooId }) {
 			},
 		},
 		{
-			header: 'Status',
-			id: bookings.id,
-			accessorKey: 'status',
-			cell: ({ row }) => {
-				const hasChecked = row.original.status === 'in' || row.original.status === 'out'
-				return (
-					<div className={`status status__${row.original.status} status-item-section`}>
-						{hasChecked && 'checked '}
-						{row.original.status}
-					</div>
-				)
-			},
-		},
-		{
 			header: '',
 			accessorKey: 'id',
 			className: '',
 			id: bookings.id,
 			cell: ({ row }) => {
+				console.log('row:', row.original)
 				return (
 					<div className="bookings-table__actions">
-						<span onClick={() => navigate(`/bookings/${row.original.id}/edit`)}>
-							<EditIcon />
-						</span>
-						<span>
-							<DeleteIcon />
-						</span>
+						{canManage && (
+							<span className="action-icon" onClick={() => openModal(BookingsForm, { id: row.original.id })}>
+								<EditIcon />
+							</span>
+						)}
+						{canDelete && (
+							<span
+								className="action-icon"
+								onClick={() =>
+									openModal(DeleteConfirmation, {
+										id: iglooId,
+										category: 'igloo',
+										itemToDelete: iglooBookings.find(i => i.id === +iglooId),
+									})
+								}>
+								<DeleteIcon />
+							</span>
+						)}
 					</div>
 				)
 			},
 		},
-	])
+	], [canDelete, canManage, iglooBookings, iglooId, openModal])
 	return (
 		<Table
 			data={data}

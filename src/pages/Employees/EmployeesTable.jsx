@@ -8,6 +8,7 @@ import { useModal } from '../../contexts/modalContext'
 import EmployeesForm from './EmployeesForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import SearchInput from '../../components/SearchInput'
 
 function EmployeesTable() {
 	const employees = useSelector(state => state.employees.employees)
@@ -16,6 +17,7 @@ function EmployeesTable() {
 	const [data, setData] = useState(employees)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
+	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const { openModal } = useModal()
@@ -43,6 +45,7 @@ function EmployeesTable() {
 				header: '',
 				id: 'employeeImg',
 				accessorKey: 'img',
+				enableGlobalFilter: false,
 				cell: ({ row }) => {
 					const src = row.original.photoUrl
 						? `http://localhost:5212/${row.original.photoUrl}`
@@ -53,7 +56,7 @@ function EmployeesTable() {
 			{
 				header: 'Name',
 				id: 'employeeName',
-				accessorKey: 'name',
+				accessorFn: row => `${row.name} ${row.surname} (${row.email})`,
 				cell: ({ row }) => {
 					return (
 						<div className="users-table__name">
@@ -68,7 +71,7 @@ function EmployeesTable() {
 			{
 				header: 'Address',
 				id: 'employeeAddress',
-				accessorKey: 'address',
+				accessorFn: row => `${row.street}, ${row.city}, ${row.postalCode}, ${row.country}`,
 				cell: ({ row }) => {
 					return (
 						<div className="users-table__address">
@@ -93,6 +96,7 @@ function EmployeesTable() {
 				header: 'Actions',
 				id: 'employeeActions',
 				accessorKey: 'actions',
+				enableGlobalFilter: false,
 				cell: ({ row }) => {
 					return (
 						<div className="users-table__actions">
@@ -117,16 +121,22 @@ function EmployeesTable() {
 		[navigate, employees]
 	)
 	return (
-		<Table
-			className={'users-table'}
-			data={data}
-			columnFilters={columnFilters}
-			pagination={pagination}
-			setData={setData}
-			setPagination={setPagination}
-			columns={columns}
-			setColumnFilters={setColumnFilters}
-		/>
+		<>
+			<div className="mt-4 d-flex justify-content-end">
+				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search employee..." />
+			</div>
+			<Table
+				data={data}
+				columnFilters={columnFilters}
+				pagination={pagination}
+				setData={setData}
+				setPagination={setPagination}
+				columns={columns}
+				setColumnFilters={setColumnFilters}
+				globalFilter={globalFilter}
+				setGlobalFilter={setGlobalFilter}
+			/>
+		</>
 	)
 }
 

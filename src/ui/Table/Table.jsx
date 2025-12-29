@@ -9,13 +9,37 @@ import {
 	useReactTable,
 } from '@tanstack/react-table'
 
-function Table({ data, columns, columnFilters, pagination, setData, setPagination, setColumnFilters, className }) {
+const globalIncludes = (row, columnId, filterValue) => {
+	const q = String(filterValue ?? '')
+		.toLowerCase()
+		.trim()
+	if (!q) return true
+
+	const v = row.getValue(columnId)
+	if (v == null) return false
+
+	return String(v).toLowerCase().includes(q)
+}
+
+function Table({
+	data,
+	columns,
+	columnFilters,
+	pagination,
+	setData,
+	setPagination,
+	setColumnFilters,
+	className,
+	globalFilter = '',
+	setGlobalFilter = () => {},
+}) {
 	const table = useReactTable({
 		data,
 		columns,
 		state: {
 			columnFilters,
 			pagination,
+			globalFilter,
 		},
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
@@ -23,6 +47,10 @@ function Table({ data, columns, columnFilters, pagination, setData, setPaginatio
 		getSortedRowModel: getSortedRowModel(),
 		columnResizeMode: 'onChange',
 		onPaginationChange: setPagination,
+		onGlobalFilterChange: setGlobalFilter,
+
+		globalFilterFn: globalIncludes,
+
 		meta: {
 			updateData: (rowIndex, columnId, value) => {
 				setData(prev => {

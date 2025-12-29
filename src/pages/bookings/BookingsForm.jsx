@@ -334,10 +334,10 @@ function BookingsForm() {
 			{isExistingCustomer && (
 				<div className="col-12">
 					<p className="mt-2" style={{ opacity: 0.8 }}>
-						Found existing customer:{' '}
-						<strong>
+						Found existing customer
+						{/* <strong>
 							{watch('customerName')} {watch('customerSurname')}
-						</strong>
+						</strong> */}
 					</p>
 				</div>
 			)}

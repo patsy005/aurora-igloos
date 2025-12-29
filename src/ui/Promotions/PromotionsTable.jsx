@@ -9,6 +9,7 @@ import PromoForm from './PromoForm'
 import { useModal } from '../../contexts/modalContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import SearchInput from '../../components/SearchInput'
 
 function PromotionsTable() {
 	const discounts = useSelector(state => state.discounts.discounts)
@@ -18,6 +19,7 @@ function PromotionsTable() {
 	const [data, setData] = useState(discounts)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
+	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const { openModal } = useModal()
@@ -52,7 +54,7 @@ function PromotionsTable() {
 			{
 				header: 'Valid period',
 				id: 'discountValidPeriod',
-				accessorKey: 'validPeriod',
+				accessorFn: row => `${row.validFrom} ${row.validTo}`.trim(),
 				cell: ({ row }) => {
 					return (
 						<div className="promo-table__valid-period">
@@ -80,7 +82,7 @@ function PromotionsTable() {
 			{
 				header: 'Igloos',
 				id: 'discountIgloos',
-				accessorKey: 'igloos',
+				accessorFn: row => row.igloos,
 				cell: ({ row }) => {
 					const relatedIgloos = igloos.filter(igloo => igloo.idDiscount === row.original.id)
 					console.log('igloos', igloos)
@@ -104,6 +106,7 @@ function PromotionsTable() {
 				header: '',
 				id: 'discountActions',
 				accessorKey: 'actions',
+				enableGlobalFilter: false,
 				cell: ({ row }) => {
 					return (
 						<div className="igloos-table__actions">
@@ -132,16 +135,22 @@ function PromotionsTable() {
 		[igloos, navigate, discounts]
 	)
 	return (
-		<Table
-			className={'promo-table'}
-			data={data}
-			columnFilters={columnFilters}
-			pagination={pagination}
-			setData={setData}
-			setPagination={setPagination}
-			columns={columns}
-			setColumnFilters={setColumnFilters}
-		/>
+		<>
+			<div className="mt-4 d-flex justify-content-end">
+				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search discounts..." />
+			</div>
+			<Table
+				data={data}
+				columnFilters={columnFilters}
+				pagination={pagination}
+				setData={setData}
+				setPagination={setPagination}
+				columns={columns}
+				setColumnFilters={setColumnFilters}
+				globalFilter={globalFilter}
+				setGlobalFilter={setGlobalFilter}
+			/>
+		</>
 	)
 }
 

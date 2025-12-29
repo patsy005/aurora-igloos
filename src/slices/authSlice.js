@@ -62,6 +62,8 @@ export const fetchMe = createAsyncThunk('auth/fetchMe', async (_, { getState, re
 			},
 		})
 
+		if (res.status === 401) return rejectWithValue({ code: 401, message: 'Unauthorized' })
+
 		if (!res.ok) {
 			const error = await res.text()
 			return rejectWithValue(error.message || 'Unauthorized')
@@ -142,14 +144,14 @@ export const selectRole = state => state.auth.user?.role ?? null
 
 export const selectIsAdmin = state => selectRole(state) === 'Admin'
 
-export const selectCanManage = state => ["Admin", "Staff"].includes(selectRole(state))
+export const selectCanManage = state => ['Admin', 'Staff'].includes(selectRole(state))
 
-export const selectCanView = state => ["Admin", "Staff", "ReadOnly"].includes(selectRole(state))
+export const selectCanView = state => ['Admin', 'Staff', 'ReadOnly'].includes(selectRole(state))
 
-export const selectCanDelete = state => selectRole(state) === "Admin"
+export const selectCanDelete = state => selectRole(state) === 'Admin'
 
-export const selectCeadOnly = state => selectRole(state) === "Guest"
+export const selectCeadOnly = state => selectRole(state) === 'Guest'
 
-export const selectIsCustomer = state => selectRole(state) === "Customer"
+export const selectIsCustomer = state => selectRole(state) === 'Customer'
 
 export default authSlice.reducer

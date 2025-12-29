@@ -7,6 +7,7 @@ import { useModal } from '../../contexts/modalContext'
 import BookingsForm from './BookingsForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import SearchInput from '../../components/SearchInput'
 
 function BookingsTable() {
 	const bookings = useSelector(state => state.bookings.bookings)
@@ -15,6 +16,7 @@ function BookingsTable() {
 	const [data, setData] = useState(bookings)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
+	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
 	const { openModal } = useModal()
 
@@ -40,7 +42,7 @@ function BookingsTable() {
 			{
 				header: 'Igloo',
 				id: 'bookings.igloo',
-				accessorKey: 'iglooId',
+				accessorKey: 'iglooName',
 				cell: ({ row }) => {
 					const igloo = row.original.iglooName ? row.original.iglooName : '-'
 					return <div className="bookings-table__igloo">{igloo}</div>
@@ -49,7 +51,7 @@ function BookingsTable() {
 			{
 				header: 'Trip',
 				id: 'bookings.trip',
-				accessorKey: 'trip',
+				accessorKey: 'tripName',
 				cell: ({ row }) => {
 					const trip = row.original.tripName ?? '-'
 					return <div className="bookings-table__trip">{trip}</div>
@@ -58,14 +60,14 @@ function BookingsTable() {
 			{
 				header: 'Guest',
 				id: 'bookings.guest',
-				accessorKey: 'customerId',
+				accessorFn: row => `${row.customerName ?? ''} ${row.customerSurname ?? ''} ${row.customerEmail ?? ''}`.trim(),
 				cell: ({ row }) => {
 					return (
 						<div className="bookings-table__guest">
 							<span className="name">
 								{row.original.customerName} {row.original.customerSurname}
 							</span>
-							<span className="email">{row.originalcustomerEmail}</span>
+							<span className="email">{row.original.customerEmail}</span>
 						</div>
 					)
 				},
@@ -73,7 +75,7 @@ function BookingsTable() {
 			{
 				header: 'Dates',
 				id: 'bookings.dates',
-				accessorKey: 'checkInDate checkOutDate',
+				accessorFn: row => `${row.checkIn ?? ''} ${row.checkOut ?? ''} ${row.tripDate ?? ''}`.trim(),
 				cell: ({ row }) => {
 					const { checkIn, checkOut, tripDate, idIgloo, tripId } = row.original
 
@@ -121,6 +123,7 @@ function BookingsTable() {
 				accessorKey: 'bookings.actions',
 				className: '',
 				id: 'actions',
+				enableGlobalFilter: false,
 				cell: ({ row }) => {
 					return (
 						<div className="bookings-table__actions">
@@ -146,15 +149,22 @@ function BookingsTable() {
 	)
 
 	return (
-		<Table
-			data={data}
-			columnFilters={columnFilters}
-			pagination={pagination}
-			setData={setData}
-			setPagination={setPagination}
-			columns={columns}
-			setColumnFilters={setColumnFilters}
-		/>
+		<>
+			<div className="mt-4 d-flex justify-content-end">
+				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search booking..." />
+			</div>
+			<Table
+				data={data}
+				columnFilters={columnFilters}
+				pagination={pagination}
+				setData={setData}
+				setPagination={setPagination}
+				columns={columns}
+				setColumnFilters={setColumnFilters}
+				globalFilter={globalFilter}
+				setGlobalFilter={setGlobalFilter}
+			/>
+		</>
 	)
 }
 

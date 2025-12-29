@@ -7,6 +7,7 @@ import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfir
 import Table from '../../ui/Table/Table'
 import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import SearchInput from '../../components/SearchInput'
 
 function TripsTable() {
 	const trips = useSelector(state => state.trips.trips)
@@ -15,6 +16,7 @@ function TripsTable() {
 	const [data, setData] = useState(trips)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
+	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
 	const { openModal } = useModal()
 
@@ -41,6 +43,7 @@ function TripsTable() {
 				header: '',
 				id: 'iglooImg',
 				accessorKey: 'img',
+				enableGlobalFilter: false,
 				cell: ({ row }) => {
 					console.log(row.original.id)
 					const src = row.original.photoUrl
@@ -60,7 +63,7 @@ function TripsTable() {
 			{
 				header: 'Description',
 				id: 'trips_description',
-				accessorKey: 'description',
+				accessorKey: 'shortDescription',
 				cell: ({ row }) => {
 					return <div className="users-table__address">{row.original.shortDescription}</div>
 				},
@@ -68,15 +71,17 @@ function TripsTable() {
 			{
 				header: 'Lvl of difficulty',
 				id: 'trips_difficulty',
-				accessorKey: 'difficultyLevel',
+				accessorKey: 'levelOfDifficultyName',
 				cell: ({ row }) => {
+					console.log('diff value:', row.getValue('trips_difficulty'), row.original.levelOfDifficultyName)
+
 					return <div className="">{row.original.levelOfDifficultyName}</div>
 				},
 			},
 			{
 				header: 'Season',
 				id: 'trips_season',
-				accessorKey: 'season',
+				accessorKey: 'seasonName',
 				cell: ({ row }) => {
 					return <div className="">{row.original.seasonName}</div>
 				},
@@ -92,7 +97,7 @@ function TripsTable() {
 			{
 				header: 'Durarion (days)',
 				id: 'trips_duration',
-				accessorKey: 'durationDays',
+				accessorKey: 'duration',
 				cell: ({ row }) => {
 					return <div className="">{row.original.duration}</div>
 				},
@@ -110,6 +115,7 @@ function TripsTable() {
 				accessorKey: 'trips.actions',
 				className: '',
 				id: 'actions',
+				enableGlobalFilter: false,
 				cell: ({ row }) => {
 					return (
 						<div className="bookings-table__actions">
@@ -135,15 +141,22 @@ function TripsTable() {
 	)
 
 	return (
-		<Table
-			data={data}
-			columnFilters={columnFilters}
-			pagination={pagination}
-			setData={setData}
-			setPagination={setPagination}
-			columns={columns}
-			setColumnFilters={setColumnFilters}
-		/>
+		<div>
+			<div className="mt-4 d-flex justify-content-end">
+				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search trips..." />
+			</div>
+			<Table
+				data={data}
+				columnFilters={columnFilters}
+				pagination={pagination}
+				setData={setData}
+				setPagination={setPagination}
+				columns={columns}
+				setColumnFilters={setColumnFilters}
+				globalFilter={globalFilter}
+				setGlobalFilter={setGlobalFilter}
+			/>
+		</div>
 	)
 }
 

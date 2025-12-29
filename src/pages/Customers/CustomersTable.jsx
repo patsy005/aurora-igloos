@@ -7,6 +7,7 @@ import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfir
 import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
 import Table from '../../ui/Table/Table'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import SearchInput from '../../components/SearchInput'
 
 function CustomersTable() {
 	const customers = useSelector(state => state.customers.customers)
@@ -15,6 +16,7 @@ function CustomersTable() {
 	const [data, setData] = useState(customers)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
+	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
 	const { openModal } = useModal()
 
@@ -40,7 +42,7 @@ function CustomersTable() {
 			{
 				header: 'Name',
 				id: 'customers_name',
-				accessorKey: 'name',
+				accessorFn: row => `${row.name} ${row.surname} ${row.email}`.trim(),
 				cell: ({ row }) => {
 					return (
 						<div className="bookings-table__guest">
@@ -63,7 +65,7 @@ function CustomersTable() {
 			{
 				header: 'Has account',
 				id: 'customers_hasAccount',
-				accessorKey: 'hasAccount',
+				accessorKey: 'createUser',
 				cell: ({ row }) => {
 					return <div className="customers-table__has-account">{row.original.createUser ? 'Yes' : 'No'}</div>
 				},
@@ -108,9 +110,10 @@ function CustomersTable() {
 			// },
 			{
 				header: '',
-				accessorKey: 'id',
+				accessorKey: 'actions',
 				className: '',
-				id: customers.id,
+				id: 'actions',
+				enableGlobalFilter: false,
 				cell: ({ row }) => {
 					return (
 						<div className="bookings-table__actions">
@@ -135,16 +138,22 @@ function CustomersTable() {
 		[customers, navigate]
 	)
 	return (
-		<Table
-			className={'customers-table'}
-			data={data}
-			columnFilters={columnFilters}
-			pagination={pagination}
-			setData={setData}
-			setPagination={setPagination}
-			columns={columns}
-			setColumnFilters={setColumnFilters}
-		/>
+		<>
+			<div className="mt-4 d-flex justify-content-end">
+				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search customer..." />
+			</div>
+			<Table
+				data={data}
+				columnFilters={columnFilters}
+				pagination={pagination}
+				setData={setData}
+				setPagination={setPagination}
+				columns={columns}
+				setColumnFilters={setColumnFilters}
+				globalFilter={globalFilter}
+				setGlobalFilter={setGlobalFilter}
+			/>
+		</>
 	)
 }
 

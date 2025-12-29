@@ -7,6 +7,7 @@ import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfir
 import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
 import Table from '../../ui/Table/Table'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import SearchInput from '../../components/SearchInput'
 
 function TripSeasonsTable() {
 	const tripSeasons = useSelector(state => state.tripSeasons.tripSeasons)
@@ -15,6 +16,7 @@ function TripSeasonsTable() {
 	const [data, setData] = useState(tripSeasons)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
+	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
 	const { openModal } = useModal()
 
@@ -57,6 +59,7 @@ function TripSeasonsTable() {
 				header: '',
 				accessorKey: 'tripSeasons.actions',
 				className: '',
+				enableGlobalFilter: false,
 				id: 'actions',
 				cell: ({ row }) => {
 					return (
@@ -80,15 +83,22 @@ function TripSeasonsTable() {
 	)
 
 	return (
-		<Table
-			data={data}
-			columnFilters={columnFilters}
-			pagination={pagination}
-			setData={setData}
-			setPagination={setPagination}
-			columns={columns}
-			setColumnFilters={setColumnFilters}
-		/>
+		<>
+			<div className="mt-4 d-flex justify-content-end">
+				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search trip seasons..." />
+			</div>
+			<Table
+				data={data}
+				columnFilters={columnFilters}
+				pagination={pagination}
+				setData={setData}
+				setPagination={setPagination}
+				columns={columns}
+				setColumnFilters={setColumnFilters}
+				globalFilter={globalFilter}
+				setGlobalFilter={setGlobalFilter}
+			/>
+		</>
 	)
 }
 

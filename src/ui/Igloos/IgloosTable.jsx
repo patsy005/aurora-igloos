@@ -10,6 +10,7 @@ import { useModal } from '../../contexts/modalContext'
 import IgloosForm from './IgloosForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import SearchInput from '../../components/SearchInput'
 
 function IgloosTable() {
 	const igloos = useSelector(state => state.igloos.igloos)
@@ -19,6 +20,7 @@ function IgloosTable() {
 	const [data, setData] = useState(igloos)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
+	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const { openModal } = useModal()
@@ -73,7 +75,7 @@ function IgloosTable() {
 			{
 				header: '$ per night',
 				id: 'iglooPrice',
-				accessorKey: 'price',
+				accessorKey: 'pricePerNight',
 				cell: ({ row }) => {
 					return <div className="igloos-table__price">$ {row.original.pricePerNight}</div>
 				},
@@ -132,16 +134,27 @@ function IgloosTable() {
 		[igloos, navigate, discounts]
 	) // eslint-disable-line
 	return (
-		<Table
-			className={'igloos-table'}
-			data={data}
-			columnFilters={columnFilters}
-			pagination={pagination}
-			setData={setData}
-			setPagination={setPagination}
-			columns={columns}
-			setColumnFilters={setColumnFilters}
-		/>
+		<div>
+			<div className="mt-4 d-flex justify-content-end">
+				<SearchInput
+					value={globalFilter}
+					onChange={setGlobalFilter}
+					placeholder="Search igloos..."
+				/>
+			</div>
+			<Table
+				className={'igloos-table'}
+				data={data}
+				columnFilters={columnFilters}
+				pagination={pagination}
+				setData={setData}
+				setPagination={setPagination}
+				columns={columns}
+				setColumnFilters={setColumnFilters}
+				globalFilter={globalFilter}
+				setGlobalFilter={setGlobalFilter}
+			/>
+		</div>
 	)
 }
 

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchForumPosts } from '../../slices/forumPostsSlice'
 import { useModal } from '../../contexts/modalContext'
@@ -10,6 +10,7 @@ import ForumPostsList from './ForumPostsList'
 import { selectCanManage } from '../../slices/authSlice'
 
 function ForumPosts() {
+	const [search, setSearch] = useState('')
 	const dispatch = useDispatch()
 	const forumPosts = useSelector(state => state.forumPosts.forumPosts)
 	const token = useSelector(state => state.auth.accessToken)
@@ -20,6 +21,22 @@ function ForumPosts() {
 		if (!token) return
 		dispatch(fetchForumPosts())
 	}, [token])
+
+	const filteredPosts = useMemo(() => {
+		const query = search.toLowerCase().trim()
+		if (!query) return forumPosts
+
+		return forumPosts.filter(p => {
+			const tags = (p.tags ?? '').toLowerCase()
+			const title = (p.title ?? '').toLowerCase()
+			const content = (p.postContent ?? '').toLowerCase()
+			const author = `${p.employeeName ?? ''} ${p.employeeSurname ?? ''}`.toLowerCase()
+
+			return (
+				tags.includes(query) || title.includes(query) || content.includes(query) || author.includes(query)
+			)
+		})
+	}, [forumPosts, search])
 
 	if (!forumPosts.length) return null
 
@@ -36,8 +53,8 @@ function ForumPosts() {
 			)}
 
 			<div className="forum">
-				<ForumActions />
-				<ForumPostsList posts={forumPosts} />
+				<ForumActions search={search} setSerch={setSearch} />
+				<ForumPostsList posts={filteredPosts} />
 			</div>
 		</>
 	)

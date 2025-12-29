@@ -7,6 +7,7 @@ import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfir
 import { DeleteIcon, EditIcon } from '../../ui/Icons'
 import Table from '../../ui/Table/Table'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import SearchInput from '../../components/SearchInput'
 
 function TripLevelsTable() {
 	const tripLevels = useSelector(state => state.tripLevels.tripLevels)
@@ -15,6 +16,7 @@ function TripLevelsTable() {
 	const [data, setData] = useState(tripLevels)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
+	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
 	const { openModal } = useModal()
 
@@ -56,7 +58,7 @@ function TripLevelsTable() {
 			{
 				header: 'Level Code',
 				id: 'tripLevels_levelCode',
-				accessorKey: 'levelCode',
+				accessorKey: 'level',
 				cell: ({ row }) => {
 					return <div className="trip-levels-table__level-code">{row.original.level}</div>
 				},
@@ -66,6 +68,7 @@ function TripLevelsTable() {
 				accessorKey: 'tripSeasons.actions',
 				className: '',
 				id: 'actions',
+				enableGlobalFilter: false,
 				cell: ({ row }) => {
 					return (
 						<div className="bookings-table__actions justify-content-end">
@@ -88,15 +91,22 @@ function TripLevelsTable() {
 	)
 
 	return (
-		<Table
-			data={data}
-			columnFilters={columnFilters}
-			pagination={pagination}
-			setData={setData}
-			setPagination={setPagination}
-			columns={columns}
-			setColumnFilters={setColumnFilters}
-		/>
+		<>
+			<div className="mt-4 d-flex justify-content-end">
+				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search booking..." />
+			</div>
+			<Table
+				data={data}
+				columnFilters={columnFilters}
+				pagination={pagination}
+				setData={setData}
+				setPagination={setPagination}
+				columns={columns}
+				setColumnFilters={setColumnFilters}
+				globalFilter={globalFilter}
+				setGlobalFilter={setGlobalFilter}
+			/>
+		</>
 	)
 }
 

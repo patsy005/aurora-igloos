@@ -1,7 +1,7 @@
 import ReactSelect from 'react-select'
 import SearchInput from '../../components/SearchInput'
 
-function ForumActions() {
+function ForumActions({ search, setSerch }) {
 	const sortOptions = [
 		{ value: 'all', label: 'All' },
 		{ value: 'date', label: 'Date' },
@@ -20,7 +20,7 @@ function ForumActions() {
 				/>
 			</div>
 
-			<SearchInput />
+			<SearchInput value={search} onChange={setSerch} placeholder='Search posts' />
 		</div>
 	)
 }
