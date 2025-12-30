@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { logout } from './authSlice'
+import { apiFetch } from './_fetchWithAuth'
 
 const initialState = {
 	tripSeasons: [],
@@ -14,72 +15,52 @@ export const fetchTripSeasons = createAsyncThunk('tripSeasons/fetchTripSeasons',
 	return data
 })
 
-export const addNewTripSeason = createAsyncThunk(
-	'tripSeasons/addNewTripSeason',
-	async (newTripSeason, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch('http://localhost:5212/api/TripSeason', {
+export const addNewTripSeason = createAsyncThunk('tripSeasons/addNewTripSeason', async (newTripSeason, thunkApi) => {
+	return await apiFetch(
+		'/TripSeason',
+		{
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(newTripSeason),
-		})
-
-		if (!res.ok) {
-			return rejectWithValue('Failed to add new trip season')
-		}
-
-		const data = await res.json()
-		return data
-	}
-)
+		},
+		thunkApi
+	)
+})
 
 export const editTripSeason = createAsyncThunk(
 	'tripSeasons/editTripSeason',
-	async ({ id, updatedTripSeason }, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch(`http://localhost:5212/api/TripSeason/${id}`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
+	async ({ id, updatedTripSeason }, thunkApi) => {
+		const result = await apiFetch(
+			`/TripSeason/${id}`,
+			{
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(updatedTripSeason),
 			},
-			body: JSON.stringify(updatedTripSeason),
-		})
+			thunkApi
+		)
 
-		if (!res.ok) {
-			return rejectWithValue('Failed to edit trip season')
-		}
-
-		if (res.status == 204) {
-			return { id, ...updatedTripSeason }
-		}
-
-		const data = await res.json()
-		return data
+		//  JEŚLI backend zwrócił 204 → sami składamy payload
+		return result ?? { id, ...updatedTripSeason }
 	}
 )
 
-export const deleteTripSeason = createAsyncThunk(
-	'tripSeasons/deleteTripSeason',
-	async (id, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch(`http://localhost:5212/api/TripSeason/${id}`, {
+export const deleteTripSeason = createAsyncThunk('tripSeasons/deleteTripSeason', async (id, thunkApi) => {
+	const result = await apiFetch(
+		`/TripSeason/${id}`,
+		{
 			method: 'DELETE',
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
+		},
+		thunkApi
+	)
 
-		if (!res.ok) {
-			return rejectWithValue('Failed to delete trip season')
-		}
-
-		return id
-	}
-)
+	//  JEŚLI backend zwrócił 204 → sami składamy payload
+	return result ?? id
+})
 
 const tripSeasonSlice = createSlice({
 	name: 'tripSeasons',

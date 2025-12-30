@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { logout } from './authSlice'
+import { apiFetch } from './_fetchWithAuth'
 
 const initialState = {
 	customers: [],
@@ -9,100 +10,58 @@ const initialState = {
 	myProfile: null,
 }
 
-export const fetchCustomers = createAsyncThunk('customers/fetchCustomers', async (_, { getState, rejectWithValue }) => {
-	const token = getState().auth.accessToken
-	const res = await fetch('http://localhost:5212/api/Customers', {
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
-	})
-	const data = await res.json()
-	return data
+export const fetchCustomers = createAsyncThunk('customers/fetchCustomers', async (_, thunkApi) => {
+	return await apiFetch('/Customers', {}, thunkApi)
 })
 
-export const addNewCustomer = createAsyncThunk(
-	'customers/addNewCustomer',
-	async (newCustomer, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch('http://localhost:5212/api/Customers', {
+export const addNewCustomer = createAsyncThunk('customers/addNewCustomer', async (newCustomer, thunkApi) => {
+	return await apiFetch(
+		'/Customers',
+		{
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(newCustomer),
-		})
-
-		if (!res.ok) {
-			throw rejectWithValue({ message: 'Failed to add new customer' })
-		}
-
-		const data = await res.json()
-		return data
-	}
-)
+		},
+		thunkApi
+	)
+})
 
 export const editCustomer = createAsyncThunk(
 	'customers/editCustomer',
-	async ({ id, updatedCustomer }, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch(`http://localhost:5212/api/Customers/${id}`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
+	async ({ id, updatedCustomer }, thunkApi) => {
+		return await apiFetch(
+			`/Customers/${id}`,
+			{
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(updatedCustomer),
 			},
-			body: JSON.stringify(updatedCustomer),
-		})
-
-		if (!res.ok) {
-			throw rejectWithValue({ message: 'Failed to edit customer' })
-		}
-
-		if (res.status == 204) {
-			return { id }
-		}
-
-		const data = await res.json()
-		return data
+			thunkApi
+		)
 	}
 )
 
 export const deleteCustomer = createAsyncThunk(
 	'customers/deleteCustomer',
-	async (id, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch(`http://localhost:5212/api/Customers/${id}`, {
-			method: 'DELETE',
-			headers: {
-				Authorization: `Bearer ${token}`,
+	async (id, thunkApi) => {
+		return await apiFetch(
+			`/Customers/${id}`,
+			{
+				method: 'DELETE',
 			},
-		})
-
-		if (!res.ok) {
-			throw rejectWithValue({ message: 'Failed to delete customer' })
-		}
-
-		return id
+			thunkApi
+		)
 	}
 )
 
 export const getMyCustomerProfile = createAsyncThunk(
 	'customers/getMyCustomerProfile',
-	async (_, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch(`http://localhost:5212/api/Customers/my-profile`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
-
-		if (!res.ok) {
-			throw rejectWithValue({ message: 'Failed to fetch customer profile' })
-		}
-
-		const data = await res.json()
-		return data
+	async (_, thunkApi) => {
+		return await apiFetch('/Customers/my-profile', {}, thunkApi)
 	}
 )
 

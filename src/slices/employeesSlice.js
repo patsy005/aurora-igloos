@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { logout } from './authSlice'
+import { apiFetch } from './_fetchWithAuth'
 
 const initialState = {
 	employees: [],
@@ -15,65 +16,42 @@ export const fetchEmployees = createAsyncThunk('employees/fetchEmployees', async
 	return data
 })
 
-export const addNewEmployee = createAsyncThunk('employees/addNewEmployee', async (newEmployye, {getState, rejectWithValue }) => {
-	const token = getState().auth.accessToken
-	const res = await fetch('http://localhost:5212/api/Employees', {
-		method: 'POST',
-		body: newEmployye,
-		headers: {
-			Authorization: `Bearer ${token}`,
+export const addNewEmployee = createAsyncThunk('employees/addNewEmployee', async (newEmployye, thunkApi) => {
+	return await apiFetch(
+		'/Employees',
+		{
+			method: 'POST',
+			body: newEmployye,
 		},
-	})
-
-	if (!res.ok) {
-		throw rejectWithValue({ message: 'Failed to add new employee' })
-	}
-
-	const data = await res.json()
-	return data
+		thunkApi
+	)
 })
 
-export const editEmployee = createAsyncThunk(
-	'employees/editEmployee',
-	async ({ id, updatedEmployee }, {getState, rejectWithValue }) => {
-		try {
-			const token = getState().auth.accessToken
-			const res = await fetch(`http://localhost:5212/api/Employees/${id}`, {
-				method: 'PUT',
-				body: updatedEmployee,
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
-
-			if (!res.ok) {
-				const errorBody = await res.json().catch(() => null)
-				console.error('Error response body:', errorBody)
-				return rejectWithValue(errorBody || { message: 'Failed to edit emplyoyee' })
-			}
-
-			// 204 NoContent – nie próbujemy parsować JSON-a
-			return { id }
-		} catch (err) {
-			return rejectWithValue(err.message)
-		}
-	}
-)
-
-export const deleteEmployee = createAsyncThunk('employees/deleteEmployee', async (id, {getState, rejectWithValue }) => {
-	const token = getState().auth.accessToken
-	const res = await fetch(`http://localhost:5212/api/Employees/${id}`, {
-		method: 'DELETE',
-		headers: {
-			Authorization: `Bearer ${token}`,
+export const editEmployee = createAsyncThunk('employees/editEmployee', async ({ id, updatedEmployee }, thunkApi) => {
+	const result = await apiFetch(
+		`/Employees/${id}`,
+		{
+			method: 'PUT',
+			body: updatedEmployee,
 		},
-	})
+		thunkApi
+	)
 
-	if (!res.ok) {
-		throw rejectWithValue({ message: 'Failed to delete employee' })
-	}
+	//  JEŚLI backend zwrócił 204 → sami składamy payload
+	return result ?? { id }
+})
 
-	return id
+export const deleteEmployee = createAsyncThunk('employees/deleteEmployee', async (id, thunkApi) => {
+	const result = await apiFetch(
+		`/Employees/${id}`,
+		{
+			method: 'DELETE',
+		},
+		thunkApi
+	)
+
+	//  JEŚLI backend zwrócił 204 → sami składamy payload
+	return result ?? id
 })
 
 export const employeesSlice = createSlice({

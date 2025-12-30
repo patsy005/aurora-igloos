@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { logout } from './authSlice'
+import { apiFetch } from './_fetchWithAuth'
 
 const initialState = {
 	tripLevels: [],
@@ -14,77 +15,49 @@ export const fetchTripLevel = createAsyncThunk('tripLevel/fetchTripLevel', async
 	return data
 })
 
-export const addNewTripLevel = createAsyncThunk(
-	'tripLevel/addNewTripLevel',
-	async (newTripLevel, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch('http://localhost:5212/api/TripLevel', {
+export const addNewTripLevel = createAsyncThunk('tripLevel/addNewTripLevel', async (newTripLevel, thunkApi) => {
+	return await apiFetch(
+		'/TripLevel',
+		{
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(newTripLevel),
-		})
+		},
+		thunkApi
+	)
+})
 
-		if (!res.ok) {
-			return rejectWithValue('Failed to add new trip level')
-		}
-
-		const data = await res.json()
-		return data
-	}
-)
-
-export const editTripLevel = createAsyncThunk(
-	'tripLevel/editTripLevel',
-	async ({ id, updatedTripLevel }, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch(`http://localhost:5212/api/TripLevel/${id}`, {
+export const editTripLevel = createAsyncThunk('tripLevel/editTripLevel', async ({ id, updatedTripLevel }, thunkApi) => {
+	const result = await apiFetch(
+		`/TripLevel/${id}`,
+		{
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(updatedTripLevel),
-		})
+		},
+		thunkApi
+	)
 
-		if (!res.ok) {
-			return rejectWithValue('Failed to edit trip level')
-		}
+	//  JEŚLI backend zwrócił 204 → sami składamy payload
+	return result ?? { id, ...updatedTripLevel }
+})
 
-		if (res.status == 204) {
-			return { id, ...updatedTripLevel }
-		}
-
-		const data = await res.json()
-		return data
-	}
-)
-
-export const deleteTripLevel = createAsyncThunk(
-	'tripLevel/deleteTripLevel',
-	async (id, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch(`http://localhost:5212/api/TripLevel/${id}`, {
+export const deleteTripLevel = createAsyncThunk('tripLevel/deleteTripLevel', async (id, thunkApi) => {
+	const result = await apiFetch(
+		`/TripLevel/${id}`,
+		{
 			method: 'DELETE',
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
+		},
+		thunkApi
+	)
 
-		if (!res.ok) {
-			return rejectWithValue('Failed to delete trip level')
-		}
-
-		if (res.status == 204) {
-			return { id }
-		}
-
-		const data = await res.json()
-		return data
-	}
-)
+	//  JEŚLI backend zwrócił 204 → sami składamy payload
+	return result ?? id
+})
 
 const tripLevelSlice = createSlice({
 	name: 'tripLevel',

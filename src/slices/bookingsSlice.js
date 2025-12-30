@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { logout } from './authSlice'
+import { apiFetch } from './_fetchWithAuth'
 
 const initialState = {
 	bookings: [],
@@ -8,120 +9,70 @@ const initialState = {
 	isFetching: false,
 }
 
-export const fetchBookings = createAsyncThunk('bookings/fetchBookings', async (_, { getState, rejectWithValue }) => {
-	try {
-		const token = getState().auth.accessToken
-		const res = await fetch('http://localhost:5212/api/Bookings', {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
-
-		if (!res.ok) {
-			const error = await res.text()
-			return rejectWithValue(error.message || 'Failed to fetch bookings')
-		}
-
-		const data = await res.json()
-		return data
-	} catch (e) {
-		return rejectWithValue(e.message)
-	}
+export const fetchBookings = createAsyncThunk('bookings/fetchBookings', async (_, thunkApi) => {
+	return await apiFetch('/Bookings', {}, thunkApi)
 })
 
-export const addNewBooking = createAsyncThunk(
-	'bookings/addNewBooking',
-	async (newBooking, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch('http://localhost:5212/api/Bookings', {
+export const addNewBooking = createAsyncThunk('bookings/addNewBooking', async (newBooking, thunkApi) => {
+	return await apiFetch(
+		'/Bookings',
+		{
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(newBooking),
-		})
+		},
+		thunkApi
+	)
+})
 
-		if (!res.ok) {
-			throw rejectWithValue({ message: 'Failed to add new booking' })
-		}
-
-		const data = await res.json()
-		return data
-	}
-)
-
-export const editBooking = createAsyncThunk(
-	'bookings/editBooking',
-	async ({ id, updatedBooking }, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch(`http://localhost:5212/api/Bookings/${id}`, {
+export const editBooking = createAsyncThunk('bookings/editBooking', async ({ id, updatedBooking }, thunkApi) => {
+	return await apiFetch(
+		`/Bookings/${id}`,
+		{
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(updatedBooking),
-		})
-
-		if (!res.ok) {
-			throw rejectWithValue({ message: 'Failed to edit booking' })
-		}
-
-		if (res.status == 204) {
-			return { id }
-		}
-
-		const data = await res.json()
-		return data
-	}
-)
-
-export const deleteBooking = createAsyncThunk('bookings/deleteBooking', async (id, { getState, rejectWithValue }) => {
-	const token = getState().auth.accessToken
-	const res = await fetch(`http://localhost:5212/api/Bookings/${id}`, {
-		method: 'DELETE',
-		headers: {
-			Authorization: `Bearer ${token}`,
 		},
-	})
-
-	if (!res.ok) {
-		throw rejectWithValue({ message: 'Failed to delete booking' })
-	}
-
-	if (res.status == 204) {
-		return { id }
-	}
-
-	const data = await res.json()
-	return data
+		thunkApi
+	)
 })
 
-export const fetchCustomerBookings = createAsyncThunk(
-	'bookings/fetchCustomerBookings',
-	async (_, { getState, rejectWithValue }) => {
-		try {
-			const token = getState().auth.accessToken
-			if (!token) return rejectWithValue('No token')
+export const deleteBooking = createAsyncThunk('bookings/deleteBooking', async (id, thunkApi) => {
+	return await apiFetch(
+		`/Bookings/${id}`,
+		{
+			method: 'DELETE',
+		},
+		thunkApi
+	)
+})
 
-			const res = await fetch('http://localhost:5212/api/Bookings/me', {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
+export const fetchCustomerBookings = createAsyncThunk('bookings/fetchCustomerBookings', async (_, thunkApi) => {
+	// try {
+	// 	const token = getState().auth.accessToken
+	// 	if (!token) return rejectWithValue('No token')
 
-			if (!res.ok) {
-				const msg = await res.text()
-				return rejectWithValue(msg || 'Failed to fetch customer bookings')
-			}
+	// 	const res = await fetch('http://localhost:5212/api/Bookings/me', {
+	// 		headers: {
+	// 			Authorization: `Bearer ${token}`,
+	// 		},
+	// 	})
 
-			return await res.json()
-		} catch (e) {
-			return rejectWithValue(e.message || 'Network error')
-		}
-	}
-)
+	// 	if (!res.ok) {
+	// 		const msg = await res.text()
+	// 		return rejectWithValue(msg || 'Failed to fetch customer bookings')
+	// 	}
+
+	// 	return await res.json()
+	// } catch (e) {
+	// 	return rejectWithValue(e.message || 'Network error')
+	// }
+	return await apiFetch('/Bookings/me', {}, thunkApi)
+})
 
 const bookingsSlice = createSlice({
 	name: 'bookings',

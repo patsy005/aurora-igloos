@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { logout } from './authSlice'
+import { apiFetch } from './_fetchWithAuth'
 
 const initialState = {
 	igloos: [],
@@ -14,76 +15,45 @@ export const fetchIgloos = createAsyncThunk('igloos/fetchIgloos', async () => {
 	return data
 })
 
-export const addNewIgloo = createAsyncThunk('igloos/addNewIgloo', async (newIgloo, { getState, rejectWithValue }) => {
-	const token = getState().auth.accessToken
-	const res = await fetch('http://localhost:5212/api/Igloos', {
-		method: 'POST',
-		// headers: {
-		// 	'Content-Type': 'application/json',
-		// },
-		// body: JSON.stringify(newIgloo),
-		// bo backend przyjmuje form data
-		body: newIgloo,
-		headers: {
-			Authorization: `Bearer ${token}`,
+export const addNewIgloo = createAsyncThunk('igloos/addNewIgloo', async (newIgloo, thunkApi) => {
+	return await apiFetch(
+		'/Igloos',
+		{
+			method: 'POST',
+			body: newIgloo,
 		},
-	})
-
-	if (!res.ok) {
-		throw rejectWithValue({ message: 'Failed to add new igloo' })
-	}
-
-	const data = await res.json()
-	return data
+		thunkApi
+	)
 })
 
 export const editIgloo = createAsyncThunk(
 	'igloos/editIgloo',
-	async ({ id, updatedIgloo }, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		try {
-			const res = await fetch(`http://localhost:5212/api/Igloos/${id}`, {
+	async ({ id, updatedIgloo }, thunkApi) => {
+		const result = await apiFetch(
+			`/Igloos/${id}`,
+			{
 				method: 'PUT',
 				body: updatedIgloo,
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
+			},
+			thunkApi
+		)
 
-			if (!res.ok) {
-				const errorBody = await res.json().catch(() => null)
-				console.error('Error response body:', errorBody)
-				return rejectWithValue(errorBody || { message: 'Failed to edit igloo' })
-			}
-
-			// 204 NoContent – nie próbujemy parsować JSON-a
-			return { id }
-		} catch (err) {
-			return rejectWithValue(err.message)
-		}
+		//  JEŚLI backend zwrócił 204 → sami składamy payload
+		return result ?? { id }
 	}
 )
 
-export const deleteIgloo = createAsyncThunk('igloos/deleteIgloo', async (id, { getState, rejectWithValue }) => {
-	const token = getState().auth.accessToken
-	const res = await fetch(`http://localhost:5212/api/Igloos/${id}`, {
-		method: 'DELETE',
-		headers: {
-			Authorization: `Bearer ${token}`,
+export const deleteIgloo = createAsyncThunk('igloos/deleteIgloo', async (id, thunkApi) => {
+	const result = await apiFetch(
+		`/Igloos/${id}`,
+		{
+			method: 'DELETE',
 		},
-	})
+		thunkApi
+	)
 
-	if (!res.ok) {
-		// throw rejectWithValue({ message: 'Failed to delete igloo' })
-		try {
-			const errorBody = await res.json()
-			return rejectWithValue(errorBody.message)
-		} catch {
-			return rejectWithValue('Failed to delete igloo')
-		}
-	}
-
-	return id
+	//  JEŚLI backend zwrócił 204 → sami składamy payload
+	return result ?? id
 })
 
 const igloosSlice = createSlice({

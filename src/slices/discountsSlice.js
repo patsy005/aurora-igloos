@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { logout } from './authSlice'
+import { apiFetch } from './_fetchWithAuth'
 
 const initialState = {
 	discounts: [],
@@ -15,72 +16,41 @@ export const fetchDiscounts = createAsyncThunk('discounts/fetchDiscounts', async
 	return data
 })
 
-export const addNewDiscount = createAsyncThunk(
-	'discounts/addNewDiscount',
-	async (newDiscount, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch('http://localhost:5212/api/Discounts', {
+export const addNewDiscount = createAsyncThunk('discounts/addNewDiscount', async (newDiscount, thunkApi) => {
+	return await apiFetch(
+		'/Discounts',
+		{
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(newDiscount),
-		})
+		},
+		thunkApi
+	)
+})
 
-		if (!res.ok) {
-			return rejectWithValue('Failed to add new discount')
-		}
-
-		const data = await res.json()
-		return data
-	}
-)
-
-export const editDiscount = createAsyncThunk(
-	'discounts/editDiscount',
-	async ({ id, updatedDiscount }, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch(`http://localhost:5212/api/Discounts/${id}`, {
+export const editDiscount = createAsyncThunk('discounts/editDiscount', async ({ id, updatedDiscount }, thunkApi) => {
+	const result = await apiFetch(
+		`/Discounts/${id}`,
+		{
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(updatedDiscount),
-		})
+		},
+		thunkApi
+	)
 
-		if (!res.ok) {
-			return rejectWithValue('Failed to edit discount')
-		}
+	//  JEŚLI backend zwrócił 204 → sami składamy payload
+	return result ?? { id, ...updatedDiscount }
+})
 
-		if (res.status == 204) {
-			return { id, ...updatedDiscount }
-		}
-
-		const data = await res.json()
-		return data
-	}
-)
-
-export const deleteDiscount = createAsyncThunk(
-	'discounts/deleteDiscount',
-	async (id, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch(`http://localhost:5212/api/Discounts/${id}`, {
-			method: 'DELETE',
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
-
-		if (!res.ok) {
-			return rejectWithValue('Failed to delete discount')
-		}
-
-		return id
-	}
-)
+export const deleteDiscount = createAsyncThunk('discounts/deleteDiscount', async (id, thunkApi) => {
+	await apiFetch(`/Discounts/${id}`, { method: 'DELETE' }, thunkApi)
+	return id
+})
 
 const discountsSlice = createSlice({
 	name: 'discounts',

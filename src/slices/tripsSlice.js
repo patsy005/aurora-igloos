@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { logout } from './authSlice'
+import { apiFetch } from './_fetchWithAuth'
 
 const initialState = {
 	trips: [],
@@ -15,73 +16,42 @@ export const fetchTrips = createAsyncThunk('trips/fetchTrips', async () => {
 	return data
 })
 
-export const addNewTrip = createAsyncThunk('trips/addNewTrip', async (newTrip, { getState, rejectWithValue }) => {
-	const token = getState().auth.accessToken
-	const res = await fetch('http://localhost:5212/api/Trip', {
-		method: 'POST',
-		headers: {
-			Authorization: `Bearer ${token}`,
+export const addNewTrip = createAsyncThunk('trips/addNewTrip', async (newTrip, thunkApi) => {
+	return await apiFetch(
+		'/Trip',
+		{
+			method: 'POST',
+			body: newTrip,
 		},
-		// headers: {
-		// 	'Content-Type': 'application/json',
-		// },
-		// body: JSON.stringify(newTrip),
-		body: newTrip,
-	})
-
-	if (!res.ok) {
-		throw rejectWithValue({ message: 'Failed to add new trip' })
-	}
-
-	const data = await res.json()
-	return data
+		thunkApi
+	)
 })
 
-export const editTrip = createAsyncThunk(
-	'trips/editTrip',
-	async ({ id, updatedTrip }, { getState, rejectWithValue }) => {
-		try {
-			const token = getState().auth.accessToken
-			const res = await fetch(`http://localhost:5212/api/Trip/${id}`, {
-				method: 'PUT',
-				// headers: {
-				// 	'Content-Type': 'application/json',
-				// },
-				// body: JSON.stringify(updatedTrip),
-				body: updatedTrip,
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
-
-			if (!res.ok) {
-				const errorBody = await res.json().catch(() => null)
-				console.error('Error response body:', errorBody)
-				return rejectWithValue(errorBody || { message: 'Failed to edit trip' })
-			}
-
-			// 204 NoContent – nie próbujemy parsować JSON-a
-			return { id }
-		} catch (err) {
-			return rejectWithValue(err.message)
-		}
-	}
-)
-
-export const deleteTrip = createAsyncThunk('trips/deleteTrip', async (id, { getState, rejectWithValue }) => {
-	const token = getState().auth.accessToken
-	const res = await fetch(`http://localhost:5212/api/Trip/${id}`, {
-		method: 'DELETE',
-		headers: {
-			Authorization: `Bearer ${token}`,
+export const editTrip = createAsyncThunk('trips/editTrip', async ({ id, updatedTrip }, thunkApi) => {
+	const result = await apiFetch(
+		`/Trip/${id}`,
+		{
+			method: 'PUT',
+			body: updatedTrip,
 		},
-	})
+		thunkApi
+	)
 
-	if (!res.ok) {
-		return rejectWithValue('Failed to delete trip')
-	}
+	//  JEŚLI backend zwrócił 204 → sami składamy payload
+	return result ?? { id }
+})
 
-	return id
+export const deleteTrip = createAsyncThunk('trips/deleteTrip', async (id, thunkApi) => {
+	const result = await apiFetch(
+		`/Trip/${id}`,
+		{
+			method: 'DELETE',
+		},
+		thunkApi
+	)
+
+	//  JEŚLI backend zwrócił 204 → sami składamy payload
+	return result ?? id
 })
 
 const tripsSlice = createSlice({
