@@ -24,6 +24,7 @@ import ForumView from './ui/Forum/ForumView'
 import ForumCommentsList from './pages/forum/forumComments/ForumCommentsList'
 import Login from './pages/login/Login'
 import ProtectedRoute from './pages/protectedRoute/ProtectedRoute'
+import ForumCategories from './pages/forum/forumCategories/ForumCategories'
 
 const router = createBrowserRouter([
 	{
@@ -116,6 +117,10 @@ const router = createBrowserRouter([
 			{
 				path: '/trip-levels',
 				element: <TripLevels />,
+			},
+			{
+				path: '/forum-categories',
+				element: <ForumCategories />,
 			},
 		],
 	},

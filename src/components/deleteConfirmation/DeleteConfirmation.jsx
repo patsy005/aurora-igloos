@@ -7,13 +7,16 @@ import { deleteDiscount } from '../../slices/discountsSlice'
 import { deleteEmployee } from '../../slices/employeesSlice'
 import { useModal } from '../../contexts/modalContext'
 import { deleteCustomer } from '../../slices/customersSLice'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { deleteTrip } from '../../slices/tripsSlice'
 import { deleteTripSeason } from '../../slices/tripSeasonSlice'
 import { deleteTripLevel } from '../../slices/tripLevelSlice'
 import { deleteBooking } from '../../slices/bookingsSlice'
+import { deleteForumCategory } from '../../slices/forumCategorySlice'
+import { deleteForumComment, fetchForumComments } from '../../slices/forumCommentSlice'
 
 function DeleteConfirmation({ itemToDelete, category }) {
+	const { postId } = useParams()
 	const dispath = useDispatch()
 	const location = useLocation()
 	const navigate = useNavigate()
@@ -119,6 +122,29 @@ function DeleteConfirmation({ itemToDelete, category }) {
 					.catch(message => {
 						toast.error(message)
 						closeModalHandler()
+					})
+				break
+			case 'forum-category':
+				dispath(deleteForumCategory(itemToDelete.id))
+					.unwrap()
+					.then(() => closeModalHandler())
+					.then(() => toast.success('Forum category deleted successfully'))
+					.then(() => navigate('/forum-categories'))
+					.catch(message => {
+						toast.error(message)
+						closeModalHandler()
+					})
+				break
+			case 'forum-comment':
+				dispath(deleteForumComment(itemToDelete.id))
+					.unwrap()
+					.then(() => closeModalHandler())
+					.then(() => toast.success('Forum comment deleted successfully'))
+					.then(() => navigate(`/forum-comments/${postId}`))
+					.catch(message => {
+						toast.error(message)
+						closeModalHandler()
+						dispath(fetchForumComments())
 					})
 				break
 		}

@@ -1,24 +1,49 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import ForumCommentItem from './ForumCommentItem'
 import SectionHeading from '../../../components/SectionHeading'
 import { GoBackIcon } from '../../../ui/Icons'
+import { selectCanManage } from '../../../slices/authSlice'
+import { useModal } from '../../../contexts/modalContext'
+import Button from '../../../components/Button'
+import ForumCommentForm from './ForumCommentForm'
+import { useEffect } from 'react'
+import { fetchForumPosts } from '../../../slices/forumPostsSlice'
 
 function ForumCommentsList() {
 	const { postId } = useParams()
 	const posts = useSelector(state => state.forumPosts.forumPosts)
-	const postComments = posts.find(p => p.id === +postId).forumComment
-	const postTitle = posts.find(p => p.id === +postId).title
+
+	const canManage = useSelector(selectCanManage)
+
 	const navigate = useNavigate()
+	const { openModal } = useModal()
+	const dispatch = useDispatch()
 
-	if (!postComments) return <div>No comments found. </div>
+	useEffect(() => {
+		dispatch(fetchForumPosts())
+	}, [])
 
-	console.log(postComments)
+	const post = posts.find(p => p.id === +postId)
+
+	if (!post) return <div>Post not found.</div>
+
+	const postComments = post.forumComment
+	const postTitle = post.title
+
+	const openAddCommentModal = () => {
+		openModal(ForumCommentForm, { postId: +postId })
+	}
 	return (
 		<div className="d-flex flex-column gap-3 mt-4">
 			<span onClick={() => navigate(-1)} className="go-back">
 				<GoBackIcon />
 			</span>
+			{canManage && (
+				<div className="text-end">
+					<Button onClick={openAddCommentModal}>Add Comment</Button>
+				</div>
+			)}
 			<div className="comments-thread">
 				<p className="thread-label">Discussion</p>
 				<h2 className="thread-title">{postTitle}</h2>

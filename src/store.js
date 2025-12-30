@@ -14,6 +14,8 @@ import tripLevelSlice from './slices/tripLevelSlice'
 import tripSeasonSlice from './slices/tripSeasonSlice'
 import paymentMethodSlice from './slices/paymentMethodSlice'
 import forumPostsSlice from './slices/forumPostsSlice'
+import forumCategorySlice from './slices/forumCategorySlice'
+import forumCommentSlice from './slices/forumCommentSlice'
 import authSlice from './slices/authSlice'
 
 const store = configureStore({
@@ -33,6 +35,8 @@ const store = configureStore({
 		tripSeasons: tripSeasonSlice,
 		paymentMethods: paymentMethodSlice,
 		forumPosts: forumPostsSlice,
+		forumCategories: forumCategorySlice,
+		forumComments: forumCommentSlice,
 		auth: authSlice,
 	},
 })

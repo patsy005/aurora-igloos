@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { logout } from './authSlice'
+import { apiFetch } from './_fetchWithAuth'
 
 const initialState = {
 	forumPosts: [],
@@ -7,87 +8,50 @@ const initialState = {
 	isFetching: false,
 }
 
-export const fetchForumPosts = createAsyncThunk(
-	'forumPosts/fetchForumPosts',
-	async (_, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch('http://localhost:5212/api/ForumPosts', {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
-		const data = await res.json()
-		console.log(data)
-		return data
-	}
-)
+export const fetchForumPosts = createAsyncThunk('forumPosts/fetchForumPosts', async (_, thunkApi) => {
+	return await apiFetch('/ForumPosts', {}, thunkApi)
+})
 
-export const addNewForumPost = createAsyncThunk(
-	'forumPosts/addNewForumPost',
-	async (newForumPost, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch('http://localhost:5212/api/ForumPosts', {
+export const addNewForumPost = createAsyncThunk('forumPosts/addNewForumPost', async (newForumPost, thunkApi) => {
+	return await apiFetch(
+		'/ForumPosts',
+		{
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(newForumPost),
-		})
-
-		if (!res.ok) {
-			return rejectWithValue('Failed to add new forum post')
-		}
-
-		const data = await res.json()
-		return data
-	}
-)
+		},
+		thunkApi
+	)
+})
 
 export const editForumPost = createAsyncThunk(
 	'forumPosts/editForumPost',
-	async ({ id, updatedForumPost }, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch(`http://localhost:5212/api/ForumPosts/${id}`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
+	async ({ id, updatedForumPost }, thunkApi) => {
+		return await apiFetch(
+			`/ForumPosts/${id}`,
+			{
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(updatedForumPost),
 			},
-			body: JSON.stringify(updatedForumPost),
-		})
-
-		if (!res.ok) {
-			return rejectWithValue('Failed to edit forum post')
-		}
-
-		if (res.status == 204) {
-			return { id, ...updatedForumPost }
-		}
-
-		const data = await res.json()
-		return data
+			thunkApi
+		)
 	}
 )
 
-export const deleteForumPost = createAsyncThunk(
-	'forumPosts/deleteForumPost',
-	async (id, { getState, rejectWithValue }) => {
-		const token = getState().auth.accessToken
-		const res = await fetch(`http://localhost:5212/api/ForumPosts/${id}`, {
+export const deleteForumPost = createAsyncThunk('forumPosts/deleteForumPost', async (id, thunkApi) => {
+	return await apiFetch(
+		`/ForumPosts/${id}`,
+		{
 			method: 'DELETE',
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
-
-		if (!res.ok) {
-			return rejectWithValue('Failed to delete forum post')
-		}
-
-		return id
-	}
-)
+		},
+		thunkApi
+	)
+})
 
 const forumPostsSlice = createSlice({
 	name: 'forumPosts',
