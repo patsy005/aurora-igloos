@@ -41,6 +41,7 @@ function BookingsForm() {
 		setValue,
 		control,
 		watch,
+		setError,
 		formState: { errors, isLoading: isFormLoading },
 	} = useForm({
 		defaultValues: {
@@ -100,6 +101,16 @@ function BookingsForm() {
 		if (!customers.length) return null
 		return findExistingCustomerByEmail(customers, customerEmail)
 	}, [customers, customerEmail])
+
+	const selectedIglooId = watch('idIgloo')
+	const selectedIgloo = useMemo(() => {
+		if (!selectedIglooId) return null
+		return igloos.find(i => i.id === +selectedIglooId) || null
+	}, [igloos, selectedIglooId])
+
+	const capacity = useMemo(() => {
+		return selectedIgloo?.capacity ?? null
+	}, [selectedIgloo])
 
 	const iglooOptions = useMemo(
 		() => [{ value: '', label: 'Select igloo' }, ...igloos.map(igloo => ({ value: igloo.id, label: igloo.name }))],
@@ -186,8 +197,9 @@ function BookingsForm() {
 					handleCloseModal()
 				})
 				.then(() => dispatch(fetchBookings()))
-				.catch(() => {
+				.catch(err => {
 					toast.error('Failed to edit booking')
+					setError('formError', { type: 'server', message: err.message })
 				})
 		} else {
 			dispatch(addNewBooking(newBooking))
@@ -197,8 +209,9 @@ function BookingsForm() {
 					handleCloseModal()
 				})
 				.then(() => dispatch(fetchBookings()))
-				.catch(() => {
+				.catch(err => {
 					toast.error('Failed to add booking')
+					setError('formError', { type: 'server', message: err.message })
 				})
 		}
 	}
@@ -515,7 +528,7 @@ function BookingsForm() {
 				<Controller
 					name="paymentMethodId"
 					control={control}
-					rules={{ required: false }}
+					rules={{ required: 'Payment method is required' }}
 					render={({ field: { onChange, value } }) => (
 						<SelectComponent
 							id="paymentMethodId"
@@ -537,7 +550,26 @@ function BookingsForm() {
 						type="number"
 						id="guests"
 						className={`input ${errors.guests ? 'input-error' : ''}`}
-						{...register('guests', { min: { value: 1, message: 'Min 1 guest' } })}
+						{...register('guests', {
+							min: { value: 1, message: 'Min 1 guest' },
+							validate: value => {
+								const numValue = parseInt(value, 10)
+								console.log('Validation debug:', {
+									value,
+									numValue,
+									showIgloo,
+									capacity,
+									selectedIglooId,
+									selectedIgloo,
+								})
+								if (!showIgloo) return true
+								if (!capacity) return true
+								if (numValue > capacity) {
+									return `Max ${capacity} guests for selected igloo`
+								}
+								return true
+							},
+						})}
 					/>
 				</FormBox>
 			</div>
@@ -608,7 +640,7 @@ function BookingsForm() {
 										<ReactDatePicker
 											className={`input form-control ${errors.dates ? 'input-error' : ''}`}
 											dateFormat="dd.MM.yyyy"
-											minDate={new Date()}
+											minDate={checkIn}
 											shouldCloseOnSelect={true}
 											// selectsRange={false}
 											onChange={onCheckOutDateChange}
@@ -660,6 +692,11 @@ function BookingsForm() {
 					</div>
 				</FormBox>
 			)}
+
+
+			<div className={`form__box col-12 mt-4`}>
+				{errors?.formError?.message && <p className="error-msg">{errors?.formError?.message}</p>}
+			</div>
 
 			<div className="d-flex justify-content-end text-end form-btns">
 				<Button
