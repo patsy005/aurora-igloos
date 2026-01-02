@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import BookingChart from './BookingChart'
+import BookingChart from '../booking-chart/BookingChart'
 
 function SalesChart() {
 	const months = useSelector(state => state.dashboard.salesMonths)

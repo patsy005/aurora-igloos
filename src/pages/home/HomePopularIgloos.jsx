@@ -1,4 +1,4 @@
-import IgloosCarousel from './IgloosCarousel'
+import IgloosCarousel from '../../components/igloos-carousel/IgloosCarousel'
 
 function HomePopularIgloos() {
 	return (

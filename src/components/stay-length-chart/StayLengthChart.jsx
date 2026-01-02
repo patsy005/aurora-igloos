@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { fetchBookings } from '../../slices/bookingsSlice'
 
-function StayLenghtChart() {
+function StayLengthChart() {
 	const bookings = useSelector(state => state.bookings.bookings)
 	const dispatch = useDispatch()
 
@@ -82,4 +82,4 @@ function StayLenghtChart() {
 	)
 }
 
-export default StayLenghtChart
+export default StayLengthChart

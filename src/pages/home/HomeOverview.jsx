@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BookingsIcon, CheckinsIcon, OccupancyRateIcon } from '../Icons'
-import SelectComponent from '../../components/select/SelectComponent'
-import OverviewCard from './OverviewCard'
-import SectionHeading from '../../components/SectionHeading'
-import StayLenghtChart from './StayLenghtChart'
 import { fetchDashboardStats } from '../../slices/dashboardSlice'
+import SectionHeading from '../../components/SectionHeading'
+import SelectComponent from '../../components/select/SelectComponent'
+import OverviewCard from '../../components/overview-card/OverviewCard'
+import { BookingsIcon, CheckinsIcon, OccupancyRateIcon } from '../../ui/Icons'
+import StayLengthChart from '../../components/stay-length-chart/StayLengthChart'
 
 function HomeOverview({ user }) {
 	const dispatch = useDispatch()
@@ -25,10 +25,8 @@ function HomeOverview({ user }) {
 	)
 
 	console.log(stats)
-	// 🔥 state trzyma tylko liczbę, bo Twój SelectComponent zwraca e.value
 	const [days, setDays] = useState(30)
 
-	// 🔥 react-select value musi być obiektem z options
 	const selectedOption = useMemo(() => options.find(o => o.value === days) ?? options[2], [options, days])
 
 	useEffect(() => {
@@ -55,8 +53,8 @@ function HomeOverview({ user }) {
 						className={`react-select }`}
 						classNamePrefix="react-select"
 						options={options}
-						value={selectedOption} // ✅ obiekt, bo react-select tego wymaga
-						onChangeFn={val => setDays(Number(val))} // ✅ val = e.value z Twojego wrappera
+						value={selectedOption}
+						onChangeFn={val => setDays(Number(val))}
 						isDisabled={isLoadingStats}
 					/>
 				</div>
@@ -86,7 +84,7 @@ function HomeOverview({ user }) {
 			<div className="d-flex pie-charts section-margin">
 				<div className="overview section-box stay-length-pie-box">
 					<h3>Stay duration summary</h3>
-					<StayLenghtChart />
+					<StayLengthChart />
 				</div>
 			</div>
 		</section>
