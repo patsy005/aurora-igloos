@@ -7,7 +7,7 @@ import { addNewForumPost, editForumPost, fetchForumPosts } from '../../slices/fo
 import { selectEmployeeIdByUserId } from '../../slices/employeesSlice'
 import { fetchForumCategories } from '../../slices/forumCategorySlice'
 import toast from 'react-hot-toast'
-import FormBox from '../../ui/Form/FormBox'
+import FormBox from '../../components/Form/FormBox'
 import Button from '../../components/Button'
 import SelectComponent from '../../components/select/SelectComponent'
 import { fetchMe, selectUser } from '../../slices/authSlice'
@@ -30,7 +30,7 @@ function ForumPostForm() {
 		setValue,
 		setError,
 		control,
-		formState: { errors, isLoading: isFormLoading },
+		formState: { errors, isSubmitting: isFormLoading },
 	} = useForm({
 		defaultValues: {
 			idEmployee: null,
@@ -118,7 +118,7 @@ function ForumPostForm() {
 		setValue('idEmployee', post.idEmployee)
 		setValue('title', post.title)
 		setValue('postContent', post.postContent)
-        setValue('categoryId', post.categoryId)
+		setValue('categoryId', post.categoryId)
 		setValue('tags', post.tags)
 		setValue('postDate', parseDateOnly(post.postDate))
 	}, [postToEdit, setValue, forumPosts])
@@ -225,9 +225,9 @@ function ForumPostForm() {
 					Cancel
 				</Button>
 				<Button type="submit">
-                    {isFormLoading && <Spinner className="form" />}
-                    {!isFormLoading && (postToEdit?.id ? 'Edit Post' : 'Add Post')}
-                </Button>
+					{isFormLoading && <Spinner className="form" />}
+					{!isFormLoading && (postToEdit?.id ? 'Edit Post' : 'Add Post')}
+				</Button>
 			</div>
 		</form>
 	)

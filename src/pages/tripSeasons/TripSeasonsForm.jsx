@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { addNewTripSeason, editTripSeason, fetchTripSeasons } from '../../slices/tripSeasonSlice'
 import toast from 'react-hot-toast'
 import { useEffect } from 'react'
-import FormBox from '../../ui/Form/FormBox'
+import FormBox from '../../components/Form/FormBox'
 import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
 
@@ -19,7 +19,7 @@ function TripSeasonsForm() {
 		handleSubmit,
 		control,
 		setValue,
-		formState: { errors, isLoading: isFormLoading },
+		formState: { errors, isSubmitting: isFormLoading },
 	} = useForm({
 		defaultValues: {
 			name: tripSeasonToEdit.id ? tripSeasons.find(season => season.id === +tripSeasonToEdit.id).name : '',

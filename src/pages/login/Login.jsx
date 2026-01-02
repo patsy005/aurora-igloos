@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { login } from '../../slices/authSlice'
-import FormBox from '../../ui/Form/FormBox'
+import FormBox from '../../components/Form/FormBox'
 import Button from '../../components/Button'
 
 function Login() {

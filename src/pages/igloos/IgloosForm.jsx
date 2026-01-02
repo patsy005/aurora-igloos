@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { addNewIgloo, editIgloo, fetchIgloos } from '../../slices/igloosSlice'
 import toast from 'react-hot-toast'
 import { useEffect } from 'react'
-import FormBox from '../../ui/Form/FormBox'
+import FormBox from '../../components/Form/FormBox'
 import SelectComponent from '../../components/select/SelectComponent'
 import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
@@ -25,7 +25,7 @@ function IgloosForm() {
 		handleSubmit,
 		setValue,
 		control,
-		formState: { errors, isLoading: isFormLoading },
+		formState: { errors, isSubmitting: isFormLoading },
 	} = useForm({
 		defaultValues: {
 			name: iglooToEdit.id ? igloos.find(igloo => igloo.id === +iglooToEdit.id).name : '',

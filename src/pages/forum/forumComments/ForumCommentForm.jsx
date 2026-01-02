@@ -6,7 +6,7 @@ import { useEffect, useMemo } from 'react'
 import { addNewForumComment, editForumComment, fetchForumComments } from '../../../slices/forumCommentSlice'
 import { formatDateOnly } from '../../../utils/utils'
 import toast from 'react-hot-toast'
-import FormBox from '../../../ui/Form/FormBox'
+import FormBox from '../../../components/Form/FormBox'
 import Button from '../../../components/Button'
 import { fetchForumPosts } from '../../../slices/forumPostsSlice'
 import Spinner from '../../../components/spinner/Spinner'
@@ -29,7 +29,7 @@ function ForumCommentForm() {
 		setValue,
 		setError,
 		control,
-		formState: { errors, isLoading: isFormLoading },
+		formState: { errors, isSubmitting: isFormLoading },
 	} = useForm({
 		defaultValues: {
 			idPost: postId,
@@ -42,7 +42,7 @@ function ForumCommentForm() {
 	useEffect(() => {
 		if (!token) return
 		dispatch(fetchMe())
-	}, [])
+	}, [token, dispatch])
 
 	useEffect(() => {
 		dispatch(fetchForumComments())
@@ -86,13 +86,11 @@ function ForumCommentForm() {
 	}
 
 	useEffect(() => {
-		if (!postId && !commentToEdit?.id) return
+		if (!postId || !commentToEdit?.id) return
 
 		const comment = forumComments.find(c => c.id === commentToEdit.id && c.idPost === postId)
-		if (comment) {
-			setValue('comment', comment.comment)
-		}
-	}, [postId, commentToEdit, forumComments, setValue])
+		if (comment) setValue('comment', comment.comment)
+	}, [postId, commentToEdit?.id, forumComments, setValue])
 
 	if (!postId) return null
 

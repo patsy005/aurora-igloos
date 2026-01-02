@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { addNewEmployee, editEmployee, fetchEmployees } from '../../slices/employeesSlice'
 import toast from 'react-hot-toast'
 import { useEffect } from 'react'
-import FormBox from '../../ui/Form/FormBox'
+import FormBox from '../../components/Form/FormBox'
 import SelectComponent from '../../components/select/SelectComponent'
 import Button from '../../components/Button'
 import { useModal } from '../../contexts/modalContext'
@@ -38,7 +38,7 @@ function EmployeesForm() {
 		handleSubmit,
 		control,
 		setValue,
-		formState: { errors, isValid, isLoading: isFormLoading },
+		formState: { errors, isValid, isSubmitting: isFormLoading },
 	} = useForm({
 		defaultValues: {
 			name: employeeToEdit.id ? employees.find(emp => emp.id === +employeeToEdit.id).name : '',

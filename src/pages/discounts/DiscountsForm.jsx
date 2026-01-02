@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { addNewDiscount, editDiscount } from '../../slices/discountsSlice'
 import toast from 'react-hot-toast'
-import FormBox from '../../ui/Form/FormBox'
+import FormBox from '../../components/Form/FormBox'
 import ReactDatePicker from 'react-datepicker'
 import { DatePickerIcon } from '../../ui/Icons'
 import Button from '../../components/Button'
@@ -45,7 +45,7 @@ function DiscountsForm() {
 		handleSubmit,
 		setValue,
 		control,
-		formState: { errors, isLoading: isFormLoading },
+		formState: { errors, isSubmitting: isFormLoading },
 	} = useForm({
 		defaultValues: {
 			name: discountToEdit.id ? discounts.find(discount => discount.id === +discountToEdit.id).name : '',

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { addNewCustomer, editCustomer, fetchCustomers } from '../../slices/customersSLice'
 import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
-import FormBox from '../../ui/Form/FormBox'
+import FormBox from '../../components/Form/FormBox'
 import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
 
@@ -22,7 +22,7 @@ function CustomersForm() {
 		control,
 		setValue,
 		watch,
-		formState: { errors, isValid, isLoading: isFormLoading },
+		formState: { errors, isValid, isSubmitting: isFormLoading },
 	} = useForm({
 		defaultValues: {
 			name: customerToEdit.id ? customers.find(emp => emp.id === +customerToEdit.id).name : '',
@@ -77,7 +77,12 @@ function CustomersForm() {
 		}
 
 		if (customerToEdit.id) {
-			dispatch(editCustomer({ id: customerToEdit.id, updatedCustomer: { ...newCustomer, id: customerToEdit.id, login: data.login, password: data.password } }))
+			dispatch(
+				editCustomer({
+					id: customerToEdit.id,
+					updatedCustomer: { ...newCustomer, id: customerToEdit.id, login: data.login, password: data.password },
+				})
+			)
 				.unwrap()
 				.then(() => {
 					toast.success('Customer edited successfully')

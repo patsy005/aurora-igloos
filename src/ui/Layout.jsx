@@ -1,11 +1,9 @@
 import { Outlet } from 'react-router-dom'
-import Nav from './Nav/Nav'
+import Nav from '../components/Nav/Nav'
 import Header from '../components/Header'
-import data from '../../public/data.json'
 import Footer from '../components/Footer'
 import { Toaster } from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectIsModalOpen, selectModalProps } from '../slices/modalSlice'
 import { fetchMe, selectUser } from '../slices/authSlice'
 import { useEffect } from 'react'
 
@@ -18,7 +16,6 @@ function Layout() {
 	useEffect(() => {
 		if (token) dispatch(fetchMe())
 	}, [])
-
 
 	return (
 		<div className="row">

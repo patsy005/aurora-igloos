@@ -6,7 +6,7 @@ import { findExistingCustomerByEmail, formatDateOnly, isBetweenDates, parseDateO
 import { addNewCustomer, fetchCustomers } from '../../slices/customersSLice'
 import { addNewBooking, editBooking, fetchBookings } from '../../slices/bookingsSlice'
 import toast from 'react-hot-toast'
-import FormBox from '../../ui/Form/FormBox'
+import FormBox from '../../components/Form/FormBox'
 import SelectComponent from '../../components/select/SelectComponent'
 import ReactDatePicker from 'react-datepicker'
 import { DatePickerIcon } from '../../ui/Icons'
@@ -43,7 +43,7 @@ function BookingsForm() {
 		control,
 		watch,
 		setError,
-		formState: { errors, isLoading: isFormLoading },
+		formState: { errors, isSubmitting: isFormLoading },
 	} = useForm({
 		defaultValues: {
 			bookingType: 'igloo',

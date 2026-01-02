@@ -8,7 +8,7 @@ import {
 	PromoIcon,
 	TripIcon,
 	UsersIcon,
-} from '../Icons'
+} from '../../ui/Icons'
 
 function NavLinkBox({ to, page }) {
 	return (

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { addNewForumCategory, editForumCategory, fetchForumCategories } from '../../../slices/forumCategorySlice'
 import toast from 'react-hot-toast'
 import { useEffect } from 'react'
-import FormBox from '../../../ui/Form/FormBox'
+import FormBox from '../../../components/Form/FormBox'
 import Spinner from '../../../components/spinner/Spinner'
 
 function ForumCategoriesForm() {
@@ -19,7 +19,7 @@ function ForumCategoriesForm() {
 		register,
 		handleSubmit,
 		setValue,
-		formState: { errors, isLoading: isFormLoading },
+		formState: { errors, isSubmitting: isFormLoading },
 	} = useForm({
 		defaultValues: {
 			name: '',

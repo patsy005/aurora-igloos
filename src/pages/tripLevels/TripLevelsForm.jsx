@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { addNewTripLevel, editTripLevel, fetchTripLevel } from '../../slices/tripLevelSlice'
 import toast from 'react-hot-toast'
 import { useEffect } from 'react'
-import FormBox from '../../ui/Form/FormBox'
+import FormBox from '../../components/Form/FormBox'
 import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
 
@@ -19,7 +19,7 @@ function TripLevelsForm() {
 		handleSubmit,
 		control,
 		setValue,
-		formState: { errors, isLoading: isFormLoading },
+		formState: { errors, isSubmitting: isFormLoading },
 	} = useForm({
 		defaultValues: {
 			name: tripLevelToEdit.id ? tripLevels.find(level => level.id === +tripLevelToEdit.id).name : '',
@@ -38,13 +38,13 @@ function TripLevelsForm() {
 		}
 
 		if (tripLevelToEdit.id) {
-			dispatch(editTripLevel({ id: tripLevelToEdit.id, updatedTripLevel: {id: tripLevelToEdit.id, ...newTripLevel} }))
+			dispatch(editTripLevel({ id: tripLevelToEdit.id, updatedTripLevel: { id: tripLevelToEdit.id, ...newTripLevel } }))
 				.unwrap()
 				.then(() => {
 					toast.success('Trip level edited successfully')
 					handleCloseModal()
 				})
-                .then(() => dispatch(fetchTripLevel()))
+				.then(() => dispatch(fetchTripLevel()))
 				.catch(err => {
 					console.error('Failed to edit trip level: ', err)
 				})
@@ -55,7 +55,7 @@ function TripLevelsForm() {
 					toast.success('Trip level added successfully')
 					handleCloseModal()
 				})
-                .then(() => dispatch(fetchTripLevel()))
+				.then(() => dispatch(fetchTripLevel()))
 				.catch(err => {
 					console.error('Failed to add trip level: ', err)
 				})

@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { addNewTrip, editTrip, fetchTrips } from '../../slices/tripsSlice'
 import toast from 'react-hot-toast'
 import { useEffect } from 'react'
-import FormBox from '../../ui/Form/FormBox'
+import FormBox from '../../components/Form/FormBox'
 import SelectComponent from '../../components/select/SelectComponent'
 import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
@@ -26,7 +26,7 @@ function TripsForm() {
 		handleSubmit,
 		control,
 		setValue,
-		formState: { errors, isLoading: isFormLoading },
+		formState: { errors, isSubmitting: isFormLoading },
 	} = useForm({
 		defaultValues: {
 			name: tripToEdit.id ? trips.find(trip => trip.id === +tripToEdit.id).name : '',
