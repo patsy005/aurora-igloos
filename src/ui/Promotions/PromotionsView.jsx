@@ -8,12 +8,14 @@ import { useEffect } from 'react'
 import { fetchDiscounts } from '../../slices/discountsSlice'
 import { fetchIgloos } from '../../slices/igloosSlice'
 import { selectCanManage } from '../../slices/authSlice'
+import Spinner from '../../components/spinner/Spinner'
 
 function PromotionsView() {
 	const dispatch = useDispatch()
 	const discounts = useSelector(state => state.discounts.discounts)
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
+	const isFetchingDiscounts = useSelector(state => state.discounts.isFetchingDiscounts)
 	const { openModal } = useModal()
 
 	useEffect(() => {
@@ -27,6 +29,8 @@ function PromotionsView() {
 	const openAddDiscountModal = () => {
 		openModal(PromoForm)
 	}
+
+	if (isFetchingDiscounts) return <Spinner className="page" />
 
 	return (
 		<>

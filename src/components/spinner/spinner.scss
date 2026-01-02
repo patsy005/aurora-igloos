@@ -1,0 +1,53 @@
+.spinnerContainer {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	&__form {
+		width: 100%;
+	}
+
+	&__page {
+		height: 100vh;
+	}
+}
+
+.spinner {
+	border-radius: 50%;
+	animation: rotate 1.4s infinite linear;
+
+	&__page {
+		width: 6rem;
+		height: 6rem;
+
+		background: conic-gradient(
+			from 0deg,
+			$primary-19 0%,
+			$primary-37 30%,
+			$primary-67 55%,
+			$primary-97 70%,
+			$primary-37 85%,
+			$primary-19 100%
+		);
+
+		-webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 0);
+		mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 0);
+	}
+
+	&__form {
+		width: 2rem;
+		height: 2rem;
+
+		background: conic-gradient(from 0deg, $primary-37 0%, $primary-67 45%, $primary-97 70%, $primary-37 100%);
+
+		-webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 0);
+		mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 0);
+	}
+}
+
+@keyframes rotate {
+	to {
+		transform: rotate(1turn);
+	}
+}

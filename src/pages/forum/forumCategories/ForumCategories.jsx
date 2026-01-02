@@ -9,12 +9,14 @@ import ForumCategoriesTable from './ForumCategoriesTable'
 import ForumCategoriesForm from './ForumCategoriesForm'
 import { useNavigate } from 'react-router-dom'
 import { GoBackIcon } from '../../../ui/Icons'
+import Spinner from '../../../components/spinner/Spinner'
 
 function ForumCategories() {
 	const dispatch = useDispatch()
 	const forumCategories = useSelector(state => state.forumCategories.forumCategories)
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
+	const isFetching = useSelector(state => state.forumCategories.isFetching)
 	const { openModal } = useModal()
 	const navigate = useNavigate()
 
@@ -28,6 +30,9 @@ function ForumCategories() {
 	const openAddForumCategoryModal = () => {
 		openModal(ForumCategoriesForm)
 	}
+
+	if (isFetching) return <Spinner className="page" />
+
 	return (
 		<>
 			<SectionHeading sectionTitle="Forum Categories" />

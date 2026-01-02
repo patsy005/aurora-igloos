@@ -6,6 +6,7 @@ import { addNewForumCategory, editForumCategory, fetchForumCategories } from '..
 import toast from 'react-hot-toast'
 import { useEffect } from 'react'
 import FormBox from '../../../ui/Form/FormBox'
+import Spinner from '../../../components/spinner/Spinner'
 
 function ForumCategoriesForm() {
 	const forumCategories = useSelector(state => state.forumCategories.forumCategories)
@@ -18,7 +19,7 @@ function ForumCategoriesForm() {
 		register,
 		handleSubmit,
 		setValue,
-		formState: { errors },
+		formState: { errors, isLoading: isFormLoading },
 	} = useForm({
 		defaultValues: {
 			name: '',
@@ -74,7 +75,7 @@ function ForumCategoriesForm() {
 			}
 		}
 	}, [categoryToEdit.id])
-    
+
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
 			<h2>{categoryToEdit?.id ? 'Edit Forum Category' : 'Add New Forum Category'}</h2>
@@ -102,7 +103,8 @@ function ForumCategoriesForm() {
 					Cancel
 				</button>
 				<button type="submit" className="button button--primary">
-					{categoryToEdit?.id ? 'Save Changes' : 'Add Category'}
+					{isFormLoading && <Spinner className="form" />}
+					{!isFormLoading && (categoryToEdit?.id ? 'Edit Category' : 'Add Category')}
 				</button>
 			</div>
 		</form>

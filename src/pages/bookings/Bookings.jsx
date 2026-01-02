@@ -12,10 +12,12 @@ import { fetchIgloos } from '../../slices/igloosSlice'
 import { fetchTrips } from '../../slices/tripsSlice'
 import { fetchCustomers } from '../../slices/customersSLice'
 import { selectCanManage } from '../../slices/authSlice'
+import Spinner from '../../components/spinner/Spinner'
 
 function Bookings() {
 	const dispatch = useDispatch()
 	const bookings = useSelector(state => state.bookings.bookings)
+	const isFetching = useSelector(state => state.bookings.isFetching)
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
 	const { openModal } = useModal()
@@ -32,11 +34,11 @@ function Bookings() {
 
 	if (!bookings.length) return null
 
-	console.log('bookings:', bookings)
-
 	const openAddBookingModal = () => {
 		openModal(BookingsForm)
 	}
+
+	if (isFetching) return <Spinner className="page" />
 
 	return (
 		<>

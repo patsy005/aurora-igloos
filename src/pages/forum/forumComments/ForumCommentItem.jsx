@@ -11,17 +11,17 @@ function ForumCommentItem({ comment }) {
 	const canDelete = useSelector(selectCanDelete)
 	const { openModal } = useModal()
 
-	const openEditForumCommentModal = commentId => {
-		openModal(ForumCommentForm, { id: commentId })
+	const openEditForumCommentModal = () => {
+		openModal(ForumCommentForm, { postId: comment.idPost, commentToEdit: comment })
 	}
 
-	const openDeleteForumCommentModal = commentId => {
-		openModal(DeleteConfirmation, { id: commentId, category: 'forum-comment', itemToDelete: comment })
+	const openDeleteForumCommentModal = () => {
+		openModal(DeleteConfirmation, { id: comment.id, category: 'forum-comment', itemToDelete: comment })
 	}
 
 	return (
 		<div className="forum-comment d-flex gap-4 justify-content-between">
-			<div className='d-flex gap-4'>
+			<div className="d-flex gap-4">
 				<img
 					className="forum-comment__avatar"
 					src={`http://localhost:5212/${comment.employeePhotoUrl}`}

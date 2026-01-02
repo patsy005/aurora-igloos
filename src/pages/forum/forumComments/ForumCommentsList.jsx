@@ -9,12 +9,15 @@ import Button from '../../../components/Button'
 import ForumCommentForm from './ForumCommentForm'
 import { useEffect } from 'react'
 import { fetchForumPosts } from '../../../slices/forumPostsSlice'
+import Spinner from '../../../components/spinner/Spinner'
 
 function ForumCommentsList() {
 	const { postId } = useParams()
 	const posts = useSelector(state => state.forumPosts.forumPosts)
 
 	const canManage = useSelector(selectCanManage)
+
+	const isFetching = useSelector(state => state.forumPosts.isFetching)
 
 	const navigate = useNavigate()
 	const { openModal } = useModal()
@@ -34,6 +37,9 @@ function ForumCommentsList() {
 	const openAddCommentModal = () => {
 		openModal(ForumCommentForm, { postId: +postId })
 	}
+	
+	if (isFetching) return <Spinner className="page" />
+
 	return (
 		<div className="d-flex flex-column gap-3 mt-4">
 			<span onClick={() => navigate(-1)} className="go-back">

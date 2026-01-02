@@ -11,6 +11,7 @@ import SelectComponent from '../../components/select/SelectComponent'
 import ReactDatePicker from 'react-datepicker'
 import { DatePickerIcon } from '../../ui/Icons'
 import Button from '../../components/Button'
+import Spinner from '../../components/spinner/Spinner'
 
 function BookingsForm() {
 	const bookings = useSelector(state => state.bookings.bookings)
@@ -715,7 +716,11 @@ function BookingsForm() {
 					type={'button'}>
 					Cancel
 				</Button>
-				<Button type="submit">{bookingToEdit.id ? 'Edit booking' : 'Add booking'}</Button>
+				<Button type="submit">
+					{isFormLoading && <Spinner className="form" />}
+					{!isFormLoading && (bookingToEdit.id ? 'Save changes' : 'Add booking')}
+				</Button>
+				{}
 			</div>
 		</form>
 	)

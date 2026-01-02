@@ -6,20 +6,20 @@ import FormBox from '../Form/FormBox'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useNavigate, useParams } from 'react-router-dom'
-import { addNewIgloo, editIgloo, fetchIgloos} from '../../slices/igloosSlice'
+import { addNewIgloo, editIgloo, fetchIgloos } from '../../slices/igloosSlice'
 import toast from 'react-hot-toast'
 import SelectComponent from '../../components/select/SelectComponent'
 import { closeModal, selectModalProps } from '../../slices/modalSlice'
 import { useModal } from '../../contexts/modalContext'
+import Spinner from '../../components/spinner/Spinner'
 
 function IgloosForm() {
-	
 	// const iglooToEdit = useSelector(selectModalProps)
 	const igloos = useSelector(state => state.igloos.igloos)
 	const discounts = useSelector(state => state.discounts.discounts)
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
-	const {closeModal, props} = useModal()
+	const { closeModal, props } = useModal()
 	const iglooToEdit = props
 
 	console.log('props in IgloosForm:', props)
@@ -89,7 +89,6 @@ function IgloosForm() {
 				})
 				.catch(() => toast.error('Failed to add igloo'))
 		}
-
 	}
 
 	const getIglooInfo = () => {
@@ -214,7 +213,10 @@ function IgloosForm() {
 					type={'button'}>
 					Cancel
 				</Button>
-				<Button type={'submit'}>{!iglooToEdit.id ? 'Add igloo' : 'Edit igloo'}</Button>
+				<Button type={'submit'}>
+					{isFormLoading && <Spinner className="form" />}
+					{!isFormLoading && (iglooToEdit.id ? 'Save changes' : 'Add igloo')}
+				</Button>
 			</div>
 		</form>
 	)

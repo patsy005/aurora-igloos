@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 import { useEffect } from 'react'
 import FormBox from '../../ui/Form/FormBox'
 import Button from '../../components/Button'
+import Spinner from '../../components/spinner/Spinner'
 
 function TripSeasonsForm() {
 	const tripSeasons = useSelector(state => state.tripSeasons.tripSeasons)
@@ -120,7 +121,10 @@ function TripSeasonsForm() {
 					type={'button'}>
 					Cancel
 				</Button>
-				<Button type={'submit'}>{tripSeasonToEdit.id ? 'Edit trip season' : 'Add trip season'}</Button>
+				<Button type={'submit'}>
+					{isFormLoading && <Spinner className="form" />}
+					{!isFormLoading && (tripSeasonToEdit.id ? 'Save changes' : 'Add trip season')}
+				</Button>
 			</div>
 		</form>
 	)

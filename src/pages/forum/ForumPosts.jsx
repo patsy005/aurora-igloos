@@ -11,6 +11,7 @@ import { selectCanManage } from '../../slices/authSlice'
 import SearchInput from '../../components/SearchInput'
 import { useNavigate } from 'react-router-dom'
 import { GoBackIcon } from '../../ui/Icons'
+import Spinner from '../../components/spinner/Spinner'
 
 function ForumPosts() {
 	const [search, setSearch] = useState('')
@@ -18,6 +19,7 @@ function ForumPosts() {
 	const forumPosts = useSelector(state => state.forumPosts.forumPosts)
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
+	const isFetching = useSelector(state => state.forumPosts.isFetching)
 	const { openModal } = useModal()
 	const navigate = useNavigate()
 
@@ -45,6 +47,9 @@ function ForumPosts() {
 	const openAddForumPostModal = () => {
 		openModal(ForumPostForm)
 	}
+
+	if (isFetching) return <Spinner className="page" />
+
 	return (
 		<>
 			<SectionHeading sectionTitle="Forum Posts" />

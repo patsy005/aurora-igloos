@@ -11,6 +11,7 @@ import FormBox from '../../ui/Form/FormBox'
 import Button from '../../components/Button'
 import SelectComponent from '../../components/select/SelectComponent'
 import { fetchMe, selectUser } from '../../slices/authSlice'
+import Spinner from '../../components/spinner/Spinner'
 
 function ForumPostForm() {
 	const user = useSelector(selectUser)
@@ -29,7 +30,7 @@ function ForumPostForm() {
 		setValue,
 		setError,
 		control,
-		formState: { errors },
+		formState: { errors, isLoading: isFormLoading },
 	} = useForm({
 		defaultValues: {
 			idEmployee: null,
@@ -223,7 +224,10 @@ function ForumPostForm() {
 					type={'button'}>
 					Cancel
 				</Button>
-				<Button type="submit">{postToEdit?.id ? 'Edit Post' : 'Add Post'}</Button>
+				<Button type="submit">
+                    {isFormLoading && <Spinner className="form" />}
+                    {!isFormLoading && (postToEdit?.id ? 'Edit Post' : 'Add Post')}
+                </Button>
 			</div>
 		</form>
 	)

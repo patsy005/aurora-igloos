@@ -11,6 +11,7 @@ import Button from '../../components/Button'
 import toast from 'react-hot-toast'
 import { useModal } from '../../contexts/modalContext'
 import { addNewDiscount, editDiscount } from '../../slices/discountsSlice'
+import Spinner from '../../components/spinner/Spinner'
 // import { formatDateOnly, parseDateOnly } from '../../utils/utils'
 
 function PromoForm() {
@@ -219,7 +220,10 @@ function PromoForm() {
 					type={'button'}>
 					Cancel
 				</Button>
-				<Button type="submit">{discountToEdit.id ? 'Edit discount' : 'Add discount'}</Button>
+				<Button type="submit">
+					{isFormLoading && <Spinner className="form" />}
+					{!isFormLoading && (discountToEdit.id ? 'Save changes' : 'Add discount')}
+				</Button>
 			</div>
 		</form>
 	)

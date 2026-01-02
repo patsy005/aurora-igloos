@@ -10,6 +10,7 @@ import SelectComponent from '../../components/select/SelectComponent'
 import Button from '../../components/Button'
 import { useModal } from '../../contexts/modalContext'
 import { fetchEmployeeRoles } from '../../slices/employeeRoleSlice'
+import Spinner from '../../components/spinner/Spinner'
 
 function EmployeesForm() {
 	const employees = useSelector(state => state.employees.employees)
@@ -362,7 +363,10 @@ function EmployeesForm() {
 					type={'button'}>
 					Cancel
 				</Button>
-				<Button type={'submit'}>{employeeToEdit.id ? 'Edit employee' : 'Add employee'}</Button>
+				<Button type={'submit'}>
+					{isFormLoading && <Spinner className="form" />}
+					{!isFormLoading && (employeeToEdit.id ? 'Save changes' : 'Add employee')}
+				</Button>
 			</div>
 		</form>
 	)

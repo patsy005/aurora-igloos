@@ -9,12 +9,14 @@ import TripSeasonsTable from './TripSeasonsTable'
 import { GoBackIcon } from '../../ui/Icons'
 import { useNavigate } from 'react-router-dom'
 import { selectCanManage } from '../../slices/authSlice'
+import { Spinner } from 'react-bootstrap'
 
 function TripSeasons() {
 	const dispatch = useDispatch()
 	const tripSeasons = useSelector(state => state.tripSeasons.tripSeasons)
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
+	const isFetching = useSelector(state => state.tripSeasons.isFetching)
 	const { openModal } = useModal()
 	const navigate = useNavigate()
 
@@ -28,6 +30,8 @@ function TripSeasons() {
 	const openAddTripSeasonModal = () => {
 		openModal(TripSeasonsForm)
 	}
+
+	if(isFetching) return <Spinner className="page" />
 
 	return (
 		<>

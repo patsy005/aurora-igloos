@@ -7,12 +7,14 @@ import CustomersForm from './CustomersForm'
 import Button from '../../components/Button'
 import CustomersTable from './CustomersTable'
 import { selectCanManage } from '../../slices/authSlice'
+import Spinner from '../../components/spinner/Spinner'
 
 function Customers() {
 	const dispatch = useDispatch()
 	const customers = useSelector(state => state.customers.customers)
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
+	const isFetching = useSelector(state => state.customers.isFetching)
 
 	const { openModal } = useModal()
 
@@ -26,6 +28,9 @@ function Customers() {
 	const openAddCustomerModal = () => {
 		openModal(CustomersForm)
 	}
+
+	if (isFetching) return <Spinner className="page" />
+
 	return (
 		<>
 			<SectionHeading sectionTitle="Customers" />

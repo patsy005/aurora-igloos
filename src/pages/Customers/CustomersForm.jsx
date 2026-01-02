@@ -7,6 +7,7 @@ import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
 import FormBox from '../../ui/Form/FormBox'
 import Button from '../../components/Button'
+import Spinner from '../../components/spinner/Spinner'
 
 function CustomersForm() {
 	const customers = useSelector(state => state.customers.customers)
@@ -333,7 +334,10 @@ function CustomersForm() {
 					type={'button'}>
 					Cancel
 				</Button>
-				<Button type={'submit'}>{customerToEdit.id ? 'Edit customer' : 'Add customer'}</Button>
+				<Button type={'submit'}>
+					{isFormLoading && <Spinner className="form" />}
+					{!isFormLoading && (customerToEdit.id ? 'Save changes' : 'Add customer')}
+				</Button>
 			</div>
 		</form>
 	)

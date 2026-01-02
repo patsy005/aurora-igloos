@@ -12,12 +12,14 @@ import { fetchTripSeasons } from '../../slices/tripSeasonSlice'
 import { fetchTripLevel } from '../../slices/tripLevelSlice'
 import { fetchEmployees } from '../../slices/employeesSlice'
 import { selectCanManage } from '../../slices/authSlice'
+import Spinner from '../../components/spinner/Spinner'
 
 function Trips() {
 	const dispatch = useDispatch()
 	const trips = useSelector(state => state.trips.trips)
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
+	const isFetching = useSelector(state => state.trips.isFetching)
 	const { openModal } = useModal()
 	const navigate = useNavigate()
 
@@ -34,6 +36,9 @@ function Trips() {
 	const openAddTripModal = () => {
 		openModal(TripsForm)
 	}
+
+	if (isFetching) return <Spinner className="page" />
+
 	return (
 		<>
 			<SectionHeading sectionTitle="Trips" />

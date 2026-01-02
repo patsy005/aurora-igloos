@@ -13,12 +13,14 @@ import Modal from '../../components/modal/Modal'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { useModal } from '../../contexts/modalContext'
 import { selectCanManage } from '../../slices/authSlice'
+import Spinner from '../../components/spinner/Spinner'
 
 function IgloosView() {
 	const dispatch = useDispatch()
 	const igloos = useSelector(state => state.igloos.igloos)
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
+	const isFetchingIgloos = useSelector(state => state.igloos.isFetchingIgloos)
 	const { openModal } = useModal()
 
 	useEffect(() => {
@@ -33,6 +35,8 @@ function IgloosView() {
 		openModal(IgloosForm)
 	}
 
+	if (isFetchingIgloos) return <Spinner className="page" />
+	
 	return (
 		<>
 			<SectionHeading sectionTitle="igloos" />

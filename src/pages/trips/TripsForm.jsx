@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import FormBox from '../../ui/Form/FormBox'
 import SelectComponent from '../../components/select/SelectComponent'
 import Button from '../../components/Button'
+import Spinner from '../../components/spinner/Spinner'
 
 function TripsForm() {
 	const trips = useSelector(state => state.trips.trips)
@@ -308,7 +309,10 @@ function TripsForm() {
 					type={'button'}>
 					Cancel
 				</Button>
-				<Button type={'submit'}>{tripToEdit.id ? 'Edit trip' : 'Add trip'}</Button>
+				<Button type={'submit'}>
+					{isFormLoading && <Spinner className="form" />}
+					{!isFormLoading && (tripToEdit.id ? 'Save changes' : 'Add trip')}
+				</Button>
 			</div>
 		</form>
 	)

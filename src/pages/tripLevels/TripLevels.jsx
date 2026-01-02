@@ -9,12 +9,14 @@ import { GoBackIcon } from '../../ui/Icons'
 import Button from '../../components/Button'
 import TripLevelsTable from './TripLevelsTable'
 import { selectCanManage } from '../../slices/authSlice'
+import Spinner from '../../components/spinner/Spinner'
 
 function TripLevels() {
 	const dispatch = useDispatch()
 	const tripLevels = useSelector(state => state.tripLevels.tripLevels)
 	const canManage = useSelector(selectCanManage)
 	const token = useSelector(state => state.auth.accessToken)
+	const isFetching = useSelector(state => state.tripLevels.isFetching)
 	const { openModal } = useModal()
 	const navigate = useNavigate()
 
@@ -28,6 +30,8 @@ function TripLevels() {
 	const openTripLevelModal = () => {
 		openModal(TripLevelsForm)
 	}
+
+	if(isFetching) return <Spinner className="page" />
 
 	return (
 		<>

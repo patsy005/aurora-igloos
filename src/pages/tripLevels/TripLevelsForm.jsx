@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 import { useEffect } from 'react'
 import FormBox from '../../ui/Form/FormBox'
 import Button from '../../components/Button'
+import Spinner from '../../components/spinner/Spinner'
 
 function TripLevelsForm() {
 	const tripLevels = useSelector(state => state.tripLevels.tripLevels)
@@ -137,7 +138,10 @@ function TripLevelsForm() {
 					type={'button'}>
 					Cancel
 				</Button>
-				<Button type={'submit'}>{tripLevelToEdit.id ? 'Edit trip level' : 'Add trip level'}</Button>
+				<Button type={'submit'}>
+					{isFormLoading && <Spinner className="form" />}
+					{!isFormLoading && (tripLevelToEdit.id ? 'Save changes' : 'Add trip level')}
+				</Button>
 			</div>
 		</form>
 	)
