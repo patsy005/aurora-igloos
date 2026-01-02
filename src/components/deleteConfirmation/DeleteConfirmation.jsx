@@ -52,7 +52,7 @@ function DeleteConfirmation({ itemToDelete, category }) {
 					.unwrap()
 					.then(() => closeModalHandler())
 					.then(() => toast.success('Discount deleted successfully'))
-					.then(() => navigate('/promotions'))
+					.then(() => navigate('/discounts'))
 					.catch(message => {
 						toast.error(message)
 						closeModalHandler()

@@ -1,20 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
-import data from '../../../public/data.json'
-import { Controller, useForm } from 'react-hook-form'
-import FormBox from '../Form/FormBox'
-import { useEffect, useState } from 'react'
-import ReactSelect from 'react-select'
-import ReactDatePicker from 'react-datepicker'
-import { DatePickerIcon } from '../Icons'
-import Button from '../../components/Button'
-import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 import { useModal } from '../../contexts/modalContext'
+import { useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { addNewDiscount, editDiscount } from '../../slices/discountsSlice'
+import toast from 'react-hot-toast'
+import FormBox from '../../ui/Form/FormBox'
+import ReactDatePicker from 'react-datepicker'
+import { DatePickerIcon } from '../../ui/Icons'
+import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
-// import { formatDateOnly, parseDateOnly } from '../../utils/utils'
 
-function PromoForm() {
+function DiscountsForm() {
 	const discounts = useSelector(state => state.discounts.discounts)
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
@@ -66,8 +63,6 @@ function PromoForm() {
 	const handleCloseModal = () => closeModal()
 
 	const onSubmit = data => {
-		console.log(data)
-
 		const [validFrom, validTo] = data.dates
 
 		const newDiscount = {
@@ -229,4 +224,4 @@ function PromoForm() {
 	)
 }
 
-export default PromoForm
+export default DiscountsForm

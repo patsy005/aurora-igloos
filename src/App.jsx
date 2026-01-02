@@ -4,8 +4,6 @@ import './App.css'
 import Layout from './ui/Layout'
 import Home from './pages/Home'
 // import Igloos from './pages/Igloos'
-import Promotions from './pages/Promotions'
-import PromoItem from './ui/Promotions/PromoItem'
 // import IglooItem from './ui/Igloos/IglooItem'
 // import IgloosForm from './ui/Igloos/IgloosForm'
 import Employees from './pages/Employees/Employees'
@@ -28,6 +26,8 @@ import ForumCategories from './pages/forum/forumCategories/ForumCategories'
 import Igloos from './pages/igloos/Igloos'
 import IglooItem from './pages/igloos/IglooItem'
 import IgloosForm from './pages/igloos/IgloosForm'
+import Discounts from './pages/discounts/Discounts'
+import DiscountItem from './pages/discounts/DiscountItem'
 
 const router = createBrowserRouter([
 	{
@@ -61,14 +61,6 @@ const router = createBrowserRouter([
 				element: <IglooItem />,
 			},
 			{
-				path: '/igloos/add',
-				element: <IgloosForm />,
-			},
-			{
-				path: '/igloos/:iglooId/edit',
-				element: <IgloosForm />,
-			},
-			{
 				path: '/employees',
 				element: <Employees />,
 			},
@@ -77,14 +69,13 @@ const router = createBrowserRouter([
 				element: <EmployeesItem />,
 			},
 			{
-				path: '/promotions',
-				element: <Promotions />,
+				path: '/discounts',
+				element: <Discounts />,
 			},
 			{
-				path: '/promotions/:discountId',
-				element: <PromoItem />,
+				path: 'discounts/:discountId',
+				element: <DiscountItem />,
 			},
-
 			{
 				path: '/customers',
 				element: <Customers />,

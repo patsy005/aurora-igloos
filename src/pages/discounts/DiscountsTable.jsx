@@ -1,17 +1,15 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import data from '../../../public/data.json'
-import { DeleteIcon, EditIcon, ViewIcon } from '../Icons'
-
-import { useNavigate } from 'react-router-dom'
-import Table from '../Table/Table'
-import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
-import PromoForm from './PromoForm'
-import { useModal } from '../../contexts/modalContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useModal } from '../../contexts/modalContext'
+import DiscountsForm from './DiscountsForm'
+import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
+import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
 import SearchInput from '../../components/SearchInput'
+import Table from '../../ui/Table/Table'
 
-function PromotionsTable() {
+function DiscountsTable() {
 	const discounts = useSelector(state => state.discounts.discounts)
 	const igloos = useSelector(state => state.igloos.igloos)
 	const canManage = useSelector(selectCanManage)
@@ -33,7 +31,7 @@ function PromotionsTable() {
 	}, [discounts, setDiscountsCallback])
 
 	const openEditDiscountModal = discountId => {
-		openModal(PromoForm, { id: discountId })
+		openModal(DiscountsForm, { id: discountId })
 	}
 
 	const openDeleteDiscountModal = discountId => {
@@ -118,7 +116,7 @@ function PromotionsTable() {
 							<span
 								className="view-icon"
 								onClick={() => {
-									navigate(`/promotions/${row.original.id}`)
+									navigate(`/discounts/${row.original.id}`)
 								}}>
 								<ViewIcon />
 							</span>
@@ -154,4 +152,4 @@ function PromotionsTable() {
 	)
 }
 
-export default PromotionsTable
+export default DiscountsTable

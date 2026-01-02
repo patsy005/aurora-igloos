@@ -17,7 +17,7 @@ function Nav() {
 						<NavLinkBox to="/igloos" page="Igloos" />
 						<NavLinkBox to="/trips" page="Trips" />
 						<NavLinkBox to="/employees" page="Employees" />
-						<NavLinkBox to="/promotions" page="Promo" />
+						<NavLinkBox to="/discounts" page="Discounts" />
 						<NavLinkBox to="/customers" page="Customers" />
 						<NavLinkBox to="/forum" page="Forum" />
 					</ul>

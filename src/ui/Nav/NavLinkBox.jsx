@@ -19,7 +19,7 @@ function NavLinkBox({ to, page }) {
 				{page === 'Igloos' && <IgloosIcon />}
 				{page === 'Users' && <UsersIcon />}
 				{page === 'Employees' && <UsersIcon />}
-				{page === 'Promo' && <PromoIcon />}
+				{page === 'Discounts' && <PromoIcon />}
 				{page === 'Forum' && <CreativeCornerIcon />}
 				{page === 'Customers' && <CustomersIcon />}
 				{page === 'Trips' && <TripIcon />}

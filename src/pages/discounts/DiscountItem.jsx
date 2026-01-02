@@ -1,21 +1,19 @@
-/* eslint-disable react/jsx-key */
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import data from '../../../public/data.json'
-import { DeleteIcon, EditIcon, GoBackIcon, PercentIcon } from '../Icons'
-import SectionHeading from '../../components/SectionHeading'
+import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import { useModal } from '../../contexts/modalContext'
 import { useEffect, useState } from 'react'
-import DatePicker from 'react-multi-date-picker'
-import DatePanel from 'react-multi-date-picker/plugins/date_panel'
-import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
-import PromoForm from './PromoForm'
 import { fetchDiscounts } from '../../slices/discountsSlice'
 import { fetchIgloos } from '../../slices/igloosSlice'
-import { useModal } from '../../contexts/modalContext'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import { DeleteIcon, EditIcon, GoBackIcon } from '../../ui/Icons'
+import SectionHeading from '../../components/SectionHeading'
 import ItemDetailsCard from '../../components/ItemDetailsCard'
+import DatePicker from 'react-multi-date-picker'
+import DatePanel from 'react-multi-date-picker/plugins/date_panel'
+import DiscountsForm from './DiscountsForm'
+import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 
-function PromoItem() {
+function DiscountItem() {
 	const dispatch = useDispatch()
 	const { discountId } = useParams()
 	const igloos = useSelector(state => state.igloos.igloos)
@@ -35,8 +33,6 @@ function PromoItem() {
 		dispatch(fetchIgloos())
 	}, [token])
 
-	console.log('discounts:', discounts)
-	console.log('discountId:', discountId)
 	const promotion = discounts?.find(promo => promo.id === +discountId)
 
 	useEffect(() => {
@@ -65,9 +61,6 @@ function PromoItem() {
 				<SectionHeading sectionTitle="promotion"></SectionHeading>
 
 				<div className="item-section__overview section-box section-margin flex-md-row promo-item">
-					{/* <div className="item-img col-12 col-md-3 col-lg-4 col-xxl-2 percent-icon d-none d-lg-flex align-items-center">
-					<PercentIcon />
-				</div> */}
 					<div className="item-section__info col-12 ">
 						<h3 className="item-section__title">{promotion.name}</h3>
 						<div className="item-section__promo">
@@ -82,7 +75,6 @@ function PromoItem() {
 							<p className="promo uppercase-text">Igloos</p>
 							<div className="item-section__promo--igloos my-3 d-flex gap-5 flex-wrap">
 								{promoIgloos.map(igloo => {
-									// const igloo = igloos.find(igloo => igloo.id === iglooId)
 									return (
 										<div
 											className="item-section__promo--igloo-box"
@@ -116,7 +108,7 @@ function PromoItem() {
 
 						<div className="item-section__actions mt-3">
 							{canManage && (
-								<span className="action-icon" onClick={() => openModal(PromoForm, { id: discountId })}>
+								<span className="action-icon" onClick={() => openModal(DiscountsForm, { id: discountId })}>
 									<EditIcon />
 								</span>
 							)}
@@ -137,4 +129,4 @@ function PromoItem() {
 	)
 }
 
-export default PromoItem
+export default DiscountItem
