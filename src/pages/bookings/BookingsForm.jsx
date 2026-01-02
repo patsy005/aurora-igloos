@@ -169,10 +169,13 @@ function BookingsForm() {
 				createUser: false,
 			}
 
-			const newlyCreatedCustomer = await dispatch(addNewCustomer(newCustomer))
-				.unwrap()
-				.then(() => dispatch(fetchCustomers()))
-			customerId = newlyCreatedCustomer.id
+			// const createdCustomer = await dispatch(addNewCustomer(newCustomer)).unwrap()
+			// dispatch(fetchCustomers())
+			// customerId = createdCustomer.id
+
+			const createdCustomer = await dispatch(addNewCustomer(newCustomer)).unwrap()
+			dispatch(fetchCustomers())
+			customerId = createdCustomer.id
 		}
 
 		// create booking
@@ -612,7 +615,7 @@ function BookingsForm() {
 										<ReactDatePicker
 											className={`input form-control ${errors.dates ? 'input-error' : ''}`}
 											dateFormat="dd.MM.yyyy"
-											minDate={new Date()}
+											// minDate={new Date()}
 											shouldCloseOnSelect={true}
 											// selectsRange={false}
 											onChange={onCheckInDateChange}
@@ -620,6 +623,8 @@ function BookingsForm() {
 											// endDate={validTo}
 											selected={checkIn}
 											withPortal
+											showYearDropdown
+											showMonthDropdown
 										/>
 
 										<DatePickerIcon />
@@ -648,6 +653,8 @@ function BookingsForm() {
 											// endDate={validTo}
 											selected={checkOut}
 											withPortal
+											showYearDropdown
+											showMonthDropdown
 										/>
 
 										<DatePickerIcon />
@@ -675,7 +682,7 @@ function BookingsForm() {
 									<ReactDatePicker
 										className={`input form-control ${errors.dates ? 'input-error' : ''}`}
 										dateFormat="dd.MM.yyyy"
-										minDate={new Date()}
+										// minDate={new Date()}
 										shouldCloseOnSelect={true}
 										// selectsRange={false}
 										onChange={onTripDateChange}
@@ -683,6 +690,8 @@ function BookingsForm() {
 										// endDate={validTo}
 										selected={tripDate}
 										withPortal
+										showYearDropdown
+										showMonthDropdown
 									/>
 
 									<DatePickerIcon />
@@ -692,7 +701,6 @@ function BookingsForm() {
 					</div>
 				</FormBox>
 			)}
-
 
 			<div className={`form__box col-12 mt-4`}>
 				{errors?.formError?.message && <p className="error-msg">{errors?.formError?.message}</p>}

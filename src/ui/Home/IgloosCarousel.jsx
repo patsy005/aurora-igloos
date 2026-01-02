@@ -51,7 +51,7 @@ function IgloosCarousel() {
 						<>
 							<div className="igloo" key={igloo.id} id={igloo.id} onClick={() => navigate(`igloos/${igloo.id}`)}>
 								<div className="igloo-img">
-									<img src={igloo.imagePath} alt="" />
+									<img src={`http://localhost:5212/${igloo.photoUrl}`} alt="" />
 								</div>
 								<div className="igloo-info">
 									<div className={`booking-status booking-status--${igloo.status}`}>

@@ -1,14 +1,22 @@
 /* eslint-disable no-unused-vars */
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import data from '../../../public/data.json'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { fetchBookings } from '../../slices/bookingsSlice'
 
 function StayLenghtChart() {
-	const bookings = data.bookings
+	const bookings = useSelector(state => state.bookings.bookings)
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		dispatch(fetchBookings())
+	}, [])
 
 	const calcStayLenghts = () => {
 		return bookings.map(booking => {
-			const checkInDate = new Date(booking.checkInDate)
-			const checkOutDate = new Date(booking.checkOutDate)
+			const checkInDate = new Date(booking.checkIn)
+			const checkOutDate = new Date(booking.checkOut)
 			const stayLenght = (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)
 			return stayLenght
 		})

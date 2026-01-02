@@ -28,7 +28,7 @@ export const addNewBooking = createAsyncThunk('bookings/addNewBooking', async (n
 })
 
 export const editBooking = createAsyncThunk('bookings/editBooking', async ({ id, updatedBooking }, thunkApi) => {
-	return await apiFetch(
+	const result = await apiFetch(
 		`/Bookings/${id}`,
 		{
 			method: 'PUT',
@@ -39,16 +39,18 @@ export const editBooking = createAsyncThunk('bookings/editBooking', async ({ id,
 		},
 		thunkApi
 	)
+	return result ?? { id, ...updatedBooking }
 })
 
 export const deleteBooking = createAsyncThunk('bookings/deleteBooking', async (id, thunkApi) => {
-	return await apiFetch(
+	const result = await apiFetch(
 		`/Bookings/${id}`,
 		{
 			method: 'DELETE',
 		},
 		thunkApi
 	)
+	return result ?? { id }
 })
 
 export const fetchCustomerBookings = createAsyncThunk('bookings/fetchCustomerBookings', async (_, thunkApi) => {

@@ -17,6 +17,7 @@ import forumPostsSlice from './slices/forumPostsSlice'
 import forumCategorySlice from './slices/forumCategorySlice'
 import forumCommentSlice from './slices/forumCommentSlice'
 import authSlice from './slices/authSlice'
+import dashboardSlice from './slices/dashboardSlice'
 
 const store = configureStore({
 	reducer: {
@@ -38,6 +39,7 @@ const store = configureStore({
 		forumCategories: forumCategorySlice,
 		forumComments: forumCommentSlice,
 		auth: authSlice,
+		dashboard: dashboardSlice,
 	},
 })
 

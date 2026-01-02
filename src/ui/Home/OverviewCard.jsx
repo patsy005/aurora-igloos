@@ -17,7 +17,7 @@ function OverviewCard({ selectedOption, title, icon, rate }) {
 					<div className={`overview-card__percentage-stats overview-card__percentage-stats--${rate}`}>
 						<p className="overview-card__percentage-stats--text">
 							<span>+</span>
-							<span>34,7</span>%
+							<span>{rate}</span>%
 						</p>
 					</div>
 				)}
