@@ -1,71 +1,68 @@
-import { useEffect, useMemo, useState } from 'react'
-import data from '../../../public/data.json'
-import { DeleteIcon, EditIcon } from '../Icons'
-import Table from '../Table/Table'
-import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import { useMemo, useState, useEffect } from 'react'
 import { useModal } from '../../contexts/modalContext'
-import IgloosForm from './IgloosForm'
+import BookingsForm from '../bookings/BookingsForm'
+import { DeleteIcon, EditIcon } from '../../ui/Icons'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
-import BookingsForm from '../../pages/bookings/BookingsForm'
+import Table from '../../ui/Table/Table'
+import Spinner from '../../components/spinner/Spinner'
 
 function IglooItemTable({ iglooId }) {
 	const bookings = useSelector(state => state.bookings?.bookings ?? [])
-
+	const isFetchingBookings = useSelector(state => state.bookings?.isFetching)
 	const canManage = useSelector(selectCanManage)
 	const canDelete = useSelector(selectCanDelete)
 
-	const iglooBookings = useMemo(() => {
-		return (bookings ?? []).filter(b => b.idIgloo === Number(iglooId))
-	}, [bookings, iglooId])
-
-	const [data, setData] = useState(iglooBookings)
-	const [columnFilters, setColumnFilters] = useState([])
-	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
-	const navigate = useNavigate()
 	const { openModal } = useModal()
 
-	const columns = useMemo(() => [
-		{
-			header: 'Guest',
-			id: bookings.id,
-			accessorKey: 'customerId',
-			cell: ({ row }) => {
-				return (
+	const iglooBookings = useMemo(() => {
+		return bookings.filter(b => b.idIgloo === Number(iglooId))
+	}, [bookings, iglooId])
+
+	const [data, setData] = useState([])
+
+	useEffect(() => {
+		setData(iglooBookings)
+	}, [iglooBookings])
+
+	const [columnFilters, setColumnFilters] = useState([])
+	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
+
+	const columns = useMemo(
+		() => [
+			{
+				header: 'Guest',
+				id: 'guest',
+				accessorFn: row => `${row.customerName ?? ''} ${row.customerSurname ?? ''} ${row.customerEmail ?? ''}`,
+				cell: ({ row }) => (
 					<div className="bookings-table__guest">
 						<span className="name">
 							{row.original.customerName} {row.original.customerSurname}
 						</span>
 						<span className="email">{row.original.customerEmail}</span>
 					</div>
-				)
+				),
 			},
-		},
-		{
-			header: 'Dates',
-			id: bookings.id,
-			accessorKey: 'checkInDate checkOutDate',
-			cell: ({ row }) => {
-				return <div className="bookings-table__dates">{`${row.original.checkIn} - ${row.original.checkOut}`}</div>
+			{
+				header: 'Dates',
+				id: 'dates',
+				accessorFn: row => `${row.checkIn ?? ''}-${row.checkOut ?? ''}`,
+				cell: ({ row }) => (
+					<div className="bookings-table__dates">{`${row.original.checkIn} - ${row.original.checkOut}`}</div>
+				),
 			},
-		},
-		{
-			header: 'Amount',
-			id: bookings.id,
-			accessorKey: 'amount',
-			cell: ({ row }) => {
-				return <div className="bookings-table__amount">$ {row.original.amount}</div>
+			{
+				header: 'Amount',
+				id: 'amount',
+				accessorKey: 'amount',
+				cell: ({ row }) => <div className="bookings-table__amount">$ {row.original.amount}</div>,
 			},
-		},
-		{
-			header: '',
-			accessorKey: 'id',
-			className: '',
-			id: bookings.id,
-			cell: ({ row }) => {
-				console.log('row:', row.original)
-				return (
+			{
+				header: '',
+				id: 'actions',
+				enableGlobalFilter: false,
+				cell: ({ row }) => (
 					<div className="bookings-table__actions">
 						{canManage && (
 							<span className="action-icon" onClick={() => openModal(BookingsForm, { id: row.original.id })}>
@@ -77,19 +74,25 @@ function IglooItemTable({ iglooId }) {
 								className="action-icon"
 								onClick={() =>
 									openModal(DeleteConfirmation, {
-										id: iglooId,
-										category: 'igloo',
-										itemToDelete: iglooBookings.find(i => i.id === +iglooId),
+										id: row.original.id,
+										category: 'booking',
+										itemToDelete: row.original,
 									})
 								}>
 								<DeleteIcon />
 							</span>
 						)}
 					</div>
-				)
+				),
 			},
-		},
-	], [canDelete, canManage, iglooBookings, iglooId, openModal])
+		],
+		[canDelete, canManage, openModal]
+	)
+
+	if (isFetchingBookings) return <Spinner className="form" />
+
+	if (!isFetchingBookings && data.length === 0) return <p className="mt-3">No bookings for this igloo.</p>
+
 	return (
 		<Table
 			data={data}

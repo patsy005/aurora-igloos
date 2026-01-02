@@ -7,8 +7,7 @@ import { useEffect, useState } from 'react'
 import DatePicker, { DateObject } from 'react-multi-date-picker'
 import DatePanel from 'react-multi-date-picker/plugins/date_panel'
 import IglooItemCard from './IglooItemCard'
-import { DeleteIcon, EditIcon, GoBackIcon, StarIcon, ViewIcon } from '../Icons'
-import IglooItemTable from './IglooItemTable'
+import { DeleteIcon, EditIcon, GoBackIcon, StarIcon, ViewIcon } from '../../ui/Icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchIgloos } from '../../slices/igloosSlice'
 import { openModal } from '../../slices/modalSlice'
@@ -17,7 +16,8 @@ import IgloosForm from './IgloosForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 import { fetchBookings } from '../../slices/bookingsSlice'
-
+import IglooItemTable from './IglooItemTable'
+import ItemDetailsCard from '../../components/ItemDetailsCard'
 
 function IglooItem() {
 	const dispatch = useDispatch()
@@ -54,7 +54,6 @@ function IglooItem() {
 		setDatesState(dates)
 	}, [bookings, iglooId])
 
-
 	const iglooDiscount = igloo?.discount ?? null
 
 	return (
@@ -87,8 +86,8 @@ function IglooItem() {
 								<p className="promo-title mt-2">{iglooDiscount ? iglooDiscount.name : '--'}</p>
 							</div>
 							<div className="item-section__boxes flex-lg-row gap-lg-5 justify-content-lg-between">
-								<IglooItemCard title="capacity" number={igloo.capacity} />
-								<IglooItemCard title="Price per night" number={`$ ${igloo.pricePerNight}`} />
+								<ItemDetailsCard title="capacity" number={igloo.capacity} />
+								<ItemDetailsCard title="Price per night" number={`$ ${igloo.pricePerNight}`} />
 							</div>
 							<div className="item-section__availability">
 								<p className="uppercase-text mb-4 mt-3">Availability</p>
@@ -104,7 +103,6 @@ function IglooItem() {
 										rangeHover
 										monthYearSeparator="|"
 										portal
-										
 									/>
 								</div>
 							</div>

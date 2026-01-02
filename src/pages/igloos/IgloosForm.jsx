@@ -1,20 +1,16 @@
-/* eslint-disable no-unused-vars */
-import { Controller, useForm } from 'react-hook-form'
-import { useEffect, useState } from 'react'
-import Button from '../../components/Button'
-import FormBox from '../Form/FormBox'
 import { useDispatch, useSelector } from 'react-redux'
-
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useModal } from '../../contexts/modalContext'
+import { Controller, useForm } from 'react-hook-form'
 import { addNewIgloo, editIgloo, fetchIgloos } from '../../slices/igloosSlice'
 import toast from 'react-hot-toast'
+import { useEffect } from 'react'
+import FormBox from '../../ui/Form/FormBox'
 import SelectComponent from '../../components/select/SelectComponent'
-import { closeModal, selectModalProps } from '../../slices/modalSlice'
-import { useModal } from '../../contexts/modalContext'
+import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
 
 function IgloosForm() {
-	// const iglooToEdit = useSelector(selectModalProps)
 	const igloos = useSelector(state => state.igloos.igloos)
 	const discounts = useSelector(state => state.discounts.discounts)
 	const dispatch = useDispatch()

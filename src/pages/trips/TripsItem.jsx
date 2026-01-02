@@ -6,9 +6,9 @@ import { DeleteIcon, EditIcon, GoBackIcon } from '../../ui/Icons'
 import { useModal } from '../../contexts/modalContext'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import TripsForm from './TripsForm'
-import IglooItemCard from '../../ui/Igloos/IglooItemCard'
 import SectionHeading from '../../components/SectionHeading'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import ItemDetailsCard from '../../components/ItemDetailsCard'
 
 function TripsItem() {
 	const { tripId } = useParams()
@@ -61,10 +61,10 @@ function TripsItem() {
 						<p className="role-title mt-2">{trip.longDescription}</p>
 					</div>
 					<div className="item-section__boxes flex-lg-row gap-lg-5 flex-wrap flex-xxl-nowrap">
-						<IglooItemCard title="price per person" number={`$${trip.pricePerPerson}`} />
-						<IglooItemCard title="duration" number={`${trip.duration}`} />
-						<IglooItemCard title="level of difficulty" number={`${trip.levelOfDifficultyName}`} />
-						<IglooItemCard title="season" number={`${trip.seasonName}`} />
+						<ItemDetailsCard title="price per person" number={`$${trip.pricePerPerson}`} />
+						<ItemDetailsCard title="duration" number={`${trip.duration}`} />
+						<ItemDetailsCard title="level of difficulty" number={`${trip.levelOfDifficultyName}`} />
+						<ItemDetailsCard title="season" number={`${trip.seasonName}`} />
 					</div>
 					<div className={`status status__${trip.status} col-5 col-sm-3 col-xxl-2 mt-4 user-status`}>{trip.status}</div>
 

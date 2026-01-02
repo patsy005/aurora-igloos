@@ -5,10 +5,10 @@ import { fetchEmployees } from '../../slices/employeesSlice'
 import { useNavigate, useParams } from 'react-router-dom'
 import { DeleteIcon, EditIcon, GoBackIcon } from '../../ui/Icons'
 import SectionHeading from '../../components/SectionHeading'
-import IglooItemCard from '../../ui/Igloos/IglooItemCard'
 import EmployeesForm from './EmployeesForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import ItemDetailsCard from '../../components/ItemDetailsCard'
 
 function EmployeesItem() {
 	const { employeeId } = useParams()
@@ -62,9 +62,9 @@ function EmployeesItem() {
 								<p className="role-title mt-2">{employee.email}</p>
 							</div>
 							<div className="item-section__boxes flex-lg-row gap-lg-5 flex-wrap flex-xxl-nowrap">
-								<IglooItemCard title="phone no" number={employee.phoneNumber} />
-								<IglooItemCard title="Role" number={`${employee.role}`} />
-								<IglooItemCard
+								<ItemDetailsCard title="phone no" number={employee.phoneNumber} />
+								<ItemDetailsCard title="Role" number={`${employee.role}`} />
+								<ItemDetailsCard
 									title="Address"
 									number={`${employee.street}`}
 									additional={`${employee.city} ${employee.city}`}
@@ -120,9 +120,9 @@ function EmployeesItem() {
 				<div className="item-section__overview section-box section-margin user-item statistics col-12">
 					<h3>Statistics</h3>
 					<div className="item-section__boxes flex-lg-row gap-lg-5 flex-wrap">
-						<IglooItemCard title="booking Completed" number={employee.statistics.bookingsCompleted} />
-						<IglooItemCard title="average Rating" number={employee.statistics.averageRating} />
-						<IglooItemCard title="total Revenue" number={`$ ${employee.statistics.totalRevenue}`} />
+						<ItemDetailsCard title="booking Completed" number={employee.statistics.bookingsCompleted} />
+						<ItemDetailsCard title="average Rating" number={employee.statistics.averageRating} />
+						<ItemDetailsCard title="total Revenue" number={`$ ${employee.statistics.totalRevenue}`} />
 					</div>
 				</div>
 				<div className="section-margin user-item tasks col-12">

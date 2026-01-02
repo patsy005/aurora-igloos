@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { DeleteIcon, EditIcon, GoBackIcon, ViewIcon } from '../../ui/Icons'
-import IglooItemCard from '../../ui/Igloos/IglooItemCard'
 import { useDispatch, useSelector } from 'react-redux'
 import SectionHeading from '../../components/SectionHeading'
 import { useEffect } from 'react'
@@ -9,6 +8,7 @@ import { useModal } from '../../contexts/modalContext'
 import CustomersForm from './CustomersForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import ItemDetailsCard from '../../components/ItemDetailsCard'
 
 function CustomersItem() {
 	const { customerId } = useParams()
@@ -59,15 +59,15 @@ function CustomersItem() {
 								<p className="role-title mt-2">{customer.email}</p>
 							</div>
 							<div className="item-section__boxes flex-lg-row gap-lg-5 flex-wrap flex-xxl-nowrap">
-								<IglooItemCard title="phone number" number={customer.phone} />
-								<IglooItemCard
+								<ItemDetailsCard title="phone number" number={customer.phone} />
+								<ItemDetailsCard
 									title="Address"
 									number={`${customer.street}`}
 									additional={`${customer.city} ${customer.city}`}
 									additional2={customer.country}
 								/>
 
-								<IglooItemCard title="Account created" number={customer.createUser ? 'Yes' : 'No'} />
+								<ItemDetailsCard title="Account created" number={customer.createUser ? 'Yes' : 'No'} />
 							</div>
 
 							{/* <div className="item-section__promo">

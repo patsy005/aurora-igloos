@@ -1,9 +1,9 @@
 @import './colors';
-@import '../src/ui/Bookings/bookins.scss';
+@import '../src/pages/bookings/bookins.scss';
 @import '../src/ui/Table/table.scss';
 @import '../src/ui/Table/paginationBtn.scss';
 @import '../src/ui/Table/pagination.scss';
-@import '../src/ui/Igloos/igloos.scss';
+@import '../src/pages/igloos/igloos.scss';
 @import '../src/ui/Home/home.scss';
 @import '../src/ui/Promotions/promotions.scss';
 @import '../src/pages/Employees/users.scss';
@@ -443,7 +443,8 @@ body {
 		cursor: pointer;
 	}
 
-	.checkbox-input, .ratio-input {
+	.checkbox-input,
+	.ratio-input {
 		appearance: none;
 		-webkit-appearance: none;
 		width: 15px;

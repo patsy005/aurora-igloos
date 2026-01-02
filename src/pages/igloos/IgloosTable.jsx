@@ -1,16 +1,13 @@
-/* eslint-disable no-unused-vars */
+import { useSelector } from 'react-redux'
+import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import Table from '../Table/Table'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import data from '../../../public/data.json'
-import { DeleteIcon, EditIcon, ViewIcon } from '../Icons'
-import { openModal } from '../../slices/modalSlice'
 import { useModal } from '../../contexts/modalContext'
 import IgloosForm from './IgloosForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
-import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
 import SearchInput from '../../components/SearchInput'
+import Table from '../../ui/Table/Table'
 
 function IgloosTable() {
 	const igloos = useSelector(state => state.igloos.igloos)
@@ -22,7 +19,6 @@ function IgloosTable() {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
-	const dispatch = useDispatch()
 	const { openModal } = useModal()
 
 	const setIgloosCallback = useCallback(() => {
@@ -136,11 +132,7 @@ function IgloosTable() {
 	return (
 		<div>
 			<div className="mt-4 d-flex justify-content-end">
-				<SearchInput
-					value={globalFilter}
-					onChange={setGlobalFilter}
-					placeholder="Search igloos..."
-				/>
+				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search igloos..." />
 			</div>
 			<Table
 				className={'igloos-table'}

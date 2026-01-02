@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { DeleteIcon, EditIcon, GoBackIcon } from '../../ui/Icons'
 import SectionHeading from '../../components/SectionHeading'
-import IglooItemCard from '../../ui/Igloos/IglooItemCard'
 import { formatDate, formatDateOnly, parseDateOnly } from '../../utils/utils'
 import { useModal } from '../../contexts/modalContext'
 import BookingsForm from './BookingsForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import ItemDetailsCard from '../../components/ItemDetailsCard'
 
 function BookingsItem() {
 	const { bookingId } = useParams()
@@ -68,17 +68,17 @@ function BookingsItem() {
 						</div>
 					</div>
 					<div className="item-section__boxes flex-lg-row gap-lg-5 justify-content-lg-between flex-wrap flex-xxl-nowrap">
-						<IglooItemCard title="Name" number={`${booking.customerName} ${booking.customerSurname}`} />
-						<IglooItemCard title="Email" number={booking.customerEmail} />
-						<IglooItemCard title="Phone" number={booking.customerPhone} />
+						<ItemDetailsCard title="Name" number={`${booking.customerName} ${booking.customerSurname}`} />
+						<ItemDetailsCard title="Email" number={booking.customerEmail} />
+						<ItemDetailsCard title="Phone" number={booking.customerPhone} />
 						{hasIgloo && (
-							<IglooItemCard
+							<ItemDetailsCard
 								title="Check-in - Check-out"
 								number={`${formatDate(booking.checkIn)} - ${formatDate(booking.checkOut)}`}
 							/>
 						)}
-						{hasTrip && <IglooItemCard title="Trip Date" number={formatDate(booking.tripDate)} />}
-						<IglooItemCard title="Guests" number={booking.guests} />
+						{hasTrip && <ItemDetailsCard title="Trip Date" number={formatDate(booking.tripDate)} />}
+						<ItemDetailsCard title="Guests" number={booking.guests} />
 					</div>
 
 					<div className="item-section__actions mt-3">

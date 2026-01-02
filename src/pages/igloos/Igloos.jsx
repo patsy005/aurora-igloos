@@ -1,21 +1,16 @@
-/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from 'react-redux'
-import SectionHeading from '../../components/SectionHeading'
-import { fetchIgloos } from '../../slices/igloosSlice'
-import Button from '../../components/Button'
-import IgloosForm from './IgloosForm'
-import IgloosTable from './IgloosTable'
-import { useEffect } from 'react'
-import { fetchDiscounts } from '../../slices/discountsSlice'
-import { useNavigate } from 'react-router-dom'
-import { openModal, selectIsModalOpen, selectModalProps } from '../../slices/modalSlice'
-import Modal from '../../components/modal/Modal'
-import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
-import { useModal } from '../../contexts/modalContext'
 import { selectCanManage } from '../../slices/authSlice'
+import { useModal } from '../../contexts/modalContext'
+import { useEffect } from 'react'
+import { fetchIgloos } from '../../slices/igloosSlice'
+import { fetchDiscounts } from '../../slices/discountsSlice'
+import IgloosForm from './IgloosForm'
 import Spinner from '../../components/spinner/Spinner'
+import SectionHeading from '../../components/SectionHeading'
+import Button from '../../components/Button'
+import IgloosTable from './IgloosTable'
 
-function IgloosView() {
+function Igloos() {
 	const dispatch = useDispatch()
 	const igloos = useSelector(state => state.igloos.igloos)
 	const token = useSelector(state => state.auth.accessToken)
@@ -36,10 +31,10 @@ function IgloosView() {
 	}
 
 	if (isFetchingIgloos) return <Spinner className="page" />
-	
+
 	return (
 		<>
-			<SectionHeading sectionTitle="igloos" />
+			<SectionHeading sectionTitle="Igloos" />
 			{canManage && (
 				<div className="text-end">
 					<Button onClick={openAddIglooModal}>Add igloo</Button>
@@ -50,4 +45,4 @@ function IgloosView() {
 	)
 }
 
-export default IgloosView
+export default Igloos

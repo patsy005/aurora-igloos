@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import data from '../../../public/data.json'
 import { DeleteIcon, EditIcon, GoBackIcon, PercentIcon } from '../Icons'
 import SectionHeading from '../../components/SectionHeading'
-import IglooItemCard from '../Igloos/IglooItemCard'
 import { useEffect, useState } from 'react'
 import DatePicker from 'react-multi-date-picker'
 import DatePanel from 'react-multi-date-picker/plugins/date_panel'
@@ -14,6 +13,7 @@ import { fetchIgloos } from '../../slices/igloosSlice'
 import { useModal } from '../../contexts/modalContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
+import ItemDetailsCard from '../../components/ItemDetailsCard'
 
 function PromoItem() {
 	const dispatch = useDispatch()
@@ -75,7 +75,7 @@ function PromoItem() {
 							<p className="promo-title mt-2">{promotion.description}</p>
 						</div>
 						<div className="item-section__boxes flex-lg-row gap-lg-5 justify-content-lg-between col-12">
-							<IglooItemCard title="Discount" number={promotion.discount} />
+							<ItemDetailsCard title="Discount" number={promotion.discount} />
 						</div>
 
 						<div className="item-section__promo mt-3">
