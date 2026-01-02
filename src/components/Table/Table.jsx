@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { ArrowDownIcon, ArrowUpIcon, EditIcon, LineIcon, NextIcon, PrevIcon } from '../Icons'
+import { ArrowDownIcon, ArrowUpIcon, EditIcon, LineIcon, NextIcon, PrevIcon } from '../../ui/Icons'
 import {
 	flexRender,
 	getCoreRowModel,

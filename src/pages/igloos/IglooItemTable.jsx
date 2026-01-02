@@ -5,7 +5,7 @@ import { useModal } from '../../contexts/modalContext'
 import BookingsForm from '../bookings/BookingsForm'
 import { DeleteIcon, EditIcon } from '../../ui/Icons'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
-import Table from '../../ui/Table/Table'
+import Table from '../../components/Table/Table'
 import Spinner from '../../components/spinner/Spinner'
 
 function IglooItemTable({ iglooId }) {

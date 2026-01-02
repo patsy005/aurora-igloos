@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
-import Table from '../../ui/Table/Table'
+import Table from '../../components/Table/Table'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useModal } from '../../contexts/modalContext'

@@ -7,7 +7,7 @@ import DiscountsForm from './DiscountsForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
 import SearchInput from '../../components/SearchInput'
-import Table from '../../ui/Table/Table'
+import Table from '../../components/Table/Table'
 
 function DiscountsTable() {
 	const discounts = useSelector(state => state.discounts.discounts)

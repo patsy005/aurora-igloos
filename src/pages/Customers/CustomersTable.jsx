@@ -5,7 +5,7 @@ import { useModal } from '../../contexts/modalContext'
 import CustomersForm from './CustomersForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
-import Table from '../../ui/Table/Table'
+import Table from '../../components/Table/Table'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 import SearchInput from '../../components/SearchInput'
 

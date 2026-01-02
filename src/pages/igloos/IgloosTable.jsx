@@ -7,7 +7,7 @@ import IgloosForm from './IgloosForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
 import SearchInput from '../../components/SearchInput'
-import Table from '../../ui/Table/Table'
+import Table from '../../components/Table/Table'
 
 function IgloosTable() {
 	const igloos = useSelector(state => state.igloos.igloos)
