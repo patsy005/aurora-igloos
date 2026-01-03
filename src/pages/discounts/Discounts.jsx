@@ -15,7 +15,7 @@ function Discounts() {
 	const discounts = useSelector(state => state.discounts.discounts)
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
-	const isFetchingDiscounts = useSelector(state => state.discounts.isFetchingDiscounts)
+	const isFetchingDiscounts = useSelector(state => state.discounts.isFetching)
 	const { openModal } = useModal()
 
 	useEffect(() => {

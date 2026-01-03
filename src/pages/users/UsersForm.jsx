@@ -192,10 +192,13 @@ function UsersForm() {
 				customerId: existingCustomer?.id ? parseInt(existingCustomer.id, 10) : parseInt(data.customerId, 10),
 			}
 
-			await dispatch(addNewUser(newUser)).unwrap()
-			toast.success('User created successfully')
-			handleCloseModal()
-			dispatch(fetchUsers())
+			await dispatch(addNewUser(newUser))
+				.unwrap()
+				.then(() => {
+					toast.success('User created successfully')
+					handleCloseModal()
+				})
+				.then(() => dispatch(fetchUsers()))
 		} catch (error) {
 			toast.error('Failed to save user')
 			setError('formError', { type: 'server', message: error?.message ?? 'Server error' })

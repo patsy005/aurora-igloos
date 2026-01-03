@@ -15,7 +15,7 @@ function Igloos() {
 	const igloos = useSelector(state => state.igloos.igloos)
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
-	const isFetchingIgloos = useSelector(state => state.igloos.isFetchingIgloos)
+	const isFetchingIgloos = useSelector(state => state.igloos.isFetching)
 	const { openModal } = useModal()
 
 	useEffect(() => {

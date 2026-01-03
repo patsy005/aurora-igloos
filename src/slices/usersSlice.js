@@ -95,6 +95,7 @@ const usersSlice = createSlice({
 			})
 			.addCase(deleteUser.fulfilled, (state, action) => {
 				state.users = state.users.filter(user => user.id !== action.payload)
+				state.isFetching = false
 			})
 			.addCase(deleteUser.rejected, (state, action) => {
 				state.error = action.payload

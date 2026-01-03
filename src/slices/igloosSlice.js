@@ -9,10 +9,8 @@ const initialState = {
 	isFetching: false,
 }
 
-export const fetchIgloos = createAsyncThunk('igloos/fetchIgloos', async () => {
-	const res = await fetch('http://localhost:5212/api/Igloos')
-	const data = await res.json()
-	return data
+export const fetchIgloos = createAsyncThunk('igloos/fetchIgloos', async (_, thunkApi) => {
+	return await apiFetch('/Igloos', {}, thunkApi)
 })
 
 export const addNewIgloo = createAsyncThunk('igloos/addNewIgloo', async (newIgloo, thunkApi) => {
