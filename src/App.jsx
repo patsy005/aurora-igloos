@@ -23,6 +23,7 @@ import IglooItem from './pages/igloos/IglooItem'
 import Discounts from './pages/discounts/Discounts'
 import DiscountItem from './pages/discounts/DiscountItem'
 import Home from './pages/home/Home'
+import Users from './pages/users/Users'
 
 const router = createBrowserRouter([
 	{
@@ -111,6 +112,10 @@ const router = createBrowserRouter([
 				path: '/forum-categories',
 				element: <ForumCategories />,
 			},
+			{
+				path: '/users',
+				element: <Users />
+			}
 		],
 	},
 	{

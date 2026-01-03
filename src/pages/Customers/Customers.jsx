@@ -29,6 +29,8 @@ function Customers() {
 		openModal(CustomersForm)
 	}
 
+	console.log('customers:', customers)
+
 	if (isFetching) return <Spinner className="page" />
 
 	return (

@@ -18,12 +18,13 @@ import forumCategorySlice from './slices/forumCategorySlice'
 import forumCommentSlice from './slices/forumCommentSlice'
 import authSlice from './slices/authSlice'
 import dashboardSlice from './slices/dashboardSlice'
+import userTypesSlice from './slices/userTypesSlice'
+import userRoleSlice from './slices/userRoleSlice'
 
 const store = configureStore({
 	reducer: {
 		igloos: IglooSlice,
 		bookings: bookingsSlice,
-		users: usersSlice,
 		promo: promoSlice,
 		customers: customersSLice,
 		forum: forumSlice,
@@ -40,6 +41,9 @@ const store = configureStore({
 		forumComments: forumCommentSlice,
 		auth: authSlice,
 		dashboard: dashboardSlice,
+		users: usersSlice,
+		userTypes: userTypesSlice,
+		userRoles: userRoleSlice,
 	},
 })
 

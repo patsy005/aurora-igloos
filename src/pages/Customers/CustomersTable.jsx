@@ -65,9 +65,10 @@ function CustomersTable() {
 			{
 				header: 'Has account',
 				id: 'customers_hasAccount',
-				accessorKey: 'createUser',
+				accessorKey: 'idUser',
 				cell: ({ row }) => {
-					return <div className="customers-table__has-account">{row.original.createUser ? 'Yes' : 'No'}</div>
+					console.log('row', row.original)
+					return <div className="customers-table__has-account">{row.original.idUser ? 'Yes' : 'No'}</div>
 				},
 			},
 			// {

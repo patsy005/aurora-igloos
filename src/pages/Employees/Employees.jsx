@@ -35,7 +35,6 @@ function Employees() {
 
 	return (
 		<>
-			{/* <Modal isOpen={isOpen}>{generateModalContent()}</Modal> */}
 			<SectionHeading sectionTitle="Employees" />
 			{canManage && (
 				<div className="text-end">

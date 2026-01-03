@@ -6,7 +6,7 @@ import Button from '../Button'
 import { deleteDiscount } from '../../slices/discountsSlice'
 import { deleteEmployee } from '../../slices/employeesSlice'
 import { useModal } from '../../contexts/modalContext'
-import { deleteCustomer } from '../../slices/customersSLice'
+import { deleteCustomer, fetchCustomers } from '../../slices/customersSLice'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { deleteTrip } from '../../slices/tripsSlice'
 import { deleteTripSeason } from '../../slices/tripSeasonSlice'
@@ -14,6 +14,7 @@ import { deleteTripLevel } from '../../slices/tripLevelSlice'
 import { deleteBooking } from '../../slices/bookingsSlice'
 import { deleteForumCategory } from '../../slices/forumCategorySlice'
 import { deleteForumComment, fetchForumComments } from '../../slices/forumCommentSlice'
+import { deleteUser, fetchUsers } from '../../slices/usersSlice'
 
 function DeleteConfirmation({ itemToDelete, category }) {
 	const { postId } = useParams()
@@ -75,6 +76,7 @@ function DeleteConfirmation({ itemToDelete, category }) {
 					.then(() => closeModalHandler())
 					.then(() => toast.success('Customer deleted successfully'))
 					.then(() => navigate('/customers'))
+					.then(() => dispath(fetchCustomers()))
 					.catch(message => {
 						toast.error(message)
 						closeModalHandler()
@@ -145,6 +147,18 @@ function DeleteConfirmation({ itemToDelete, category }) {
 						toast.error(message)
 						closeModalHandler()
 						dispath(fetchForumComments())
+					})
+				break
+			case 'user':
+				dispath(deleteUser(itemToDelete.id))
+					.unwrap()
+					.then(() => closeModalHandler())
+					.then(() => toast.success('User deleted successfully'))
+					.then(() => navigate(`/users`))
+					.catch(message => {
+						toast.error(message)
+						closeModalHandler()
+						dispath(fetchUsers())
 					})
 				break
 		}

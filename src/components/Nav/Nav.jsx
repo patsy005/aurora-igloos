@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom'
 import NavLinkBox from './NavLinkBox'
+import { useSelector } from 'react-redux'
+import { selectIsAdmin } from '../../slices/authSlice'
 
 function Nav() {
+	const isAdmin = useSelector(selectIsAdmin)
+
 	return (
 		<aside className="aside position-relative">
 			<div className="nav-box">
@@ -16,6 +20,7 @@ function Nav() {
 						<NavLinkBox to="/bookings" page="Bookings" />
 						<NavLinkBox to="/igloos" page="Igloos" />
 						<NavLinkBox to="/trips" page="Trips" />
+						{isAdmin && <NavLinkBox to="/users" page="Users" />}
 						<NavLinkBox to="/employees" page="Employees" />
 						<NavLinkBox to="/discounts" page="Discounts" />
 						<NavLinkBox to="/customers" page="Customers" />
