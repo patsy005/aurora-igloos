@@ -20,6 +20,7 @@ import authSlice from './slices/authSlice'
 import dashboardSlice from './slices/dashboardSlice'
 import userTypesSlice from './slices/userTypesSlice'
 import userRoleSlice from './slices/userRoleSlice'
+import reportsSlice from './slices/reportsSlice'
 
 const store = configureStore({
 	reducer: {
@@ -44,6 +45,7 @@ const store = configureStore({
 		users: usersSlice,
 		userTypes: userTypesSlice,
 		userRoles: userRoleSlice,
+		reports: reportsSlice,
 	},
 })
 
