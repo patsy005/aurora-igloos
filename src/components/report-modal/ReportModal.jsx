@@ -121,7 +121,6 @@
 // 	)
 // }
 
-
 import { useDispatch, useSelector } from 'react-redux'
 import { useModal } from '../../contexts/modalContext'
 import { Controller, useForm } from 'react-hook-form'
@@ -263,87 +262,79 @@ function ReportModal() {
 			<h2>Generate report</h2>
 
 			{/* DATES + FORMAT */}
-			<div className="row mt-3">
-				<div className="col-12 col-sm-4">
-					<FormBox label="From" error={errors?.from?.message} className="mt-3">
-						<div className="datepicker-wrapper">
-							<Controller
-								name="from"
-								control={control}
-								rules={{ required: 'From date is required' }}
-								render={() => (
-									<>
-										<ReactDatePicker
-											className={`input form-control ${errors.from ? 'input-error' : ''}`}
-											dateFormat="dd.MM.yyyy"
-											shouldCloseOnSelect={true}
-											selected={fromDate}
-											onChange={onFromChange}
-											withPortal
-											showYearDropdown
-											showMonthDropdown
-										/>
-										<DatePickerIcon />
-									</>
-								)}
-							/>
-						</div>
-					</FormBox>
-				</div>
-
-				<div className="col-12 col-sm-4">
-					<FormBox label="To" error={errors?.to?.message} className="mt-3">
-						<div className="datepicker-wrapper">
-							<Controller
-								name="to"
-								control={control}
-								rules={{
-									required: 'To date is required',
-									validate: value => (value && fromDate && value >= fromDate) || '"To" cannot be before "From"',
-								}}
-								render={() => (
-									<>
-										<ReactDatePicker
-											className={`input form-control ${errors.to ? 'input-error' : ''}`}
-											dateFormat="dd.MM.yyyy"
-											minDate={fromDate}
-											shouldCloseOnSelect={true}
-											selected={toDate}
-											onChange={onToChange}
-											withPortal
-											showYearDropdown
-											showMonthDropdown
-										/>
-										<DatePickerIcon />
-									</>
-								)}
-							/>
-						</div>
-					</FormBox>
-				</div>
-
-				<div className="col-12 col-sm-4">
-					<FormBox label="Format" error={errors?.format?.message} className="mt-3">
-						<Controller
-							name="format"
-							control={control}
-							rules={{ required: 'Format is required' }}
-							render={({ field: { onChange, value } }) => (
-								<SelectComponent
-									id="format"
-									className={`react-select ${errors.format ? 'input-error' : ''}`}
-									classNamePrefix="react-select"
-									name="format"
-									options={formatOptions}
-									value={formatOptions.find(o => o.value === value) ?? formatOptions[0]}
-									placeholder="Select format"
-									onChangeFn={opt => onChange(opt?.value ?? 'pdf')}
+			<FormBox label="From" error={errors?.from?.message} className="mt-3">
+				<div className="datepicker-wrapper">
+					<Controller
+						name="from"
+						control={control}
+						rules={{ required: 'From date is required' }}
+						render={() => (
+							<>
+								<ReactDatePicker
+									className={`input form-control ${errors.from ? 'input-error' : ''}`}
+									dateFormat="dd.MM.yyyy"
+									shouldCloseOnSelect={true}
+									selected={fromDate}
+									onChange={onFromChange}
+									withPortal
+									showYearDropdown
+									showMonthDropdown
 								/>
-							)}
-						/>
-					</FormBox>
+								<DatePickerIcon />
+							</>
+						)}
+					/>
 				</div>
-			</div>
+			</FormBox>
+
+			<FormBox label="To" error={errors?.to?.message} className="mt-3">
+				<div className="datepicker-wrapper">
+					<Controller
+						name="to"
+						control={control}
+						rules={{
+							required: 'To date is required',
+							validate: value => (value && fromDate && value >= fromDate) || '"To" cannot be before "From"',
+						}}
+						render={() => (
+							<>
+								<ReactDatePicker
+									className={`input form-control ${errors.to ? 'input-error' : ''}`}
+									dateFormat="dd.MM.yyyy"
+									minDate={fromDate}
+									shouldCloseOnSelect={true}
+									selected={toDate}
+									onChange={onToChange}
+									withPortal
+									showYearDropdown
+									showMonthDropdown
+								/>
+								<DatePickerIcon />
+							</>
+						)}
+					/>
+				</div>
+			</FormBox>
+
+			<FormBox label="Format" error={errors?.format?.message} className="mt-3">
+				<Controller
+					name="format"
+					control={control}
+					rules={{ required: 'Format is required' }}
+					render={({ field: { onChange, value } }) => (
+						<SelectComponent
+							id="format"
+							className={`react-select ${errors.format ? 'input-error' : ''}`}
+							classNamePrefix="react-select"
+							name="format"
+							options={formatOptions}
+							value={formatOptions.find(o => o.value === value) ?? formatOptions[0]}
+							placeholder="Select format"
+							onChangeFn={opt => onChange(opt?.value ?? 'pdf')}
+						/>
+					)}
+				/>
+			</FormBox>
 
 			{/* SECTIONS */}
 			<div className="col-12 mt-4">
