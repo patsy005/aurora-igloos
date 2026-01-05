@@ -16,7 +16,7 @@ $white: #fff;
 $overview-card: #102e31;
 $grey-light: #c8c8c8;
 
-$table-row: #102E31;
+$table-row: #102e31;
 
 $action-btn-border: #e3fef7;
 $action-btn-hover: #2c8993;
@@ -33,14 +33,21 @@ $rate-minus-dark: rgba(193, 4, 15, 0.21);
 $booked: #fd7575;
 $available: #14b72e;
 
-$input-error: #F95555;
+$input-error: #f95555;
 
-$btn-bg: linear-gradient(90deg, #cffaff 0%, #5ad7e4 100%);
-$btn-bg-hover: linear-gradient(90deg, #DAF6F9 0%, #08D0E6 100%);;
+$btn-bg: linear-gradient(135deg, #2c8993 0%, #1f6570 100%);
+$btn-bg-hover: linear-gradient(135deg, #4fb3bf 0%, #2c8993 100%);
 $btn-secondary: linear-gradient(90deg, #fff 0%, #708e92 100%);
-$btn-secondary-hover: linear-gradient(90deg, #EDEDED 0%, #47656A 100%);
-$btn-border: #003C43;
-$btn-text-color: #001C1F;
+$btn-secondary-hover: linear-gradient(90deg, #ededed 0%, #47656a 100%);
+$btn-border: none;
+$btn-text-color: #cffaff;
+
+$btn-cancel-bg: #3a4a4d;
+$btn-cancel-bg-hover: #4a5a5d;
+$btn-cancel-border: #4a5a5d;
+$btn-cancel-border-hover: #5a6a6d;
+$btn-cancel-text: #a8b2b4;
+$btn-cancel-text-hover: #c8d2d4;
 
 $image-bg: linear-gradient(0deg, rgba(0, 28, 31, 0.67) 0%, rgba(0, 28, 31, 0.67) 100%), lightgray 50% / cover no-repeat;
 // $image-bg: linear-gradient(0deg, rgba(0, 28, 31, 0.67) 0%, rgba(0, 28, 31, 0.67) 100%),

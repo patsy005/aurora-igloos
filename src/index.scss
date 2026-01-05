@@ -318,27 +318,46 @@ body {
 }
 .button {
 	border-radius: 6px;
-	padding: 0.7rem 1.5rem;
+	padding: 0.9rem 2rem;
 	font-size: 1.3rem;
-	font-weight: 700;
+	font-weight: 600;
 	color: $btn-text-color;
 	background: $btn-bg;
-	border: 1px solid $btn-border;
-	transition: background 0.3s ease-in-out;
+	border: $btn-border;
+	box-shadow: 0 4px 12px rgba(44, 137, 147, 0.3);
+	transition: all 0.3s ease-in-out;
 	margin-right: 0 !important;
 
-	&:hover {
+	&:hover:not(:disabled) {
 		background: $btn-bg-hover;
+		box-shadow: 0 6px 16px rgba(44, 137, 147, 0.4);
+		transform: translateY(-2px);
 	}
 
 	&:disabled {
-		background: $btn-bg-hover;
+		opacity: 0.5;
+		cursor: not-allowed;
+		box-shadow: none;
+	}
+
+	&.cancel-btn {
+		background: $btn-cancel-bg;
+		border: 1px solid $btn-cancel-border;
+		color: $btn-cancel-text;
+		box-shadow: none;
+
+		&:hover:not(:disabled) {
+			background: $btn-cancel-bg-hover;
+			border-color: $btn-cancel-border-hover;
+			color: $btn-cancel-text-hover;
+			transform: none;
+		}
 	}
 
 	&__destroy {
 		background: $btn-secondary;
 		color: $primary-6;
-		border: 1px solid $btn-border;
+		border: 1px solid #003c43;
 
 		&:hover {
 			background: $btn-secondary-hover;

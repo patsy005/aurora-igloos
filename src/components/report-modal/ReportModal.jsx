@@ -127,7 +127,6 @@ import { Controller, useForm } from 'react-hook-form'
 import { useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 
-import FormBox from '../../components/Form/FormBox'
 import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
 import SelectComponent from '../../components/select/SelectComponent'
@@ -137,6 +136,7 @@ import { DatePickerIcon } from '../../ui/Icons'
 
 import { formatDateOnly } from '../../utils/utils'
 import { clearReportsState, generateReport } from '../../slices/reportsSlice'
+import './ReportModal.scss'
 
 function getDefaultFromDate() {
 	const d = new Date()
@@ -258,136 +258,155 @@ function ReportModal() {
 	}
 
 	return (
-		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
-			<h2>Generate report</h2>
+		<div className="report-modal">
+			<div className="report-modal__header">
+				<h2>Generate Report</h2>
+				<p>Create a comprehensive report from your data</p>
+			</div>
 
-			{/* DATES + FORMAT */}
-			<FormBox label="From" error={errors?.from?.message} className="mt-3">
-				<div className="datepicker-wrapper">
-					<Controller
-						name="from"
-						control={control}
-						rules={{ required: 'From date is required' }}
-						render={() => (
-							<>
-								<ReactDatePicker
-									className={`input form-control ${errors.from ? 'input-error' : ''}`}
-									dateFormat="dd.MM.yyyy"
-									shouldCloseOnSelect={true}
-									selected={fromDate}
-									onChange={onFromChange}
-									withPortal
-									showYearDropdown
-									showMonthDropdown
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<div className="report-modal__content">
+					{/* DATE RANGE & FORMAT SECTION */}
+					<div className="report-modal__section">
+						<h3 className="report-modal__section-title">Report Configuration</h3>
+						<div className="report-modal__date-row">
+							<div className="report-modal__field">
+								<label>From Date</label>
+								<div className="datepicker-wrapper">
+									<Controller
+										name="from"
+										control={control}
+										rules={{ required: 'From date is required' }}
+										render={() => (
+											<>
+												<ReactDatePicker
+													className={`input ${errors.from ? 'input-error' : ''}`}
+													dateFormat="dd.MM.yyyy"
+													shouldCloseOnSelect={true}
+													selected={fromDate}
+													onChange={onFromChange}
+													withPortal
+													showYearDropdown
+													showMonthDropdown
+												/>
+												<DatePickerIcon />
+											</>
+										)}
+									/>
+								</div>
+								{errors?.from?.message && <p className="error-message">{errors.from.message}</p>}
+							</div>
+
+							<div className="report-modal__field">
+								<label>To Date</label>
+								<div className="datepicker-wrapper">
+									<Controller
+										name="to"
+										control={control}
+										rules={{
+											required: 'To date is required',
+											validate: value => (value && fromDate && value >= fromDate) || '"To" cannot be before "From"',
+										}}
+										render={() => (
+											<>
+												<ReactDatePicker
+													className={`input ${errors.to ? 'input-error' : ''}`}
+													dateFormat="dd.MM.yyyy"
+													minDate={fromDate}
+													shouldCloseOnSelect={true}
+													selected={toDate}
+													onChange={onToChange}
+													withPortal
+													showYearDropdown
+													showMonthDropdown
+												/>
+												<DatePickerIcon />
+											</>
+										)}
+									/>
+								</div>
+								{errors?.to?.message && <p className="error-message">{errors.to.message}</p>}
+							</div>
+
+							<div className="report-modal__field">
+								<label>Format</label>
+								<Controller
+									name="format"
+									control={control}
+									rules={{ required: 'Format is required' }}
+									render={({ field: { onChange, value } }) => (
+										<SelectComponent
+											id="format"
+											className={`react-select ${errors.format ? 'input-error' : ''}`}
+											classNamePrefix="react-select"
+											name="format"
+											options={formatOptions}
+											value={formatOptions.find(o => o.value === value) ?? formatOptions[0]}
+											placeholder="Select format"
+											onChangeFn={opt => onChange(opt?.value ?? 'pdf')}
+										/>
+									)}
 								/>
-								<DatePickerIcon />
-							</>
-						)}
-					/>
-				</div>
-			</FormBox>
+								{errors?.format?.message && <p className="error-message">{errors.format.message}</p>}
+							</div>
+						</div>
+					</div>
 
-			<FormBox label="To" error={errors?.to?.message} className="mt-3">
-				<div className="datepicker-wrapper">
-					<Controller
-						name="to"
-						control={control}
-						rules={{
-							required: 'To date is required',
-							validate: value => (value && fromDate && value >= fromDate) || '"To" cannot be before "From"',
-						}}
-						render={() => (
-							<>
-								<ReactDatePicker
-									className={`input form-control ${errors.to ? 'input-error' : ''}`}
-									dateFormat="dd.MM.yyyy"
-									minDate={fromDate}
-									shouldCloseOnSelect={true}
-									selected={toDate}
-									onChange={onToChange}
-									withPortal
-									showYearDropdown
-									showMonthDropdown
-								/>
-								<DatePickerIcon />
-							</>
-						)}
-					/>
-				</div>
-			</FormBox>
+					{/* SECTIONS TO INCLUDE */}
+					<div className="report-modal__section">
+						<h3 className="report-modal__section-title">Include Sections</h3>
+						<div className="report-modal__checkboxes">
+							<label className="report-modal__checkbox-label">
+								<input type="checkbox" {...register('includeDashboard')} />
+								<span>Dashboard Summary</span>
+							</label>
 
-			<FormBox label="Format" error={errors?.format?.message} className="mt-3">
-				<Controller
-					name="format"
-					control={control}
-					rules={{ required: 'Format is required' }}
-					render={({ field: { onChange, value } }) => (
-						<SelectComponent
-							id="format"
-							className={`react-select ${errors.format ? 'input-error' : ''}`}
-							classNamePrefix="react-select"
-							name="format"
-							options={formatOptions}
-							value={formatOptions.find(o => o.value === value) ?? formatOptions[0]}
-							placeholder="Select format"
-							onChangeFn={opt => onChange(opt?.value ?? 'pdf')}
-						/>
+							<label className="report-modal__checkbox-label">
+								<input type="checkbox" {...register('includeSales')} />
+								<span>Sales Series (Current vs Previous Year)</span>
+							</label>
+
+							<label className="report-modal__checkbox-label">
+								<input type="checkbox" {...register('includeBookings')} />
+								<span>Bookings Overview</span>
+							</label>
+
+							<label className="report-modal__checkbox-label">
+								<input type="checkbox" {...register('includeIgloos')} />
+								<span>Igloos KPI</span>
+							</label>
+
+							<label className="report-modal__checkbox-label">
+								<input type="checkbox" {...register('includeTrips')} />
+								<span>Trips Catalog</span>
+							</label>
+						</div>
+						{!anySection && <p className="error-message">Please select at least one section</p>}
+					</div>
+
+					{/* ERROR MESSAGES */}
+					{(errors?.formError?.message || error) && (
+						<p className="error-message">{errors?.formError?.message || error}</p>
 					)}
-				/>
-			</FormBox>
-
-			{/* SECTIONS */}
-			<div className="col-12 mt-4">
-				<p className="label">Include sections</p>
-
-				<div className="mt-2 d-flex flex-column gap-2">
-					<label className="d-flex gap-2 align-items-center">
-						<input type="checkbox" className="checkbox-input" {...register('includeDashboard')} />
-						Dashboard summary
-					</label>
-
-					<label className="d-flex gap-2 align-items-center">
-						<input type="checkbox" className="checkbox-input" {...register('includeSales')} />
-						Sales series (current vs previous year)
-					</label>
-
-					<label className="d-flex gap-2 align-items-center">
-						<input type="checkbox" className="checkbox-input" {...register('includeBookings')} />
-						Bookings
-					</label>
-
-					<label className="d-flex gap-2 align-items-center">
-						<input type="checkbox" className="checkbox-input" {...register('includeIgloos')} />
-						Igloos KPI
-					</label>
-
-					<label className="d-flex gap-2 align-items-center">
-						<input type="checkbox" className="checkbox-input" {...register('includeTrips')} />
-						Trips catalog
-					</label>
 				</div>
 
-				{!anySection && <p className="error-message mt-2">Select at least one section.</p>}
-			</div>
+				{/* FOOTER WITH BUTTONS */}
+				<div className="report-modal__footer">
+					<Button
+						className="cancel-btn"
+						onClick={handleCloseModal}
+						type="button"
+						disabled={isFetching || isFormLoading}>
+						Cancel
+					</Button>
 
-			{/* ERRORS */}
-			<div className="col-12 mt-3">
-				{errors?.formError?.message && <p className="error-message">{errors.formError.message}</p>}
-				{!errors?.formError?.message && error && <p className="error-message">{error}</p>}
-			</div>
-
-			{/* BUTTONS */}
-			<div className="d-flex justify-content-end text-end form-btns">
-				<Button className="cancel-btn" onClick={handleCloseModal} type="button" disabled={isFetching || isFormLoading}>
-					Cancel
-				</Button>
-
-				<Button type="submit" disabled={isFetching || isFormLoading || !anySection}>
-					{(isFetching || isFormLoading) && <Spinner className="form" />}
-					{!(isFetching || isFormLoading) && 'Generate report'}
-				</Button>
-			</div>
-		</form>
+					<Button type="submit" disabled={isFetching || isFormLoading || !anySection}>
+						{(isFetching || isFormLoading) && <Spinner className="form" />}
+						{!(isFetching || isFormLoading) && 'Generate Report'}
+					</Button>
+				</div>
+			</form>
+		</div>
 	)
 }
 

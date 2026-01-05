@@ -1,0 +1,238 @@
+@import '../../colors';
+
+.report-modal {
+	background-color: $box-bg;
+	border-radius: 8px;
+	padding: 0;
+	max-width: 650px;
+	overflow: visible;
+
+	&__header {
+		background: linear-gradient(135deg, #102e31 0%, #0a1f22 100%);
+		padding: 2.5rem 3rem;
+		border-radius: 8px 8px 0 0;
+		border-bottom: 2px solid #2c8993;
+
+		h2 {
+			font-size: 2.2rem;
+			font-weight: 700;
+			color: #cffaff;
+			margin: 0;
+			display: flex;
+			align-items: center;
+			gap: 1rem;
+
+			&::before {
+				content: '📊';
+				font-size: 2.4rem;
+			}
+		}
+
+		p {
+			color: #4fb3bf;
+			font-size: 1.3rem;
+			margin: 0.5rem 0 0 0;
+			opacity: 0.9;
+		}
+	}
+
+	&__content {
+		padding: 3rem;
+		display: flex;
+		flex-direction: column;
+		gap: 2.5rem;
+	}
+
+	&__section {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+
+		&-title {
+			font-size: 1.5rem;
+			font-weight: 600;
+			color: #cffaff;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			margin: 0;
+			padding-bottom: 0.8rem;
+			border-bottom: 1px solid rgba(44, 137, 147, 0.3);
+		}
+	}
+
+	&__date-row {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.5rem;
+
+		@media (max-width: 768px) {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	&__field {
+		display: flex;
+		flex-direction: column;
+		gap: 0.8rem;
+
+		label {
+			font-size: 1.3rem;
+			font-weight: 600;
+			color: #4fb3bf;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+
+		.datepicker-wrapper {
+			position: relative;
+
+			.input {
+				width: 100%;
+				background-color: #001c1f;
+				border: 1px solid #2c8993;
+				border-radius: 6px;
+				padding: 1.2rem 1.5rem;
+				color: #cffaff;
+				font-size: 1.4rem;
+				transition: all 0.3s ease;
+
+				&:hover {
+					border-color: #4fb3bf;
+					background-color: #102e31;
+				}
+
+				&:focus {
+					border-color: #56efff;
+					outline: none;
+					box-shadow: 0 0 0 3px rgba(86, 239, 255, 0.1);
+				}
+
+				&.input-error {
+					border-color: #ff4e59;
+				}
+			}
+
+			svg {
+				position: absolute;
+				right: 1.5rem;
+				top: 50%;
+				transform: translateY(-50%);
+				pointer-events: none;
+			}
+		}
+	}
+
+	&__checkboxes {
+		display: flex;
+		flex-direction: column;
+		gap: 1.2rem;
+		padding: 1.5rem;
+		background-color: rgba(16, 46, 49, 0.4);
+		border-radius: 8px;
+		border: 1px solid rgba(44, 137, 147, 0.2);
+	}
+
+	&__checkbox-label {
+		display: flex;
+		align-items: center;
+		gap: 1.2rem;
+		padding: 1rem 1.5rem;
+		background-color: #001c1f;
+		border-radius: 6px;
+		border: 1px solid transparent;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		font-size: 1.4rem;
+		color: #cffaff;
+		font-weight: 500;
+
+		&:hover {
+			background-color: #102e31;
+			border-color: #2c8993;
+			transform: translateX(4px);
+		}
+
+		input[type='checkbox'] {
+			appearance: none;
+			width: 20px;
+			height: 20px;
+			border: 2px solid #2c8993;
+			border-radius: 4px;
+			background-color: transparent;
+			cursor: pointer;
+			position: relative;
+			transition: all 0.3s ease;
+			flex-shrink: 0;
+
+			&:checked {
+				background-color: #2c8993;
+				border-color: #56efff;
+
+				&::after {
+					content: '✓';
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					color: #cffaff;
+					font-size: 1.4rem;
+					font-weight: bold;
+				}
+			}
+
+			&:hover {
+				border-color: #4fb3bf;
+			}
+		}
+	}
+
+	&__footer {
+		display: flex;
+		justify-content: flex-end;
+		gap: 1.2rem;
+		padding: 2rem 3rem;
+		background-color: rgba(16, 46, 49, 0.3);
+		border-radius: 0 0 8px 8px;
+		border-top: 1px solid rgba(44, 137, 147, 0.2);
+
+		.button {
+			min-width: 100px;
+			padding: 0.9rem 2rem;
+			font-size: 1.3rem;
+			font-weight: 600;
+			border-radius: 6px;
+
+			&:not(.cancel-btn) {
+				background: linear-gradient(135deg, #2c8993 0%, #1f6570 100%);
+				border: none;
+				color: #cffaff;
+				box-shadow: 0 4px 12px rgba(44, 137, 147, 0.3);
+
+				&:hover:not(:disabled) {
+					background: linear-gradient(135deg, #4fb3bf 0%, #2c8993 100%);
+					box-shadow: 0 6px 16px rgba(44, 137, 147, 0.4);
+					transform: translateY(-2px);
+				}
+
+				&:disabled {
+					opacity: 0.5;
+					cursor: not-allowed;
+				}
+			}
+		}
+	}
+
+	.error-message {
+		color: #ff4e59;
+		font-size: 1.3rem;
+		margin-top: 0.5rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+
+		&::before {
+			content: '⚠';
+			font-size: 1.4rem;
+		}
+	}
+}

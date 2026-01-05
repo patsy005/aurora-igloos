@@ -5,15 +5,6 @@
 	margin-top: 2rem !important;
 }
 
-.cancel-btn {
-	background: $btn-secondary !important;
-	transition: all 0.3s ease-in-out;
-
-	&:hover {
-		background: $btn-secondary-hover !important;
-	}
-}
-
 .booking-type-badge {
 	padding: 4px 10px;
 	background: rgba(0, 0, 0, 0.65);
