@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchDashboardStats } from '../../slices/dashboardSlice'
 import HomeHeading from './HomeHeading'
 import SelectComponent from '../../components/select/SelectComponent'
-import OverviewCard from '../../components/overview-card/OverviewCard'
 import { BookingsIcon, CheckinsIcon, OccupancyRateIcon } from '../../ui/Icons'
 import StayLengthChart from '../../components/stay-length-chart/StayLengthChart'
+import './HomeOverview.scss'
 
 function HomeOverview({ user }) {
 	const dispatch = useDispatch()
@@ -41,39 +41,106 @@ function HomeOverview({ user }) {
 		<section className="section mt-5">
 			<HomeHeading user={user} />
 
-			<div className="overview section-box section-margin">
-				<div className="overview-top justify-content-between">
-					<p className="overview-title col-6">Overview</p>
-
-					<SelectComponent
-						className={`react-select }`}
-						classNamePrefix="react-select"
-						options={options}
-						value={selectedOption}
-						onChangeFn={val => setDays(Number(val))}
-						isDisabled={isLoadingStats}
-					/>
+			<div className="home-overview__section section-margin">
+				<div className="home-overview__header">
+					<div className="title-section">
+						<span className="icon">📊</span>
+						<h2>Overview</h2>
+					</div>
+					<div className="d-flex align-items-center gap-3">
+						<p className="subtitle">Statistics from last {days} days</p>
+						<SelectComponent
+							className="react-select"
+							classNamePrefix="react-select"
+							options={options}
+							value={selectedOption}
+							onChangeFn={val => setDays(Number(val))}
+							isDisabled={isLoadingStats}
+						/>
+					</div>
 				</div>
 
-				<div className="overview-content justify-content-between col-12">
-					<OverviewCard
-						selectedOption={isLoadingStats ? '...' : stats?.bookings ?? 0}
-						icon={<BookingsIcon />}
-						title="bookings"
-						rate={stats?.bookingChangePercent ?? 0}
-					/>
-					<OverviewCard
-						selectedOption={isLoadingStats ? '...' : stats?.checkIns ?? 0}
-						icon={<CheckinsIcon />}
-						title="checkins"
-						rate={stats?.checkInChangePercent ?? 0}
-					/>
-					<OverviewCard
-						selectedOption={isLoadingStats ? '...' : stats?.occupancy ?? 0}
-						icon={<OccupancyRateIcon />}
-						title="occupancy"
-						rate={stats?.occupancyChangePercent ?? 0}
-					/>
+				<div className="home-overview__cards">
+					{/* Bookings Card */}
+					<div className="overview-card-new">
+						<div className="overview-card-new__left">
+							<div className="overview-card-new__icon">
+								<BookingsIcon />
+							</div>
+							<div className="overview-card-new__content">
+								<p className="overview-card-new__title">Bookings</p>
+								<p className="overview-card-new__value">{isLoadingStats ? '...' : stats?.bookings ?? 0}</p>
+							</div>
+						</div>
+						{stats?.bookingChangePercent !== 0 && (
+							<div
+								className={`overview-card-new__badge ${
+									stats?.bookingChangePercent > 0
+										? 'overview-card-new__badge--positive'
+										: 'overview-card-new__badge--negative'
+								}`}>
+								<span className="arrow">{stats?.bookingChangePercent > 0 ? '↗' : '↘'}</span>
+								<span>
+									{stats?.bookingChangePercent > 0 ? '+' : ''}
+									{stats?.bookingChangePercent ?? 0}%
+								</span>
+							</div>
+						)}
+					</div>
+
+					{/* Check-ins Card */}
+					<div className="overview-card-new">
+						<div className="overview-card-new__left">
+							<div className="overview-card-new__icon">
+								<CheckinsIcon />
+							</div>
+							<div className="overview-card-new__content">
+								<p className="overview-card-new__title">Check-ins</p>
+								<p className="overview-card-new__value">{isLoadingStats ? '...' : stats?.checkIns ?? 0}</p>
+							</div>
+						</div>
+						{stats?.checkInChangePercent !== 0 && (
+							<div
+								className={`overview-card-new__badge ${
+									stats?.checkInChangePercent > 0
+										? 'overview-card-new__badge--positive'
+										: 'overview-card-new__badge--negative'
+								}`}>
+								<span className="arrow">{stats?.checkInChangePercent > 0 ? '↗' : '↘'}</span>
+								<span>
+									{stats?.checkInChangePercent > 0 ? '+' : ''}
+									{stats?.checkInChangePercent ?? 0}%
+								</span>
+							</div>
+						)}
+					</div>
+
+					{/* Occupancy Card */}
+					<div className="overview-card-new">
+						<div className="overview-card-new__left">
+							<div className="overview-card-new__icon">
+								<OccupancyRateIcon />
+							</div>
+							<div className="overview-card-new__content">
+								<p className="overview-card-new__title">Occupancy</p>
+								<p className="overview-card-new__value">{isLoadingStats ? '...' : `${stats?.occupancy ?? 0}%`}</p>
+							</div>
+						</div>
+						{stats?.occupancyChangePercent !== 0 && (
+							<div
+								className={`overview-card-new__badge ${
+									stats?.occupancyChangePercent > 0
+										? 'overview-card-new__badge--positive'
+										: 'overview-card-new__badge--negative'
+								}`}>
+								<span className="arrow">{stats?.occupancyChangePercent > 0 ? '↗' : '↘'}</span>
+								<span>
+									{stats?.occupancyChangePercent > 0 ? '+' : ''}
+									{stats?.occupancyChangePercent ?? 0}%
+								</span>
+							</div>
+						)}
+					</div>
 				</div>
 			</div>
 

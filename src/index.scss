@@ -829,6 +829,9 @@ body {
 	background-color: #102e31;
 	border-radius: 6px;
 	padding: 2rem 2.5rem;
+	background-color: $box-bg;
+	border-radius: 8px;
+	border: 1px solid rgba(44, 137, 147, 0.3);
 
 	h1 {
 		font-size: 1.8rem;
@@ -905,6 +908,10 @@ body {
 	-ms-flex-direction: column;
 	flex-direction: column;
 	gap: 1rem;
+	background-color: $box-bg;
+	border-radius: 8px;
+	overflow: hidden;
+	border: 1px solid rgba(44, 137, 147, 0.3);
 }
 
 .overview {
@@ -920,6 +927,11 @@ body {
 	-ms-flex-direction: column;
 	flex-direction: column;
 	gap: 1rem;
+	background-color: $box-bg;
+	border-radius: 8px;
+	padding: 0;
+	overflow: hidden;
+	border: 1px solid rgba(44, 137, 147, 0.3);
 }
 
 .overview {

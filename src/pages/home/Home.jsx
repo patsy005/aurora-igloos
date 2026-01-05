@@ -38,9 +38,6 @@ function Home() {
 
 	return (
 		<>
-			<Button type="button" onClick={() => openModal(ReportModal, {})}>
-				Generate report
-			</Button>
 			<HomeStatsOverview user={user} />
 			<HomePopularIgloos />
 			<SalesChart />
