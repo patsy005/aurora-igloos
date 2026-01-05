@@ -1,0 +1,149 @@
+@import '../../colors';
+
+.overview-card-new {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 2rem;
+	background-color: rgba(0, 28, 31, 0.4);
+	border-radius: 8px;
+	border: 1px solid rgba(44, 137, 147, 0.3);
+	transition: all 0.3s ease;
+	margin-bottom: 0;
+	flex: 1;
+
+	@media (min-width: 769px) {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1.5rem;
+	}
+
+	&:hover {
+		background-color: rgba(16, 46, 49, 0.6);
+		border-color: rgba(44, 137, 147, 0.5);
+
+		@media (min-width: 769px) {
+			transform: translateY(-4px);
+		}
+
+		@media (max-width: 768px) {
+			transform: translateX(4px);
+		}
+	}
+
+	&__left {
+		display: flex;
+		align-items: center;
+		align-items: start;
+		gap: 2rem;
+		flex: 1;
+	}
+
+	&__icon {
+		width: 64px;
+		height: 64px;
+		border-radius: 50%;
+		background-color: #001c1f;
+		border: 2px solid #2c8993;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+
+		svg {
+			width: 32px;
+			height: 32px;
+		}
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	&__title {
+		font-size: 1.3rem;
+		color: #4fb3bf;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		font-weight: 600;
+		margin: 0;
+	}
+
+	&__value {
+		font-size: 2.8rem;
+		color: #cffaff;
+		font-weight: 700;
+		margin: 0;
+		line-height: 1;
+	}
+
+	&__badge {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		padding: 0.8rem 1.5rem;
+		border-radius: 20px;
+		font-size: 1.4rem;
+		font-weight: 600;
+		flex-shrink: 0;
+
+		@media (min-width: 769px) {
+			margin-top: 0;
+		}
+
+		&--positive {
+			background-color: rgba(34, 197, 94, 0.2);
+			border: 1px solid rgba(34, 197, 94, 0.4);
+			color: #22c55e;
+
+			.arrow {
+				font-size: 1.6rem;
+			}
+		}
+
+		&--negative {
+			background-color: rgba(239, 68, 68, 0.2);
+			border: 1px solid rgba(239, 68, 68, 0.4);
+			color: #ef4444;
+
+			.arrow {
+				font-size: 1.6rem;
+			}
+		}
+
+		&--neutral {
+			background-color: rgba(168, 178, 180, 0.2);
+			border: 1px solid rgba(168, 178, 180, 0.4);
+			color: #a8b2b4;
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	.overview-card-new {
+		&__left {
+			gap: 1.5rem;
+		}
+
+		&__icon {
+			width: 56px;
+			height: 56px;
+
+			svg {
+				width: 28px;
+				height: 28px;
+			}
+		}
+
+		&__value {
+			font-size: 2.4rem;
+		}
+
+		&__badge {
+			padding: 0.6rem 1.2rem;
+			font-size: 1.2rem;
+		}
+	}
+}

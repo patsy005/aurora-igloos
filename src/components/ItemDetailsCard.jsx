@@ -1,13 +1,14 @@
-function ItemDetailsCard({ title, number, additional, additional2 }) {
+import './ItemDetailsCard.scss'
+
+function ItemDetailsCard({ title, number, additional, additional2, icon, className = '' }) {
 	return (
-		<div className="overview-card col-9 col-sm-7 col-md-8 col-lg-5 col-xxl-4 mt-3">
-			<div className="overview-card__stats">
-				<div className={`overview-card__stats--box`}>
-					<p className="overview-card__stats--title">{title}</p>
-					<p className="overview-card__stats--number">{number}</p>
-					{additional && <p className="additional">{additional}</p>}
-					{additional2 && <p className="additional">{additional2}</p>}
-				</div>
+		<div className={`item-details-card ${className}`}>
+			{icon && <div className="item-details-card__icon">{icon}</div>}
+			<div className="item-details-card__content">
+				<p className="item-details-card__title">{title}</p>
+				<p className="item-details-card__value">{number}</p>
+				{additional && <p className="item-details-card__additional">{additional}</p>}
+				{additional2 && <p className="item-details-card__additional">{additional2}</p>}
 			</div>
 		</div>
 	)

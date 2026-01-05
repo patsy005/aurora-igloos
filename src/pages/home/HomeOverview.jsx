@@ -5,6 +5,7 @@ import HomeHeading from './HomeHeading'
 import SelectComponent from '../../components/select/SelectComponent'
 import { BookingsIcon, CheckinsIcon, OccupancyRateIcon } from '../../ui/Icons'
 import StayLengthChart from '../../components/stay-length-chart/StayLengthChart'
+import OverviewCard from '../../components/overview-card/OverviewCard'
 import './HomeOverview.scss'
 
 function HomeOverview({ user }) {
@@ -61,86 +62,27 @@ function HomeOverview({ user }) {
 				</div>
 
 				<div className="home-overview__cards">
-					{/* Bookings Card */}
-					<div className="overview-card-new">
-						<div className="overview-card-new__left">
-							<div className="overview-card-new__icon">
-								<BookingsIcon />
-							</div>
-							<div className="overview-card-new__content">
-								<p className="overview-card-new__title">Bookings</p>
-								<p className="overview-card-new__value">{isLoadingStats ? '...' : stats?.bookings ?? 0}</p>
-							</div>
-						</div>
-						{stats?.bookingChangePercent !== 0 && (
-							<div
-								className={`overview-card-new__badge ${
-									stats?.bookingChangePercent > 0
-										? 'overview-card-new__badge--positive'
-										: 'overview-card-new__badge--negative'
-								}`}>
-								<span className="arrow">{stats?.bookingChangePercent > 0 ? '↗' : '↘'}</span>
-								<span>
-									{stats?.bookingChangePercent > 0 ? '+' : ''}
-									{stats?.bookingChangePercent ?? 0}%
-								</span>
-							</div>
-						)}
-					</div>
-
-					{/* Check-ins Card */}
-					<div className="overview-card-new">
-						<div className="overview-card-new__left">
-							<div className="overview-card-new__icon">
-								<CheckinsIcon />
-							</div>
-							<div className="overview-card-new__content">
-								<p className="overview-card-new__title">Check-ins</p>
-								<p className="overview-card-new__value">{isLoadingStats ? '...' : stats?.checkIns ?? 0}</p>
-							</div>
-						</div>
-						{stats?.checkInChangePercent !== 0 && (
-							<div
-								className={`overview-card-new__badge ${
-									stats?.checkInChangePercent > 0
-										? 'overview-card-new__badge--positive'
-										: 'overview-card-new__badge--negative'
-								}`}>
-								<span className="arrow">{stats?.checkInChangePercent > 0 ? '↗' : '↘'}</span>
-								<span>
-									{stats?.checkInChangePercent > 0 ? '+' : ''}
-									{stats?.checkInChangePercent ?? 0}%
-								</span>
-							</div>
-						)}
-					</div>
-
-					{/* Occupancy Card */}
-					<div className="overview-card-new">
-						<div className="overview-card-new__left">
-							<div className="overview-card-new__icon">
-								<OccupancyRateIcon />
-							</div>
-							<div className="overview-card-new__content">
-								<p className="overview-card-new__title">Occupancy</p>
-								<p className="overview-card-new__value">{isLoadingStats ? '...' : `${stats?.occupancy ?? 0}%`}</p>
-							</div>
-						</div>
-						{stats?.occupancyChangePercent !== 0 && (
-							<div
-								className={`overview-card-new__badge ${
-									stats?.occupancyChangePercent > 0
-										? 'overview-card-new__badge--positive'
-										: 'overview-card-new__badge--negative'
-								}`}>
-								<span className="arrow">{stats?.occupancyChangePercent > 0 ? '↗' : '↘'}</span>
-								<span>
-									{stats?.occupancyChangePercent > 0 ? '+' : ''}
-									{stats?.occupancyChangePercent ?? 0}%
-								</span>
-							</div>
-						)}
-					</div>
+					<OverviewCard
+						title="Bookings"
+						icon={<BookingsIcon />}
+						value={stats?.bookings ?? 0}
+						changePercent={stats?.bookingChangePercent}
+						isLoading={isLoadingStats}
+					/>
+					<OverviewCard
+						title="Check-ins"
+						icon={<CheckinsIcon />}
+						value={stats?.checkIns ?? 0}
+						changePercent={stats?.checkInChangePercent}
+						isLoading={isLoadingStats}
+					/>
+					<OverviewCard
+						title="Occupancy"
+						icon={<OccupancyRateIcon />}
+						value={`${stats?.occupancy ?? 0}%`}
+						changePercent={stats?.occupancyChangePercent}
+						isLoading={isLoadingStats}
+					/>
 				</div>
 			</div>
 

@@ -1,27 +1,27 @@
-function OverviewCard({ selectedOption, title, icon, rate }) {
+import './OverviewCard.scss'
+
+function OverviewCard({ title, icon, value, changePercent, isLoading }) {
 	return (
-		<div className="overview-card col-sm-3 col-xxl-2 mt-3">
-			<div className={`overview-card__icon-box overview-card__icon-box--${title}`}>
-				{/* <BookingsIcon /> */}
-				{icon}
-			</div>
-			<div className="overview-card__stats">
-				<div className={`overview-card__stats--box overview-card__stats--box-${title}`}>
-					<p className="overview-card__stats--title">{title}</p>
-					<p className="overview-card__stats--number">
-						{selectedOption}
-						{title === 'occupancy' ? '%' : ''}
-					</p>
+		<div className="overview-card-new">
+			<div className="overview-card-new__left">
+				<div className="overview-card-new__icon">{icon}</div>
+				<div className="overview-card-new__content">
+					<p className="overview-card-new__title">{title}</p>
+					<p className="overview-card-new__value">{isLoading ? '...' : value}</p>
 				</div>
-				{rate && (
-					<div className={`overview-card__percentage-stats overview-card__percentage-stats--${rate}`}>
-						<p className="overview-card__percentage-stats--text">
-							<span>+</span>
-							<span>{rate}</span>%
-						</p>
-					</div>
-				)}
 			</div>
+			{changePercent !== undefined && changePercent !== 0 && (
+				<div
+					className={`overview-card-new__badge ${
+						changePercent > 0 ? 'overview-card-new__badge--positive' : 'overview-card-new__badge--negative'
+					}`}>
+					<span className="arrow">{changePercent > 0 ? '↗' : '↘'}</span>
+					<span>
+						{changePercent > 0 ? '+' : ''}
+						{changePercent}%
+					</span>
+				</div>
+			)}
 		</div>
 	)
 }

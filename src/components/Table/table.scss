@@ -3,77 +3,91 @@
 .customers-table {
 	&__phone,
 	&__nationality {
-		color: $grey-light;
+		color: #4fb3bf;
 		font-size: 1.3rem;
+		font-weight: 500;
 	}
-
-	// &__nationality {
-	// 	text-transform: uppercase;
-	// }
 }
+
 .promo-table {
 	&__valid-period {
-		font-size: 1.2rem;
-		font-weight: 700;
+		font-size: 1.3rem;
+		font-weight: 600;
+		color: #4fb3bf;
 	}
 
 	&__name {
-		font-weight: bold;
-		font-size: 1.4rem;
+		font-weight: 700;
+		font-size: 1.5rem;
+		color: #cffaff;
 	}
 
 	&__discount {
-		color: $green-light;
+		color: #22c55e;
 		font-weight: 700;
+		font-size: 1.4rem;
 	}
 
 	&__description {
 		font-size: 1.2rem;
-		font-weight: 500;
-		color: $grey-light;
+		font-weight: 400;
+		color: #4fb3bf;
 	}
 }
 
 .bookings-table {
 	&__igloo {
-		font-weight: bold;
-		font-size: 1.4rem;
+		font-weight: 700;
+		font-size: 1.5rem;
+		color: #cffaff;
 	}
 
 	&__guest {
 		display: flex;
 		flex-direction: column;
+		gap: 0.3rem;
 
 		.name {
 			font-size: 1.4rem;
-			font-weight: 500;
+			font-weight: 600;
+			color: #cffaff;
 		}
 
 		.email {
 			font-size: 1.2rem;
-			font-weight: 500;
+			font-weight: 400;
+			color: #4fb3bf;
 		}
 	}
 
 	&__dates,
 	&__amount {
-		font-size: 1.2rem;
-		font-weight: 700;
+		font-size: 1.3rem;
+		font-weight: 600;
+		color: #4fb3bf;
 	}
 
 	&__actions {
 		display: flex;
-		gap: 0.5rem;
-		justify-content: space-between;
+		gap: 0.8rem;
+		justify-content: flex-end;
 
 		span {
 			border-radius: 6px;
-			background: none;
-			padding: 0.4rem;
-			transition: all 0.3s ease-in-out;
+			background: rgba(44, 137, 147, 0.2);
+			padding: 0.6rem;
+			transition: all 0.3s ease;
 			cursor: pointer !important;
+			border: 1px solid rgba(44, 137, 147, 0.3);
+
 			&:hover {
-				background: $primary-19;
+				background: rgba(44, 137, 147, 0.4);
+				border-color: #2c8993;
+				transform: translateY(-2px);
+			}
+
+			svg {
+				display: block;
 			}
 		}
 	}
@@ -81,12 +95,13 @@
 
 .users-table {
 	img {
-		border-radius: 6px;
+		border-radius: 8px;
+		border: 2px solid rgba(44, 137, 147, 0.3);
 	}
 	&__img {
 		width: 8rem;
 		height: 8rem;
-		box-shadow: 0 0 2px 0 $primary-67;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 		object-fit: cover;
 	}
 
@@ -94,29 +109,35 @@
 	&__address {
 		display: flex;
 		flex-direction: column;
+		gap: 0.3rem;
 	}
 
 	&__name {
 		.name {
 			font-size: 1.4rem;
-			font-weight: 500;
+			font-weight: 600;
+			color: #cffaff;
 		}
 
 		.email {
 			font-size: 1.2rem;
-			font-weight: 500;
+			font-weight: 400;
+			color: #4fb3bf;
 		}
 	}
 
 	&__address {
-		color: $grey-light;
+		color: #4fb3bf;
 		.street {
 			font-weight: 600;
+			color: #cffaff;
 		}
 	}
 
 	&__role {
 		text-transform: uppercase;
+		font-weight: 600;
+		color: #4fb3bf;
 	}
 
 	tbody {
@@ -124,114 +145,91 @@
 			&:first-of-type {
 				padding: 0 !important;
 			}
-			// padding: 0 !important;
 		}
 	}
 
 	&__actions {
 		display: flex;
-		// gap: 0.5rem;
-		justify-content: space-between;
+		gap: 0.8rem;
+		justify-content: flex-end;
 
 		span {
 			border-radius: 6px;
-			background: none;
-			padding: 0.4rem;
-			transition: all 0.3s ease-in-out;
+			background: rgba(44, 137, 147, 0.2);
+			padding: 0.6rem;
+			transition: all 0.3s ease;
+			border: 1px solid rgba(44, 137, 147, 0.3);
+
 			&:hover {
-				background: $primary-19;
+				background: rgba(44, 137, 147, 0.4);
+				border-color: #2c8993;
+				transform: translateY(-2px);
 			}
 		}
 	}
 }
 
 .igloos-table {
-	// &__td-img {
-	// 	padding: 0 !important;
-	// }
-
 	img {
-		border-radius: 6px;
+		border-radius: 8px;
+		border: 2px solid rgba(44, 137, 147, 0.3);
 	}
 
 	&__img {
 		width: 8rem;
 		height: 8rem;
-		box-shadow: 0 0 2px 0 $primary-67;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+		object-fit: cover;
 	}
 
 	&__name {
-		font-size: 1.4rem;
-		font-weight: 600;
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: #cffaff;
 	}
 
 	&__capacity {
 		font-size: 1.4rem;
-		font-weight: 500;
-		letter-spacing: 1.5px;
+		font-weight: 600;
+		letter-spacing: 1px;
+		color: #4fb3bf;
 	}
 
 	&__price {
-		font-size: 1.2rem;
+		font-size: 1.3rem;
 		font-weight: 700;
+		color: #cffaff;
 	}
 
 	&__promotion {
-		// font-size: 1.2em;
 		font-weight: 600;
 		cursor: pointer;
-		transition: all 0.3s ease-in-out;
+		transition: all 0.3s ease;
+		color: #4fb3bf;
 
 		&:hover {
-			color: $green-light;
+			color: #22c55e;
 		}
 	}
 
 	&__actions {
 		display: flex;
-		// gap: 0.5rem;
-		justify-content: space-between;
+		gap: 0.8rem;
+		justify-content: flex-end;
 
 		span {
 			border-radius: 6px;
-			background: none;
-			padding: 0.4rem;
-			transition: all 0.3s ease-in-out;
+			background: rgba(44, 137, 147, 0.2);
+			padding: 0.6rem;
+			transition: all 0.3s ease;
 			cursor: pointer;
+			border: 1px solid rgba(44, 137, 147, 0.3);
+
 			&:hover {
-				background: $primary-19;
+				background: rgba(44, 137, 147, 0.4);
+				border-color: #2c8993;
+				transform: translateY(-2px);
 			}
-		}
-
-		// .edit-icon {
-		// 	&:hover {
-		// 		svg {
-		// 			path {
-		// 				stroke: $primary-86;
-		// 			}
-		// 		}
-		// 	}
-		// }
-
-		// .delete-icon,
-		// .view-icon {
-		// 	&:hover {
-		// 		svg {
-		// 			path {
-		// 				fill: $primary-86;
-		// 				stroke: $primary-86;
-		// 			}
-		// 		}
-		// 	}
-		// }
-	}
-
-	tbody {
-		td {
-			&:first-of-type {
-				padding: 0 !important;
-			}
-			// padding: 0 !important;
 		}
 	}
 }
@@ -308,59 +306,75 @@
 }
 
 .table {
-	border-radius: 6px;
+	border-radius: 8px;
 	font-family: inherit;
+	overflow: hidden;
+	border: 1px solid rgba(44, 137, 147, 0.3);
 
 	thead {
 		th {
-			background-color: $primary-13;
-			font-size: 1.2rem;
-			padding: 1.5rem 1.7rem;
+			background-color: #102e31;
+			font-size: 1.3rem;
+			padding: 1.8rem 2rem;
 			cursor: pointer;
-			color: $primary-97;
-			// font-size: 1.5rem;
+			color: #cffaff;
 			font-weight: 600;
-			border-bottom: 1px solid $primary-6;
+			border-bottom: 2px solid rgba(44, 137, 147, 0.4);
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			position: relative;
+			transition: all 0.3s ease;
+
+			&:hover {
+				background-color: #0f2a2d;
+			}
+
+			svg {
+				margin-left: 0.5rem;
+				opacity: 0.7;
+			}
 		}
 		&.bold {
 			th {
-				font-weight: 500;
+				font-weight: 700;
 			}
 		}
 	}
 	tbody {
 		td {
-			background-color: $table-row !important;
-			color: $white;
-			font-size: 1.2rem;
-			padding: 1.5rem 1.7rem;
+			background-color: rgba(0, 28, 31, 0.4) !important;
+			color: #cffaff;
+			font-size: 1.4rem;
+			padding: 1.5rem 2rem;
+			border-bottom: 1px solid rgba(44, 137, 147, 0.2);
+			transition: all 0.3s ease;
+
 			&:last-of-type {
 				cursor: pointer !important;
 			}
 		}
 		tr {
-			// font-weight: 500;
-			border-bottom: 1px solid $primary-6;
+			border-bottom: 1px solid rgba(44, 137, 147, 0.2);
 			cursor: unset !important;
+			transition: all 0.3s ease;
+
+			&:hover {
+				td {
+					background-color: rgba(16, 46, 49, 0.6) !important;
+				}
+			}
+
+			&:last-child {
+				td {
+					border-bottom: none;
+				}
+			}
 		}
 		th,
 		td {
 			cursor: pointer;
 			vertical-align: middle;
 		}
-		// tr{
-		//     &.active td{
-		//         border-top: 1px solid $lightblue_pressed;
-		//         border-bottom: 1px solid $lightblue_pressed;
-		//         background-color: $table_selected;
-		//         &:first-child{
-		//             border-left: 1px solid $lightblue_pressed;
-		//         }
-		//         &:last-child{
-		//             border-right: 1px solid $lightblue_pressed;
-		//         }
-		//     }
-		// }
 	}
 
 	&.table-sm {
@@ -381,15 +395,17 @@
 }
 
 .pagination-row {
-	background-color: $primary-13;
+	background-color: #102e31;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 1.5rem 1.7rem;
+	padding: 1.8rem 2rem;
 	width: 100%;
 	position: sticky;
 	bottom: 0;
 	left: 0;
+	border-top: 2px solid rgba(44, 137, 147, 0.4);
+	border-radius: 0 0 8px 8px;
 }
 
 .pagination-btns {
