@@ -1,14 +1,18 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchDashboardStats } from '../../slices/dashboardSlice'
+import { useModal } from '../../contexts/modalContext'
 import SectionHeading from '../../components/SectionHeading'
 import SelectComponent from '../../components/select/SelectComponent'
 import OverviewCard from '../../components/overview-card/OverviewCard'
+import Button from '../../components/Button'
+import ReportModal from '../../components/report-modal/ReportModal'
 import { BookingsIcon, CheckinsIcon, OccupancyRateIcon } from '../../ui/Icons'
 import StayLengthChart from '../../components/stay-length-chart/StayLengthChart'
 
 function HomeOverview({ user }) {
 	const dispatch = useDispatch()
+	const { openModal } = useModal()
 
 	const stats = useSelector(state => state.dashboard.stats)
 	const isLoadingStats = useSelector(state => state.dashboard.isLoadingStats)
@@ -39,10 +43,15 @@ function HomeOverview({ user }) {
 
 	return (
 		<section className="section mt-5">
-			<SectionHeading sectionTitle="dashboard">
-				<p>
-					Welcome back, <span>{user.name}</span>!
-				</p>
+			<SectionHeading sectionTitle="dashboard" className="home-heading">
+				<div className="d-flex justify-content-between align-items-center">
+					<p>
+						Welcome back, <span>{user.name}</span> !
+					</p>
+					<Button type="button" onClick={() => openModal(ReportModal)} className="generate-report-btn">
+						Generate report
+					</Button>
+				</div>
 			</SectionHeading>
 
 			<div className="overview section-box section-margin">

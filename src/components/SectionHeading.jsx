@@ -1,10 +1,10 @@
-function SectionHeading({children, sectionTitle}) {
-    return (
-        <div className="heading section-margin">
-        <h1>{sectionTitle}</h1>
-        {children}
-    </div>
-    )
+function SectionHeading({ children, sectionTitle, className = '' }) {
+	return (
+		<div className={`heading section-margin ${className}`}>
+			<h1>{sectionTitle}</h1>
+			{children}
+		</div>
+	)
 }
 
 export default SectionHeading

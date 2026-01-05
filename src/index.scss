@@ -802,6 +802,45 @@ body {
 			font-weight: 700;
 			font-size: 1.4rem;
 		}
+
+		// Home page specific styles
+		&.home-heading {
+			background-color: #102e31;
+			border-radius: 6px;
+			padding: 2rem 2.5rem;
+
+			h1 {
+				text-transform: uppercase;
+				letter-spacing: 1px;
+				margin-bottom: 0.5rem;
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+
+				&::before {
+					content: '🏠';
+					font-size: 2rem;
+				}
+			}
+
+			p {
+				color: #2c8993;
+				font-weight: 400;
+				font-size: 1.8rem;
+				margin-bottom: 0;
+				
+				span {
+					color: #cffaff;
+					font-weight: 700;
+					font-size: 2rem;
+					margin-top: 0.3rem;
+				}
+			}
+
+			.generate-report-btn {
+				padding: 0.8rem 1.8rem;
+			}
+		}
 	}
 
 	.section-stats__box {
