@@ -802,44 +802,65 @@ body {
 			font-weight: 700;
 			font-size: 1.4rem;
 		}
+	}
+}
 
-		// Home page specific styles
-		&.home-heading {
-			background-color: #102e31;
-			border-radius: 6px;
-			padding: 2rem 2.5rem;
+// Home page heading component
+.home-heading {
+	background-color: #102e31;
+	border-radius: 6px;
+	padding: 2rem 2.5rem;
 
-			h1 {
-				text-transform: uppercase;
-				letter-spacing: 1px;
-				margin-bottom: 0.5rem;
-				display: flex;
-				align-items: center;
-				gap: 0.5rem;
+	h1 {
+		font-size: 1.8rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		margin-bottom: 1rem;
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
 
-				&::before {
-					content: '🏠';
-					font-size: 2rem;
-				}
-			}
+		.icon {
+			font-size: 2.2rem;
+		}
 
-			p {
-				color: #2c8993;
-				font-weight: 400;
-				font-size: 1.8rem;
-				margin-bottom: 0;
-				
-				span {
-					color: #cffaff;
-					font-weight: 700;
-					font-size: 2rem;
-					margin-top: 0.3rem;
-				}
-			}
+		.title {
+			color: #cffaff;
+		}
+	}
 
-			.generate-report-btn {
-				padding: 0.8rem 1.8rem;
-			}
+	.home-heading-content {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		gap: 1.5rem;
+
+		.welcome-section {
+			display: flex;
+			flex-direction: column;
+			gap: 0;
+		}
+
+		.welcome-text {
+			color: #2c8993;
+			font-weight: 400;
+			font-size: 1.3rem;
+			margin-bottom: 0.3rem;
+			line-height: 1.2;
+		}
+
+		.user-name {
+			color: #cffaff;
+			font-weight: 700;
+			font-size: 2.8rem;
+			margin-bottom: 0;
+			line-height: 1.2;
+		}
+
+		.generate-report-btn {
+			padding: 0.8rem 1.8rem;
+			white-space: nowrap;
 		}
 	}
 
