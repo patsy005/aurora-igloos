@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { useModal } from '../../contexts/modalContext'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -14,7 +13,6 @@ import Spinner from '../../components/spinner/Spinner'
 function DiscountsForm() {
 	const discounts = useSelector(state => state.discounts.discounts)
 	const dispatch = useDispatch()
-	const navigate = useNavigate()
 	const { closeModal, props } = useModal()
 	const discountToEdit = props
 

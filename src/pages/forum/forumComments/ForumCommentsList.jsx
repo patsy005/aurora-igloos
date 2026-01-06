@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import ForumCommentItem from './ForumCommentItem'
-import SectionHeading from '../../../components/SectionHeading'
 import { GoBackIcon } from '../../../ui/Icons'
 import { selectCanManage } from '../../../slices/authSlice'
 import { useModal } from '../../../contexts/modalContext'

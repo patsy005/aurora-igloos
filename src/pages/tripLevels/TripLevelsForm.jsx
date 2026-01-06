@@ -17,7 +17,6 @@ function TripLevelsForm() {
 	const {
 		register,
 		handleSubmit,
-		control,
 		setValue,
 		formState: { errors, isSubmitting: isFormLoading },
 	} = useForm({

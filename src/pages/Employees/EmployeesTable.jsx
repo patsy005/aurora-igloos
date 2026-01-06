@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Table from '../../components/Table/Table'
 import { useModal } from '../../contexts/modalContext'
 import EmployeesForm from './EmployeesForm'
@@ -18,7 +18,6 @@ function EmployeesTable() {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
-	const dispatch = useDispatch()
 	const { openModal } = useModal()
 
 	const setEmployeesCallback = useCallback(() => {

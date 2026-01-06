@@ -15,7 +15,7 @@ function Login() {
 		reset,
 		setError,
 		clearErrors,
-		formState: { errors, isLoading },
+		formState: { errors },
 	} = useForm({
 		defaultValues: {
 			login: '',

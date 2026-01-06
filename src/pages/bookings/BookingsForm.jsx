@@ -170,10 +170,6 @@ function BookingsForm() {
 				createUser: false,
 			}
 
-			// const createdCustomer = await dispatch(addNewCustomer(newCustomer)).unwrap()
-			// dispatch(fetchCustomers())
-			// customerId = createdCustomer.id
-
 			const createdCustomer = await dispatch(addNewCustomer(newCustomer)).unwrap()
 			dispatch(fetchCustomers())
 			customerId = createdCustomer.id
@@ -313,8 +309,6 @@ function BookingsForm() {
 							type="radio"
 							value="igloo"
 							{...register('bookingType', { required: 'Choose booking type' })}
-							// checked={bookingType === 'igloo'}
-							// onChange={e => handlePaymentChange(e.target.value)}
 						/>
 						<label>Igloo</label>
 					</div>
@@ -326,8 +320,6 @@ function BookingsForm() {
 							{...register('bookingType', {
 								required: 'Choose booking type',
 							})}
-							// checked={paymentMethod === 'creditCardPayment'}
-							// onChange={e => handlePaymentChange(e.target.value)}
 						/>
 						<label>Trip</label>
 					</div>
@@ -339,8 +331,6 @@ function BookingsForm() {
 							{...register('bookingType', {
 								required: 'Choose booking type',
 							})}
-							// checked={paymentMethod === 'creditCardPayment'}
-							// onChange={e => handlePaymentChange(e.target.value)}
 						/>
 						<label>Both</label>
 					</div>
@@ -558,14 +548,6 @@ function BookingsForm() {
 							min: { value: 1, message: 'Min 1 guest' },
 							validate: value => {
 								const numValue = parseInt(value, 10)
-								console.log('Validation debug:', {
-									value,
-									numValue,
-									showIgloo,
-									capacity,
-									selectedIglooId,
-									selectedIgloo,
-								})
 								if (!showIgloo) return true
 								if (!capacity) return true
 								if (numValue > capacity) {
@@ -587,14 +569,6 @@ function BookingsForm() {
 							className="checkbox-input"
 							{...register('earlyCheckInRequest')}
 						/>
-						{/* <input
-							className="radio-input"
-							type="radio"
-							value="igloo"
-							{...register('bookingType', { required: 'Choose booking type' })}
-							// checked={bookingType === 'igloo'}
-							// onChange={e => handlePaymentChange(e.target.value)}
-						/> */}
 					</FormBox>
 					<FormBox label="late check-out request" error={errors?.lateCheckOutRequest?.message} className="mt-4">
 						<input
@@ -616,7 +590,7 @@ function BookingsForm() {
 										<ReactDatePicker
 											className={`input form-control ${errors.dates ? 'input-error' : ''}`}
 											dateFormat="dd.MM.yyyy"
-											// minDate={new Date()}
+											minDate={new Date()}
 											shouldCloseOnSelect={true}
 											// selectsRange={false}
 											onChange={onCheckInDateChange}
@@ -624,8 +598,8 @@ function BookingsForm() {
 											// endDate={validTo}
 											selected={checkIn}
 											withPortal
-											showYearDropdown
-											showMonthDropdown
+											// showYearDropdown
+											// showMonthDropdown
 										/>
 
 										<DatePickerIcon />
@@ -654,8 +628,8 @@ function BookingsForm() {
 											// endDate={validTo}
 											selected={checkOut}
 											withPortal
-											showYearDropdown
-											showMonthDropdown
+											// showYearDropdown
+											// showMonthDropdown
 										/>
 
 										<DatePickerIcon />
@@ -683,7 +657,7 @@ function BookingsForm() {
 									<ReactDatePicker
 										className={`input form-control ${errors.dates ? 'input-error' : ''}`}
 										dateFormat="dd.MM.yyyy"
-										// minDate={new Date()}
+										minDate={checkIn}
 										shouldCloseOnSelect={true}
 										// selectsRange={false}
 										onChange={onTripDateChange}
@@ -691,8 +665,8 @@ function BookingsForm() {
 										// endDate={validTo}
 										selected={tripDate}
 										withPortal
-										showYearDropdown
-										showMonthDropdown
+										// showYearDropdown
+										// showMonthDropdown
 									/>
 
 									<DatePickerIcon />

@@ -1,6 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { closeModal, selectModalProps } from '../../slices/modalSlice'
-import { useNavigate } from 'react-router-dom'
 import { Controller, useForm } from 'react-hook-form'
 import { addNewEmployee, editEmployee, fetchEmployees } from '../../slices/employeesSlice'
 import toast from 'react-hot-toast'
@@ -9,7 +7,6 @@ import FormBox from '../../components/Form/FormBox'
 import SelectComponent from '../../components/select/SelectComponent'
 import Button from '../../components/Button'
 import { useModal } from '../../contexts/modalContext'
-import { fetchEmployeeRoles } from '../../slices/employeeRoleSlice'
 import Spinner from '../../components/spinner/Spinner'
 
 function EmployeesForm() {
@@ -17,12 +14,8 @@ function EmployeesForm() {
 	const employeeRoles = useSelector(state => state.employeeRoles.employeeRoles)
 
 	const dispatch = useDispatch()
-	const navigate = useNavigate()
 	const { closeModal, props } = useModal()
 	const employeeToEdit = props
-
-	console.log('employeeToEdit props:', props)
-	console.log('emplotees:', employees)
 
 	// PASSWORD:
 	// min 8 characters
@@ -38,7 +31,7 @@ function EmployeesForm() {
 		handleSubmit,
 		control,
 		setValue,
-		formState: { errors, isValid, isSubmitting: isFormLoading },
+		formState: { errors, isSubmitting: isFormLoading },
 	} = useForm({
 		defaultValues: {
 			name: employeeToEdit.id ? employees.find(emp => emp.id === +employeeToEdit.id).name : '',
@@ -66,8 +59,6 @@ function EmployeesForm() {
 			label: role.roleName,
 		})),
 	]
-	console.log('emplotee roles:', employeeRoles)
-	console.log('employee role options:', roleOptions)
 
 	const onSubmit = data => {
 		const formData = new FormData()
@@ -86,8 +77,6 @@ function EmployeesForm() {
 		if (data.password) formData.append('Password', data.password)
 
 		if (data.roleId) formData.append('roleId', data.roleId)
-
-		console.log('role id:', data.roleId)
 
 		if (data.img && data.img.length > 0) formData.append('PhotoFile', data.img[0])
 

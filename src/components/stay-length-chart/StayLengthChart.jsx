@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
-import data from '../../../public/data.json'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { fetchBookings } from '../../slices/bookingsSlice'

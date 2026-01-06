@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux'
 import { selectCanDelete, selectCanManage } from '../../../slices/authSlice'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useModal } from '../../../contexts/modalContext'
 import SearchInput from '../../../components/SearchInput'
 import Table from '../../../components/Table/Table'
@@ -19,7 +18,6 @@ function ForumCategoriesTable() {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const [globalFilter, setGlobalFilter] = useState('')
 
-	const navigate = useNavigate()
 	const { openModal } = useModal()
 
 	const setCategoriesCallback = useCallback(() => {

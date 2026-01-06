@@ -5,7 +5,6 @@ import { useModal } from '../../contexts/modalContext'
 import ForumPostForm from './ForumPostForm'
 import SectionHeading from '../../components/SectionHeading'
 import Button from '../../components/Button'
-import ForumActions from './ForumActions'
 import ForumPostsList from './ForumPostsList'
 import { selectCanManage } from '../../slices/authSlice'
 import SearchInput from '../../components/SearchInput'
@@ -68,7 +67,6 @@ function ForumPosts() {
 			)}
 
 			<div className="forum">
-				{/* <ForumActions search={search} setSerch={setSearch} /> */}
 				<div className="mt-4 d-flex justify-content-end">
 					<SearchInput value={search} onChange={setSearch} placeholder="Search posts" />
 				</div>

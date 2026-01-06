@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { useModal } from '../../contexts/modalContext'
 import { Controller, useForm } from 'react-hook-form'
 import { addNewTrip, editTrip, fetchTrips } from '../../slices/tripsSlice'
@@ -17,7 +16,6 @@ function TripsForm() {
 	const tripLevels = useSelector(state => state.tripLevels.tripLevels)
 
 	const dispatch = useDispatch()
-	const navigate = useNavigate()
 	const { closeModal, props } = useModal()
 	const tripToEdit = props
 
@@ -56,7 +54,6 @@ function TripsForm() {
 		})),
 	]
 
-	console.log('employees', employees)
 	const guidesOptions = [
 		{ value: '', label: 'Select guide' },
 		...employees
@@ -70,17 +67,6 @@ function TripsForm() {
 	const handleCloseModal = () => closeModal()
 
 	const onSubmit = data => {
-		// const newTrip = {
-		// 	name: data.name,
-		// 	duration: data.duration,
-		// 	shortDescription: data.shortDescription,
-		// 	longDescription: data.longDescription,
-		// 	levelOfDifficultyId: +data.levelOfDifficultyId,
-		// 	seasonId: +data.seasonId,
-		// 	guideId: +data.guideId,
-		// 	pricePerPerson: +data.pricePerPerson,
-		// }
-
 		const formData = new FormData()
 
 		formData.append('Name', data.name)

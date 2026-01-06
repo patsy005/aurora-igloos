@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchDashboardSales } from '../../slices/dashboardSlice'
 
 function formatCurrency(value) {
-	// możesz zmienić walutę na 'PLN' jeśli chcesz
 	return new Intl.NumberFormat('en-US', {
 		style: 'currency',
 		currency: 'USD',

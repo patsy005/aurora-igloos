@@ -45,7 +45,6 @@ function TripsTable() {
 				accessorKey: 'img',
 				enableGlobalFilter: false,
 				cell: ({ row }) => {
-					console.log(row.original.id)
 					const src = row.original.photoUrl
 						? `http://localhost:5212/${row.original.photoUrl}`
 						: '/trips/trip-placeholder.png'
@@ -73,7 +72,6 @@ function TripsTable() {
 				id: 'trips_difficulty',
 				accessorKey: 'levelOfDifficultyName',
 				cell: ({ row }) => {
-					console.log('diff value:', row.getValue('trips_difficulty'), row.original.levelOfDifficultyName)
 
 					return <div className="">{row.original.levelOfDifficultyName}</div>
 				},

@@ -71,8 +71,6 @@ function UsersForm() {
 		if (isCreate) dispatch(fetchCustomers())
 	}, [dispatch, isCreate])
 
-	console.log('user types:', userTypes)
-
 	// ===== PREFILL EDIT MODE USING setValue =====
 	useEffect(() => {
 		if (!isEdit) return

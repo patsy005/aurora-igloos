@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux'
+import {  useSelector } from 'react-redux'
 import { selectIsAdmin } from '../../slices/authSlice'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -18,7 +18,6 @@ function UsersTable() {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
-	const dispatch = useDispatch()
 	const { openModal } = useModal()
 
 	const setUsersCallback = useCallback(() => {

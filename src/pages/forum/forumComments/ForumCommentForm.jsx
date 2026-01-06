@@ -27,8 +27,6 @@ function ForumCommentForm() {
 		register,
 		handleSubmit,
 		setValue,
-		setError,
-		control,
 		formState: { errors, isSubmitting: isFormLoading },
 	} = useForm({
 		defaultValues: {

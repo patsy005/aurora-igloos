@@ -32,9 +32,6 @@ function EmployeesItem() {
 		if (!employee) return
 	}, [employee])
 
-	console.log('employee:', employee)
-	console.log('employee id:', employeeId)
-
 	return (
 		<>
 			{isFetchingEmployees || !employee ? (
@@ -93,43 +90,6 @@ function EmployeesItem() {
 							</div>
 						</div>
 					</div>
-
-					{/* <div className="item-section__overview section-box section-margin user-item working-schedlue">
-				<h3>Working schedlue</h3>
-				<div className="working-schedlue__top d-flex align-items-center justify-content-end">
-					<p>Week</p>
-					<ReactSelect
-						closeMenuOnSelect={false}
-						isMulti
-						defaultValue="01.06.2024-07.06.2024"
-						options={schedlueWeeks}
-						classNamePrefix="react-select"
-					/>
-				</div>
-				<div className="working-schedlue__box d-flex justify-content-between overflow-x-scroll gap-5">
-					{Object.entries(employee.schedule).map(([day, time], index) => (
-						<div className="working-schedlue__day" key={index}>
-							<p className="day">{day}</p>
-							<p className="time">{time}</p>
-						</div>
-					))}
-				</div>
-			</div> */}
-
-					{/* <div className="">
-				<div className="item-section__overview section-box section-margin user-item statistics col-12">
-					<h3>Statistics</h3>
-					<div className="item-section__boxes flex-lg-row gap-lg-5 flex-wrap">
-						<ItemDetailsCard title="booking Completed" number={employee.statistics.bookingsCompleted} />
-						<ItemDetailsCard title="average Rating" number={employee.statistics.averageRating} />
-						<ItemDetailsCard title="total Revenue" number={`$ ${employee.statistics.totalRevenue}`} />
-					</div>
-				</div>
-				<div className="section-margin user-item tasks col-12">
-					<h3>Tasks</h3>
-					<UserTasksTable userId={userId} />
-				</div>
-			</div> */}
 				</section>
 			)}
 		</>

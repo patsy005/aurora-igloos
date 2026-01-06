@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { useModal } from '../../../contexts/modalContext'
 import { useForm } from 'react-hook-form'
 import { addNewForumCategory, editForumCategory, fetchForumCategories } from '../../../slices/forumCategorySlice'
@@ -10,7 +9,6 @@ import Spinner from '../../../components/spinner/Spinner'
 
 function ForumCategoriesForm() {
 	const forumCategories = useSelector(state => state.forumCategories.forumCategories)
-	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const { closeModal, props } = useModal()
 	const categoryToEdit = props

@@ -67,48 +67,9 @@ function CustomersTable() {
 				id: 'customers_hasAccount',
 				accessorKey: 'idUser',
 				cell: ({ row }) => {
-					console.log('row', row.original)
 					return <div className="customers-table__has-account">{row.original.idUser ? 'Yes' : 'No'}</div>
 				},
 			},
-			// {
-			// 	header: 'Nationality',
-			// 	id: customers.id,
-			// 	accessorKey: 'nationality',
-			// 	cell: ({ row }) => {
-			// 		return <div className="customers-table__nationality">{row.original.nationality}</div>
-			// 	},
-			// },
-			// {
-			// 	header: 'Bookings',
-			// 	id: customers.id,
-			// 	accessorKey: 'bookings',
-			// 	cell: ({ row }) => {
-			// 		const customerBookingId = bookings.find(booking => booking.customerId === row.original.id).id
-			// 		return (
-			// 			<div className="igloos-table__actions">
-			// 				<span onClick={() => navigate(`/bookings/${customerBookingId}`)}>
-			// 					<ViewIcon />
-			// 				</span>
-			// 			</div>
-			// 		)
-			// 	},
-			// },
-			// {
-			// 	header: 'Status',
-			// 	id: customers.id,
-			// 	accessorKey: 'status',
-			// 	cell: ({ row }) => {
-			// 		const bookingStatus = bookings.find(booking => booking.customerId === row.original.id).status
-			// 		const hasChecked = bookingStatus === 'in' || row.original.status === 'out'
-			// 		return (
-			// 			<div className={`status status__${bookingStatus}`}>
-			// 				{hasChecked && 'checked '}
-			// 				{bookingStatus}
-			// 			</div>
-			// 		)
-			// 	},
-			// },
 			{
 				header: '',
 				accessorKey: 'actions',

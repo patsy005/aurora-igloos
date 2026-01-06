@@ -33,8 +33,6 @@ function Users() {
 
 	if (isFetching) return <Spinner className="page" />
 
-    console.log('users:', users)
-
 	return <>
         <SectionHeading sectionTitle="Users" />
         <div className="text-end">

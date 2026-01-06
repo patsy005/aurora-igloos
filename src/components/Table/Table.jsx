@@ -1,5 +1,4 @@
-import classNames from 'classnames'
-import { ArrowDownIcon, ArrowUpIcon, EditIcon, LineIcon, NextIcon, PrevIcon } from '../../ui/Icons'
+import { ArrowDownIcon, ArrowUpIcon, LineIcon, NextIcon, PrevIcon } from '../../ui/Icons'
 import {
 	flexRender,
 	getCoreRowModel,
@@ -81,24 +80,31 @@ function Table({
 												desc: <ArrowDownIcon />,
 											}[header.column.getIsSorted()]
 										}
-										{/* <div
-											onMouseDown={header.getResizeHandler()}
-											onTouchStart={header.getResizeHandler()}
-											className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`}
-										/> */}
 									</th>
 								))}
 							</tr>
 						</thead>
 					))}
 					<tbody>
-						{table.getRowModel().rows.map(row => (
-							<tr key={row.id}>
-								{row.getVisibleCells().map(cell => (
-									<td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-								))}
+						{table.getRowModel().rows.length === 0 ? (
+							<tr>
+								<td colSpan={columns.length} className="no-results">
+									<div className="no-results-content">
+										<span className="no-results-icon">🔍</span>
+										<p className="no-results-text">No results found</p>
+										<p className="no-results-subtext">Try adjusting your search or filters</p>
+									</div>
+								</td>
 							</tr>
-						))}
+						) : (
+							table.getRowModel().rows.map(row => (
+								<tr key={row.id}>
+									{row.getVisibleCells().map(cell => (
+										<td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+									))}
+								</tr>
+							))
+						)}
 					</tbody>
 				</table>
 				{Object.keys(table.getRowModel().rowsById).length > 5 && (

@@ -1,9 +1,8 @@
-import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { DeleteIcon, EditIcon, GoBackIcon } from '../../ui/Icons'
 import SectionHeading from '../../components/SectionHeading'
-import { formatDate, formatDateOnly, parseDateOnly } from '../../utils/utils'
+import { formatDate} from '../../utils/utils'
 import { useModal } from '../../contexts/modalContext'
 import BookingsForm from './BookingsForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
@@ -59,7 +58,6 @@ function BookingsItem() {
 							<p className="promo-title mt-2">$ {booking.amount}</p>
 						</div>
 						<div>
-							{/* <p className="promo uppercase-text">Type</p> */}
 							<div className="booking-type-badge">
 								{hasIgloo && !hasTrip && <span>Igloo</span>}
 								{!hasIgloo && hasTrip && <span>Trip</span>}

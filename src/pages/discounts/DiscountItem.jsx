@@ -38,8 +38,6 @@ function DiscountItem() {
 	useEffect(() => {
 		if (!promotion) return
 
-		console.log(promotion)
-
 		setDatesState([[promotion.validFrom, promotion.validTo]])
 	}, [promotion])
 

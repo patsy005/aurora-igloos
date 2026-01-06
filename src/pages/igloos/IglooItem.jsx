@@ -1,16 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-key */
 import { useNavigate, useParams } from 'react-router-dom'
-import data from '../../../public/data.json'
 import SectionHeading from '../../components/SectionHeading'
 import { useEffect, useState } from 'react'
 import DatePicker, { DateObject } from 'react-multi-date-picker'
 import DatePanel from 'react-multi-date-picker/plugins/date_panel'
-import IglooItemCard from './IglooItemCard'
-import { DeleteIcon, EditIcon, GoBackIcon, StarIcon, ViewIcon } from '../../ui/Icons'
+import { DeleteIcon, EditIcon, GoBackIcon, ViewIcon } from '../../ui/Icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchIgloos } from '../../slices/igloosSlice'
-import { openModal } from '../../slices/modalSlice'
 import { useModal } from '../../contexts/modalContext'
 import IgloosForm from './IgloosForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
@@ -28,7 +25,6 @@ function IglooItem() {
 	const canManage = useSelector(selectCanManage)
 	const canDelete = useSelector(selectCanDelete)
 	const bookings = useSelector(state => state.bookings.bookings)
-	// const bookings = data.bookings
 	const navigate = useNavigate()
 	const [datesState, setDatesState] = useState([])
 	const { openModal } = useModal()
@@ -106,14 +102,6 @@ function IglooItem() {
 									/>
 								</div>
 							</div>
-
-							{/* <div className="item-section__promo mt-3">
-								<p className="promo uppercase-text">Rating</p>
-								<div className="promo-title mt-2 d-flex align-items-center gap-2">
-									<StarIcon />
-									<span>{igloo.rating}</span>
-								</div>
-							</div> */}
 
 							<div className="item-section__actions mt-3">
 								{canManage && (

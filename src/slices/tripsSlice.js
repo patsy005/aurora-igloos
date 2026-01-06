@@ -12,7 +12,6 @@ const initialState = {
 export const fetchTrips = createAsyncThunk('trips/fetchTrips', async () => {
 	const res = await fetch('http://localhost:5212/api/Trip')
 	const data = await res.json()
-	console.log(data)
 	return data
 })
 

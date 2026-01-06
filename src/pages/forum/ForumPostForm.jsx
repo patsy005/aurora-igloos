@@ -4,7 +4,6 @@ import { Controller, useForm } from 'react-hook-form'
 import { useEffect, useMemo } from 'react'
 import { formatDateOnly, parseDateOnly } from '../../utils/utils'
 import { addNewForumPost, editForumPost, fetchForumPosts } from '../../slices/forumPostsSlice'
-import { selectEmployeeIdByUserId } from '../../slices/employeesSlice'
 import { fetchForumCategories } from '../../slices/forumCategorySlice'
 import toast from 'react-hot-toast'
 import FormBox from '../../components/Form/FormBox'
@@ -43,8 +42,6 @@ function ForumPostForm() {
 	})
 
 	const handleCloseModal = () => closeModal()
-
-	console.log('user id:', user)
 
 	useEffect(() => {
 		if (!token) return

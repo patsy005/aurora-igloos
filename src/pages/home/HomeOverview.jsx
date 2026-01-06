@@ -25,7 +25,6 @@ function HomeOverview({ user }) {
 		[]
 	)
 
-	console.log(stats)
 	const [days, setDays] = useState(30)
 
 	const selectedOption = useMemo(() => options.find(o => o.value === days) ?? options[2], [options, days])

@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux'
+import {  useSelector } from 'react-redux'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -19,7 +19,6 @@ function DiscountsTable() {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
-	const dispatch = useDispatch()
 	const { openModal } = useModal()
 
 	const setDiscountsCallback = useCallback(() => {
@@ -83,8 +82,6 @@ function DiscountsTable() {
 				accessorFn: row => row.igloos,
 				cell: ({ row }) => {
 					const relatedIgloos = igloos.filter(igloo => igloo.idDiscount === row.original.id)
-					console.log('igloos', igloos)
-					console.log('discountIgloos', relatedIgloos)
 
 					if (!relatedIgloos.length) return <div className="promo-table__igloos">--</div>
 					return (

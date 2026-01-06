@@ -45,7 +45,6 @@ function IgloosTable() {
 				id: 'iglooImg',
 				accessorKey: 'img',
 				cell: ({ row }) => {
-					console.log(row.original.id)
 					const src = row.original.photoUrl
 						? `http://localhost:5212/${row.original.photoUrl}`
 						: '/images/igloo-placeholder.png'
@@ -112,7 +111,6 @@ function IgloosTable() {
 							<span
 								className="view-icon"
 								onClick={() => {
-									console.log('view click')
 									navigate(`/igloos/${row.original.id}`)
 								}}>
 								<ViewIcon />

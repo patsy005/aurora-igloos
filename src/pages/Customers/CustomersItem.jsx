@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { DeleteIcon, EditIcon, GoBackIcon, ViewIcon } from '../../ui/Icons'
+import { DeleteIcon, EditIcon, GoBackIcon } from '../../ui/Icons'
 import { useDispatch, useSelector } from 'react-redux'
 import SectionHeading from '../../components/SectionHeading'
 import { useEffect } from 'react'
@@ -30,8 +30,6 @@ function CustomersItem() {
 
 	const customer = customers.find(customer => customer.id === +customerId)
 
-	console.log(customer)
-
 	useEffect(() => {
 		if (!customer) return
 	}, [customer])
@@ -42,7 +40,7 @@ function CustomersItem() {
 				<p>Loading...</p>
 			) : (
 				<section className="item-section section mt-5">
-					<span onClick={() => navigate(-1)} className="go-back">
+					<span onClick={() => navigate(-1)} className="go-back mb-4">
 						<GoBackIcon />
 					</span>
 
@@ -69,23 +67,6 @@ function CustomersItem() {
 
 								<ItemDetailsCard title="Account created" number={customer.createUser ? 'Yes' : 'No'} />
 							</div>
-
-							{/* <div className="item-section__promo">
-						<p className="promo uppercase-text">
-							Booked igloo
-							<div className="item-section__promo--igloos my-3 d-flex gap-5 flex-wrap">
-								<div
-									className="item-section__promo--igloo-box"
-									key={bookedIgloo.id}
-									onClick={() => navigate(`/igloos/${bookedIgloo.id}`)}>
-									{bookedIgloo.name}
-								</div>
-								<span className="action-icon" onClick={() => navigate(`/igloos/${bookedIgloo.id}`)}>
-									<ViewIcon />
-								</span>
-							</div>
-						</p>
-					</div> */}
 
 							<div className="item-section__actions mt-3">
 								{canManage && (

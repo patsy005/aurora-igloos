@@ -6,7 +6,6 @@ import promoSlice from './slices/promoSlice'
 import customersSLice from './slices/customersSLice'
 import forumSlice from './slices/forum'
 import discountsSlice from './slices/discountsSlice'
-import modalSlice from './slices/modalSlice'
 import employeesSlice from './slices/employeesSlice'
 import employeeRoleSlice from './slices/employeeRoleSlice'
 import tripsSlice from './slices/tripsSlice'
@@ -30,7 +29,6 @@ const store = configureStore({
 		customers: customersSLice,
 		forum: forumSlice,
 		discounts: discountsSlice,
-		modal: modalSlice,
 		employees: employeesSlice,
 		employeeRoles: employeeRoleSlice,
 		trips: tripsSlice,

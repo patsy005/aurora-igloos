@@ -1,5 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { closeModal, selectModalProps } from '../../slices/modalSlice'
+import { useDispatch } from 'react-redux'
 import { deleteIgloo } from '../../slices/igloosSlice'
 import toast from 'react-hot-toast'
 import Button from '../Button'
@@ -19,23 +18,14 @@ import { deleteUser, fetchUsers } from '../../slices/usersSlice'
 function DeleteConfirmation({ itemToDelete, category }) {
 	const { postId } = useParams()
 	const dispath = useDispatch()
-	const location = useLocation()
 	const navigate = useNavigate()
-	// const {props} = useModal()
-	// const modalProps = props
 	const { closeModal } = useModal()
-
-	const isItemView = /\/\d+$/.test(location.pathname)
-
-	console.log('item to delete in DeleteConfirmation:', itemToDelete)
-	console.log('item category in DeleteConfirmation:', category)
 
 	const closeModalHandler = () => {
 		closeModal()
 	}
 
 	const deleteItemHandler = () => {
-		console.log('deleting item in category:', category)
 		switch (category) {
 			case 'igloo':
 				dispath(deleteIgloo(itemToDelete.id))

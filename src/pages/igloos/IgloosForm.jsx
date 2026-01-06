@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { useModal } from '../../contexts/modalContext'
 import { Controller, useForm } from 'react-hook-form'
 import { addNewIgloo, editIgloo, fetchIgloos } from '../../slices/igloosSlice'
@@ -14,11 +13,8 @@ function IgloosForm() {
 	const igloos = useSelector(state => state.igloos.igloos)
 	const discounts = useSelector(state => state.discounts.discounts)
 	const dispatch = useDispatch()
-	const navigate = useNavigate()
 	const { closeModal, props } = useModal()
 	const iglooToEdit = props
-
-	console.log('props in IgloosForm:', props)
 
 	const {
 		register,
@@ -37,7 +33,6 @@ function IgloosForm() {
 		},
 	})
 
-	// const handleCloseModal = () => dispatch(closeModal())
 	const handleCloseModal = () => closeModal()
 
 	const discountOptions = [
@@ -66,7 +61,6 @@ function IgloosForm() {
 
 		if (iglooToEdit.id) {
 			formData.append('Id', iglooToEdit.id)
-			console.log('formData for edit:', ...formData)
 			dispatch(editIgloo({ id: iglooToEdit.id, updatedIgloo: formData }))
 				.unwrap()
 				.then(() => dispatch(fetchIgloos()))
@@ -76,7 +70,6 @@ function IgloosForm() {
 				})
 				.catch(() => toast.error('Failed to edit igloo'))
 		} else {
-			console.log(formData)
 			dispatch(addNewIgloo(formData))
 				.unwrap()
 				.then(() => {
@@ -180,10 +173,6 @@ function IgloosForm() {
 				<Controller
 					control={control}
 					name="idDiscount"
-					// rules={{
-					// 	required: 'Please select a discount',
-					// 	validate: value => value !== '' || 'Please select a discount',
-					// }}
 					render={({ field: { onChange, value } }) => (
 						<SelectComponent
 							id="idDiscount"
@@ -191,7 +180,6 @@ function IgloosForm() {
 							classNamePrefix="react-select"
 							name="idDiscount"
 							options={discountOptions}
-							// {...register('idDiscount')}
 							value={discountOptions.find(option => option.value === value) ?? discountOptions[0]}
 							placeholder="Select discount"
 							onChangeFn={onChange}

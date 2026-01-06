@@ -15,9 +15,6 @@ function TripsItem() {
 	const trips = useSelector(state => state.trips.trips)
 	const canManage = useSelector(selectCanManage)
 	const canDelete = useSelector(selectCanDelete)
-	const employees = useSelector(state => state.employees.employees)
-	const tripSeasons = useSelector(state => state.tripSeasons.tripSeasons)
-	const tripLevels = useSelector(state => state.tripLevels.tripLevels)
 	const isFething = useSelector(state => state.trips.isFetching)
 	const token = useSelector(state => state.auth.accessToken)
 

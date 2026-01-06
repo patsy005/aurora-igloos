@@ -1,4 +1,4 @@
-import { Component, createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import Modal from '../components/modal/Modal'
 
 const ModalContext = createContext(null)
@@ -41,10 +41,10 @@ export function ModalProvider({ children }) {
 	)
 }
 
-export function useModal(){
-    const context = useContext(ModalContext)
-    if(!context){
-        throw new Error('useModal must be used within a ModalProvider')
-    }
-    return context
+export function useModal() {
+	const context = useContext(ModalContext)
+	if (!context) {
+		throw new Error('useModal must be used within a ModalProvider')
+	}
+	return context
 }

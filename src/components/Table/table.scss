@@ -408,6 +408,38 @@
 	border-radius: 0 0 8px 8px;
 }
 
+.no-results {
+	text-align: center;
+	padding: 4rem 2rem !important;
+	background-color: rgba(0, 28, 31, 0.4) !important;
+
+	&-content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	&-icon {
+		font-size: 4rem;
+		opacity: 0.5;
+	}
+
+	&-text {
+		font-size: 1.8rem;
+		font-weight: 600;
+		color: #cffaff;
+		margin: 0;
+	}
+
+	&-subtext {
+		font-size: 1.3rem;
+		color: #4fb3bf;
+		margin: 0;
+		opacity: 0.8;
+	}
+}
+
 .pagination-btns {
 	display: flex;
 	align-items: center;

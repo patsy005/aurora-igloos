@@ -12,7 +12,6 @@ const initialState = {
 export const fetchDiscounts = createAsyncThunk('discounts/fetchDiscounts', async () => {
 	const res = await fetch('http://localhost:5212/api/Discounts')
 	const data = await res.json()
-	console.log(data)
 	return data
 })
 

@@ -11,7 +11,6 @@ import Spinner from '../../components/spinner/Spinner'
 
 function CustomersForm() {
 	const customers = useSelector(state => state.customers.customers)
-	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const { closeModal, props } = useModal()
 	const customerToEdit = props

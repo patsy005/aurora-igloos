@@ -22,7 +22,6 @@ function Employees() {
 		if (!token) return
 		dispatch(fetchEmployees())
 		dispatch(fetchEmployeeRoles())
-		console.log(employees)
 	}, [token])
 
 	if (!employees.length) return null
