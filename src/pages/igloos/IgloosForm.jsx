@@ -3,15 +3,17 @@ import { useModal } from '../../contexts/modalContext'
 import { Controller, useForm } from 'react-hook-form'
 import { addNewIgloo, editIgloo, fetchIgloos } from '../../slices/igloosSlice'
 import toast from 'react-hot-toast'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import FormBox from '../../components/Form/FormBox'
 import SelectComponent from '../../components/select/SelectComponent'
 import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function IgloosForm() {
 	const igloos = useSelector(state => state.igloos.igloos)
 	const discounts = useSelector(state => state.discounts.discounts)
+	const content = useSelector(state => state.contentBlocks.items)
 	const dispatch = useDispatch()
 	const { closeModal, props } = useModal()
 	const iglooToEdit = props
@@ -32,6 +34,8 @@ function IgloosForm() {
 			idDiscount: iglooToEdit.id ? igloos.find(igloo => igloo.id === +iglooToEdit.id).idDiscount : null,
 		},
 	})
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const handleCloseModal = () => closeModal()
 
@@ -100,8 +104,15 @@ function IgloosForm() {
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
-			<h3 className="form-title">{iglooToEdit.id ? 'Edit Igloo' : 'Add Igloo'}</h3>
-			<FormBox label="name" error={errors?.name?.message} className="mt-4">
+			<h3 className="form-title">
+				{iglooToEdit.id
+					? getContentFromMap(contentMap, 'form.igloo.edit', 'Edit Igloo')
+					: getContentFromMap(contentMap, 'form.igloo.add', 'Add Igloo')}
+			</h3>
+			<FormBox
+				label={getContentFromMap(contentMap, 'common.name', 'Name')}
+				error={errors?.name?.message}
+				className="mt-4">
 				<input
 					type="text"
 					id="name"
@@ -116,7 +127,10 @@ function IgloosForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="capacity" error={errors?.capacity?.message} className="mt-4">
+			<FormBox
+				label={getContentFromMap(contentMap, 'common.capacitty', 'Capacity')}
+				error={errors?.capacity?.message}
+				className="mt-4">
 				<input
 					type="text"
 					id="capacity"
@@ -131,7 +145,9 @@ function IgloosForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="price per night" error={errors?.price?.message}>
+			<FormBox
+				label={getContentFromMap(contentMap, 'iglooItem.price', 'Price per night')}
+				error={errors?.price?.message}>
 				<input
 					type="text"
 					id="price"
@@ -146,7 +162,10 @@ function IgloosForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="Image" error={errors?.img?.message} labelClassName="file-upload">
+			<FormBox
+				label={getContentFromMap(contentMap, 'form.common.label.image', 'Image')}
+				error={errors?.img?.message}
+				labelClassName="file-upload">
 				<input
 					type="file"
 					accept="image/png, image/jpeg"
@@ -159,7 +178,9 @@ function IgloosForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="Description" error={errors?.description?.message}>
+			<FormBox
+				label={getContentFromMap(contentMap, 'form.common.label', 'Description')}
+				error={errors?.description?.message}>
 				<input
 					type="text"
 					id="description"
@@ -169,7 +190,9 @@ function IgloosForm() {
 				/>
 			</FormBox>
 
-			<FormBox label={'Discount'} error={errors?.idDiscount?.message}>
+			<FormBox
+				label={getContentFromMap(contentMap, 'form.common.label.discount', 'Discount')}
+				error={errors?.idDiscount?.message}>
 				<Controller
 					control={control}
 					name="idDiscount"
@@ -195,11 +218,14 @@ function IgloosForm() {
 						handleCloseModal()
 					}}
 					type={'button'}>
-					Cancel
+					{getContentFromMap(contentMap, 'Cancel', 'Cancel')}
 				</Button>
 				<Button type={'submit'}>
 					{isFormLoading && <Spinner className="form" />}
-					{!isFormLoading && (iglooToEdit.id ? 'Save changes' : 'Add igloo')}
+					{!isFormLoading &&
+						(iglooToEdit.id
+							? getContentFromMap(contentMap, 'form.saveChanges', 'Save changes')
+							: getContentFromMap(contentMap, 'form.igloo.add', 'Add igloo'))}
 				</Button>
 			</div>
 		</form>

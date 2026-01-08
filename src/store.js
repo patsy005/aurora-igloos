@@ -20,6 +20,7 @@ import dashboardSlice from './slices/dashboardSlice'
 import userTypesSlice from './slices/userTypesSlice'
 import userRoleSlice from './slices/userRoleSlice'
 import reportsSlice from './slices/reportsSlice'
+import contentBlocksSlice from './slices/contentBlocksSlice'
 
 const store = configureStore({
 	reducer: {
@@ -44,6 +45,7 @@ const store = configureStore({
 		userTypes: userTypesSlice,
 		userRoles: userRoleSlice,
 		reports: reportsSlice,
+		contentBlocks: contentBlocksSlice,
 	},
 })
 

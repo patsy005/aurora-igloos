@@ -8,18 +8,22 @@ import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfir
 import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
 import SearchInput from '../../components/SearchInput'
 import Table from '../../components/Table/Table'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function IgloosTable() {
 	const igloos = useSelector(state => state.igloos.igloos)
 	const discounts = useSelector(state => state.discounts.discounts)
 	const canManage = useSelector(selectCanManage)
 	const canDelete = useSelector(selectCanDelete)
+	const content = useSelector(state => state.contentBlocks.items)
 	const [data, setData] = useState(igloos)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
 	const { openModal } = useModal()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const setIgloosCallback = useCallback(() => {
 		setData(igloos)
@@ -52,7 +56,7 @@ function IgloosTable() {
 				},
 			},
 			{
-				header: 'Name',
+				header: getContentFromMap(contentMap, 'common.name', 'Name'),
 				id: 'iglooName',
 				accessorKey: 'name',
 				cell: ({ row }) => {
@@ -60,7 +64,7 @@ function IgloosTable() {
 				},
 			},
 			{
-				header: 'Capacity',
+				header: getContentFromMap(contentMap, 'common.capacity', 'Capacity'),
 				id: 'iglooCapacity',
 				accessorKey: 'capacity',
 				cell: ({ row }) => {
@@ -68,7 +72,7 @@ function IgloosTable() {
 				},
 			},
 			{
-				header: '$ per night',
+				header: getContentFromMap(contentMap, 'igloo.table.price', '$ per night'),
 				id: 'iglooPrice',
 				accessorKey: 'pricePerNight',
 				cell: ({ row }) => {
@@ -76,7 +80,7 @@ function IgloosTable() {
 				},
 			},
 			{
-				header: 'Promotion',
+				header: getContentFromMap(contentMap, 'common.promotion', 'Promotion'),
 				id: 'iglooPromotion',
 				accessorKey: 'promotion',
 				cell: ({ row }) => {
@@ -130,7 +134,11 @@ function IgloosTable() {
 	return (
 		<div>
 			<div className="mt-4 d-flex justify-content-end">
-				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search igloos..." />
+				<SearchInput
+					value={globalFilter}
+					onChange={setGlobalFilter}
+					placeholder={getContentFromMap(contentMap, 'igloos.search', 'Search igloos...')}
+				/>
 			</div>
 			<Table
 				className={'igloos-table'}

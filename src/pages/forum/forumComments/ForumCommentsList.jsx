@@ -6,9 +6,10 @@ import { selectCanManage } from '../../../slices/authSlice'
 import { useModal } from '../../../contexts/modalContext'
 import Button from '../../../components/Button'
 import ForumCommentForm from './ForumCommentForm'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { fetchForumPosts } from '../../../slices/forumPostsSlice'
 import Spinner from '../../../components/spinner/Spinner'
+import { contentArrayToMap, getContentFromMap } from '../../../utils/utils'
 
 function ForumCommentsList() {
 	const { postId } = useParams()
@@ -17,6 +18,9 @@ function ForumCommentsList() {
 	const canManage = useSelector(selectCanManage)
 
 	const isFetching = useSelector(state => state.forumPosts.isFetching)
+
+	const content = useSelector(state => state.contentBlocks.items)
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const navigate = useNavigate()
 	const { openModal } = useModal()
@@ -36,7 +40,7 @@ function ForumCommentsList() {
 	const openAddCommentModal = () => {
 		openModal(ForumCommentForm, { postId: +postId })
 	}
-	
+
 	if (isFetching) return <Spinner className="page" />
 
 	return (
@@ -50,7 +54,7 @@ function ForumCommentsList() {
 				</div>
 			)}
 			<div className="comments-thread">
-				<p className="thread-label">Discussion</p>
+				<p className="thread-label">{getContentFromMap(contentMap, 'forumComments.heading', 'Discussion')}</p>
 				<h2 className="thread-title">{postTitle}</h2>
 			</div>
 

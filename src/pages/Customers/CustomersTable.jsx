@@ -8,17 +8,21 @@ import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
 import Table from '../../components/Table/Table'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 import SearchInput from '../../components/SearchInput'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function CustomersTable() {
 	const customers = useSelector(state => state.customers.customers)
 	const canManage = useSelector(selectCanManage)
 	const canDelete = useSelector(selectCanDelete)
+	const content = useSelector(state => state.contentBlocks.items)
 	const [data, setData] = useState(customers)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
 	const { openModal } = useModal()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const setCustomersCallback = useCallback(() => {
 		setData(customers)
@@ -40,7 +44,7 @@ function CustomersTable() {
 	const columns = useMemo(
 		() => [
 			{
-				header: 'Name',
+				header: getContentFromMap(contentMap, 'common.name', 'Name'),
 				id: 'customers_name',
 				accessorFn: row => `${row.name} ${row.surname} ${row.email}`.trim(),
 				cell: ({ row }) => {
@@ -55,7 +59,7 @@ function CustomersTable() {
 				},
 			},
 			{
-				header: 'Phone',
+				header: getContentFromMap(contentMap, 'common.phone', 'Phone'),
 				id: 'customers_phone',
 				accessorKey: 'phone',
 				cell: ({ row }) => {
@@ -63,7 +67,7 @@ function CustomersTable() {
 				},
 			},
 			{
-				header: 'Has account',
+				header: getContentFromMap(contentMap, 'customers.table.hasAccount', 'Has account'),
 				id: 'customers_hasAccount',
 				accessorKey: 'idUser',
 				cell: ({ row }) => {
@@ -102,7 +106,7 @@ function CustomersTable() {
 	return (
 		<>
 			<div className="mt-4 d-flex justify-content-end">
-				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search customer..." />
+				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder={getContentFromMap(contentMap, 'customers.search', 'Search customer...')} />
 			</div>
 			<Table
 				data={data}

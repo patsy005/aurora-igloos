@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useModal } from '../../contexts/modalContext'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 import TripSeasonsForm from './TripSeasonsForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { DeleteIcon, EditIcon } from '../../ui/Icons'
@@ -13,12 +14,15 @@ function TripSeasonsTable() {
 	const tripSeasons = useSelector(state => state.tripSeasons.tripSeasons)
 	const canManage = useSelector(selectCanManage)
 	const canDelete = useSelector(selectCanDelete)
+	const content = useSelector(state => state.contentBlocks.items)
 	const [data, setData] = useState(tripSeasons)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
 	const { openModal } = useModal()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const setTripSeasonsCallback = useCallback(() => {
 		setData(tripSeasons)
@@ -40,7 +44,7 @@ function TripSeasonsTable() {
 	const columns = useMemo(
 		() => [
 			{
-				header: 'Name',
+				header: getContentFromMap(contentMap, 'common.name', 'Name'),
 				id: 'tripSeasons_name',
 				accessorKey: 'name',
 				cell: ({ row }) => {
@@ -48,7 +52,7 @@ function TripSeasonsTable() {
 				},
 			},
 			{
-				header: 'Description',
+				header: getContentFromMap(contentMap, 'form.common.label', 'Description'),
 				id: 'tripSeasons_description',
 				accessorKey: 'description',
 				cell: ({ row }) => {
@@ -85,7 +89,7 @@ function TripSeasonsTable() {
 	return (
 		<>
 			<div className="mt-4 d-flex justify-content-end">
-				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search trip seasons..." />
+				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder={getContentFromMap(contentMap, 'tripSeasons.search', 'Search trip seasons...')} />
 			</div>
 			<Table
 				data={data}

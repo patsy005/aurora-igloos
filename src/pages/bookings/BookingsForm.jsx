@@ -2,7 +2,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useModal } from '../../contexts/modalContext'
 import { Controller, useForm } from 'react-hook-form'
 import { useEffect, useMemo, useState } from 'react'
-import { findExistingCustomerByEmail, formatDateOnly, isBetweenDates, parseDateOnly } from '../../utils/utils'
+import {
+	contentArrayToMap,
+	findExistingCustomerByEmail,
+	formatDateOnly,
+	getContentFromMap,
+	isBetweenDates,
+	parseDateOnly,
+} from '../../utils/utils'
 import { addNewCustomer, fetchCustomers } from '../../slices/customersSLice'
 import { addNewBooking, editBooking, fetchBookings } from '../../slices/bookingsSlice'
 import toast from 'react-hot-toast'
@@ -19,6 +26,7 @@ function BookingsForm() {
 	const igloos = useSelector(state => state.igloos.igloos)
 	const trips = useSelector(state => state.trips.trips)
 	const paymentMethods = useSelector(state => state.paymentMethods.paymentMethods)
+	const content = useSelector(state => state.contentBlocks.items)
 
 	const { closeModal, props } = useModal()
 	const bookingToEdit = props
@@ -71,6 +79,8 @@ function BookingsForm() {
 			tripDate: null,
 		},
 	})
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const handleCloseModal = () => closeModal()
 
@@ -285,8 +295,11 @@ function BookingsForm() {
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
-			<h2>Check for existing customer</h2>
-			<FormBox label="customer email" error={errors?.customerEmail?.message} className="mt-4">
+			<h2>{getContentFromMap(contentMap, 'form.checkForExistingCustomer', 'Check for existing customer')}</h2>
+			<FormBox
+				label={getContentFromMap(contentMap, 'form.label.customerEmail', 'Customer Email')}
+				error={errors?.customerEmail?.message}
+				className="mt-4">
 				<input
 					id="customerEmail"
 					className={`input ${errors.customerEmail ? 'input-error' : ''}`}
@@ -301,7 +314,7 @@ function BookingsForm() {
 			</FormBox>
 
 			<div className="form__box col-12 col-sm-5 mt-4">
-				<p className="label">Booking type</p>
+				<p className="label">{getContentFromMap(contentMap, 'form.label.bookingType', 'Booking type')}</p>
 				<div className="radioGroup flex-row">
 					<div className="radioBtn">
 						<input
@@ -310,7 +323,7 @@ function BookingsForm() {
 							value="igloo"
 							{...register('bookingType', { required: 'Choose booking type' })}
 						/>
-						<label>Igloo</label>
+						<label>{getContentFromMap(contentMap, 'common.igloo', 'Igloo')}</label>
 					</div>
 					<div className="radioBtn">
 						<input
@@ -321,7 +334,7 @@ function BookingsForm() {
 								required: 'Choose booking type',
 							})}
 						/>
-						<label>Trip</label>
+						<label>{getContentFromMap(contentMap, 'common.trip', 'Trip')}</label>
 					</div>
 					<div className="radioBtn">
 						<input
@@ -332,7 +345,7 @@ function BookingsForm() {
 								required: 'Choose booking type',
 							})}
 						/>
-						<label>Both</label>
+						<label>{getContentFromMap(contentMap, 'common.both', 'Both')}</label>
 					</div>
 				</div>
 				{errors.bookingType && <p className="error-message mt-1">{errors.bookingType.message}</p>}
@@ -341,7 +354,7 @@ function BookingsForm() {
 			{isExistingCustomer && (
 				<div className="col-12">
 					<p className="mt-2" style={{ opacity: 0.8 }}>
-						Found existing customer
+						{getContentFromMap(contentMap, 'booking.form.foundExistingCustomer', 'Found existing customer')} &nbsp;
 						{/* <strong>
 							{watch('customerName')} {watch('customerSurname')}
 						</strong> */}
@@ -351,7 +364,10 @@ function BookingsForm() {
 
 			{!existingCustomer && (
 				<>
-					<FormBox label="name" error={errors?.customerName?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'form.label.name', 'Name')}
+						error={errors?.customerName?.message}
+						className="mt-4">
 						<input
 							id="customerName"
 							className={`input ${errors.customerName ? 'input-error' : ''}`}
@@ -360,7 +376,10 @@ function BookingsForm() {
 						/>
 					</FormBox>
 
-					<FormBox label="surname" error={errors?.customerSurname?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'form.label.surname', 'Surname')}
+						error={errors?.customerSurname?.message}
+						className="mt-4">
 						<input
 							id="customerSurname"
 							className={`input ${errors.customerSurname ? 'input-error' : ''}`}
@@ -369,7 +388,10 @@ function BookingsForm() {
 						/>
 					</FormBox>
 
-					<FormBox label="customerPhone" error={errors?.customerPhone?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'form.label.customerPhone', 'Phone')}
+						error={errors?.customerPhone?.message}
+						className="mt-4">
 						<input
 							id="customerPhone"
 							className={`input ${errors.customerPhone ? 'input-error' : ''}`}
@@ -384,7 +406,10 @@ function BookingsForm() {
 						/>
 					</FormBox>
 
-					<FormBox label="street" error={errors?.street?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'form.label.street', 'Street')}
+						error={errors?.street?.message}
+						className="mt-4">
 						<input
 							id="street"
 							className={`input ${errors.street ? 'input-error' : ''}`}
@@ -397,7 +422,10 @@ function BookingsForm() {
 							})}
 						/>
 					</FormBox>
-					<FormBox label="streetNumber" error={errors?.streetNumber?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'form.label.streetNumber', 'Street Number')}
+						error={errors?.streetNumber?.message}
+						className="mt-4">
 						<input
 							id="streetNumber"
 							className={`input ${errors.streetNumber ? 'input-error' : ''}`}
@@ -411,7 +439,10 @@ function BookingsForm() {
 							})}
 						/>
 					</FormBox>
-					<FormBox label="houseNumber" error={errors?.houseNumber?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'form.label.houseNumber', 'House Number')}
+						error={errors?.houseNumber?.message}
+						className="mt-4">
 						<input
 							id="houseNumber"
 							className={`input ${errors.street ? 'input-error' : ''}`}
@@ -425,7 +456,10 @@ function BookingsForm() {
 							})}
 						/>
 					</FormBox>
-					<FormBox label="city" error={errors?.city?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'form.label.city', 'City')}
+						error={errors?.city?.message}
+						className="mt-4">
 						<input
 							id="city"
 							className={`input ${errors.city ? 'input-error' : ''}`}
@@ -443,7 +477,10 @@ function BookingsForm() {
 							})}
 						/>
 					</FormBox>
-					<FormBox label="postalCode" error={errors?.postalCode?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'form.label.postalCode', 'Postal Code')}
+						error={errors?.postalCode?.message}
+						className="mt-4">
 						<input
 							id="postalCode"
 							className={`input ${errors.postalCode ? 'input-error' : ''}`}
@@ -457,7 +494,10 @@ function BookingsForm() {
 							})}
 						/>
 					</FormBox>
-					<FormBox label="country" error={errors?.country?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'form.label.country', 'Country')}
+						error={errors?.country?.message}
+						className="mt-4">
 						<input
 							id="country"
 							className={`input ${errors.country ? 'input-error' : ''}`}
@@ -475,7 +515,10 @@ function BookingsForm() {
 			)}
 
 			{showIgloo && (
-				<FormBox label="Igloo" error={errors?.idIgloo?.message} className="mt-4">
+				<FormBox
+					label={getContentFromMap(contentMap, 'common.igloo', 'Igloo')}
+					error={errors?.idIgloo?.message}
+					className="mt-4">
 					<Controller
 						name="idIgloo"
 						control={control}
@@ -497,7 +540,10 @@ function BookingsForm() {
 			)}
 
 			{showTrip && (
-				<FormBox label="Trip" error={errors?.tripId?.message} className="mt-4">
+				<FormBox
+					label={getContentFromMap(contentMap, 'common.trip', 'Trip')}
+					error={errors?.tripId?.message}
+					className="mt-4">
 					<Controller
 						name="tripId"
 						control={control}
@@ -518,7 +564,10 @@ function BookingsForm() {
 				</FormBox>
 			)}
 
-			<FormBox label="Payment method" error={errors?.paymentMethodId?.message} className="mt-4">
+			<FormBox
+				label={getContentFromMap(contentMap, 'form.label.paymentMethod', 'Payment method')}
+				error={errors?.paymentMethodId?.message}
+				className="mt-4">
 				<Controller
 					name="paymentMethodId"
 					control={control}
@@ -539,7 +588,10 @@ function BookingsForm() {
 			</FormBox>
 
 			<div>
-				<FormBox label="guests" error={errors?.guests?.message} className="mt-4">
+				<FormBox
+					label={getContentFromMap(contentMap, 'common.guests', 'Guests')}
+					error={errors?.guests?.message}
+					className="mt-4">
 					<input
 						type="number"
 						id="guests"
@@ -562,7 +614,10 @@ function BookingsForm() {
 
 			{showIgloo && (
 				<>
-					<FormBox label="early check-in request" error={errors?.earlyCheckInRequest?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'form.earlyCheckInReq', 'Early Check-In Request')}
+						error={errors?.earlyCheckInRequest?.message}
+						className="mt-4">
 						<input
 							id="earlyCheckInRequest"
 							type="checkbox"
@@ -570,7 +625,10 @@ function BookingsForm() {
 							{...register('earlyCheckInRequest')}
 						/>
 					</FormBox>
-					<FormBox label="late check-out request" error={errors?.lateCheckOutRequest?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'form.lateCheckOutRequest', 'Late Check-Out Request')}
+						error={errors?.lateCheckOutRequest?.message}
+						className="mt-4">
 						<input
 							id="lateCheckOutRequest"
 							type="checkbox"
@@ -579,7 +637,10 @@ function BookingsForm() {
 						/>
 					</FormBox>
 
-					<FormBox label="Check in" error={errors?.checkIn?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'form.checkIn', 'Check in')}
+						error={errors?.checkIn?.message}
+						className="mt-4">
 						<div className="datepicker-wrapper">
 							<Controller
 								name="checkIn"
@@ -609,7 +670,10 @@ function BookingsForm() {
 						</div>
 					</FormBox>
 
-					<FormBox label="Check out" error={errors?.checkOut?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'form.checkOut', 'Check out')}
+						error={errors?.checkOut?.message}
+						className="mt-4">
 						<div className="datepicker-wrapper">
 							<Controller
 								name="checkOut"
@@ -642,7 +706,10 @@ function BookingsForm() {
 			)}
 
 			{showTrip && (
-				<FormBox label="Trip date" error={errors?.tripDate?.message} className="mt-4">
+				<FormBox
+					label={getContentFromMap(contentMap, 'common.tripDate', 'Trip date')}
+					error={errors?.tripDate?.message}
+					className="mt-4">
 					<div className="datepicker-wrapper">
 						<Controller
 							name="tripDate"
@@ -688,11 +755,14 @@ function BookingsForm() {
 						handleCloseModal()
 					}}
 					type={'button'}>
-					Cancel
+					{getContentFromMap(contentMap, 'form.cancelBtn', 'Cancel')}
 				</Button>
 				<Button type="submit">
 					{isFormLoading && <Spinner className="form" />}
-					{!isFormLoading && (bookingToEdit.id ? 'Save changes' : 'Add booking')}
+					{!isFormLoading &&
+						(bookingToEdit.id
+							? getContentFromMap(contentMap, 'formBooking.edit', 'Edit booking')
+							: getContentFromMap(contentMap, 'formBooking.add', 'Add booking'))}
 				</Button>
 				{}
 			</div>

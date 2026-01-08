@@ -8,17 +8,21 @@ import EmployeesForm from './EmployeesForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 import SearchInput from '../../components/SearchInput'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function EmployeesTable() {
 	const employees = useSelector(state => state.employees.employees)
 	const canManage = useSelector(selectCanManage)
 	const canDelete = useSelector(selectCanDelete)
+	const content = useSelector(state => state.contentBlocks.items)
 	const [data, setData] = useState(employees)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
 	const { openModal } = useModal()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const setEmployeesCallback = useCallback(() => {
 		setData(employees)
@@ -52,7 +56,7 @@ function EmployeesTable() {
 				},
 			},
 			{
-				header: 'Name',
+				header: getContentFromMap(contentMap, 'common.name', 'Name'),
 				id: 'employeeName',
 				accessorFn: row => `${row.name} ${row.surname} (${row.email})`,
 				cell: ({ row }) => {
@@ -67,7 +71,7 @@ function EmployeesTable() {
 				},
 			},
 			{
-				header: 'Address',
+				header: getContentFromMap(contentMap, 'common.address', 'Address'),
 				id: 'employeeAddress',
 				accessorFn: row => `${row.street}, ${row.city}, ${row.postalCode}, ${row.country}`,
 				cell: ({ row }) => {
@@ -83,7 +87,7 @@ function EmployeesTable() {
 				},
 			},
 			{
-				header: 'Role',
+				header: getContentFromMap(contentMap, 'common.role', 'Role'),
 				id: 'employeeRole',
 				accessorKey: 'role',
 				cell: ({ row }) => {
@@ -91,7 +95,7 @@ function EmployeesTable() {
 				},
 			},
 			{
-				header: 'Actions',
+				header: '',
 				id: 'employeeActions',
 				accessorKey: 'actions',
 				enableGlobalFilter: false,
@@ -116,12 +120,12 @@ function EmployeesTable() {
 				},
 			},
 		],
-		[navigate, employees]
+		[navigate, employees, contentMap]
 	)
 	return (
 		<>
 			<div className="mt-4 d-flex justify-content-end">
-				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search employee..." />
+				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder={getContentFromMap(contentMap, 'employees.search', 'Search employee...')} />
 			</div>
 			<Table
 				data={data}

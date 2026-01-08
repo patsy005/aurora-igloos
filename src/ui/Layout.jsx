@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchMe, selectUser } from '../slices/authSlice'
 import { useEffect } from 'react'
+import { fetchContentBlocks } from '../slices/contentBlocksSlice'
 
 function Layout() {
 	const user = useSelector(selectUser)
@@ -15,6 +16,7 @@ function Layout() {
 
 	useEffect(() => {
 		if (token) dispatch(fetchMe())
+		dispatch(fetchContentBlocks())
 	}, [])
 
 	return (

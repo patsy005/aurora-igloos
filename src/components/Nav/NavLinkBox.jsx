@@ -6,6 +6,7 @@ import {
 	HomeIcon,
 	IgloosIcon,
 	PromoIcon,
+	ReportsIcon,
 	TripIcon,
 	UsersIcon,
 } from '../../ui/Icons'
@@ -20,8 +21,9 @@ function NavLinkBox({ to, page }) {
 				{page === 'Users' && <UsersIcon />}
 				{page === 'Employees' && <UsersIcon />}
 				{page === 'Discounts' && <PromoIcon />}
-				{page === 'Forum' && <CreativeCornerIcon />}
 				{page === 'Customers' && <CustomersIcon />}
+				{page === 'Contents' && <ReportsIcon />}
+				{page === 'Forum' && <CreativeCornerIcon />}
 				{page === 'Trips' && <TripIcon />}
 				<span className="d-none d-md-block">{page}</span>
 				<div className="route-box">

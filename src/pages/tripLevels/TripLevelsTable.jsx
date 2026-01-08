@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useModal } from '../../contexts/modalContext'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 import TripLevelsForm from './TripLevelsForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { DeleteIcon, EditIcon } from '../../ui/Icons'
@@ -13,6 +14,8 @@ function TripLevelsTable() {
 	const tripLevels = useSelector(state => state.tripLevels.tripLevels)
 	const canManage = useSelector(selectCanManage)
 	const canDelete = useSelector(selectCanDelete)
+	const content = useSelector(state => state.contentBlocks.items)
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 	const [data, setData] = useState(tripLevels)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
@@ -40,7 +43,7 @@ function TripLevelsTable() {
 	const columns = useMemo(
 		() => [
 			{
-				header: 'Name',
+				header: getContentFromMap(contentMap, 'common.name', 'Name'),
 				id: 'tripLevels_name',
 				accessorKey: 'name',
 				cell: ({ row }) => {
@@ -48,7 +51,7 @@ function TripLevelsTable() {
 				},
 			},
 			{
-				header: 'Description',
+				header: getContentFromMap(contentMap, 'form.common.label', 'Description'),
 				id: 'tripLevels_description',
 				accessorKey: 'description',
 				cell: ({ row }) => {
@@ -56,7 +59,7 @@ function TripLevelsTable() {
 				},
 			},
 			{
-				header: 'Level Code',
+				header: getContentFromMap(contentMap, 'tripLevels.label.levelCode', 'Level Code'),
 				id: 'tripLevels_levelCode',
 				accessorKey: 'level',
 				cell: ({ row }) => {
@@ -87,13 +90,13 @@ function TripLevelsTable() {
 				},
 			},
 		],
-		[tripLevels, navigate]
+		[tripLevels, navigate, contentMap]
 	)
 
 	return (
 		<>
 			<div className="mt-4 d-flex justify-content-end">
-				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search booking..." />
+				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder={getContentFromMap(contentMap, 'tripLevels.search', 'Search trip level...')} />
 			</div>
 			<Table
 				data={data}

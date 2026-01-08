@@ -8,6 +8,7 @@ import BookingsForm from './BookingsForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 import SearchInput from '../../components/SearchInput'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function BookingsTable() {
 	const bookings = useSelector(state => state.bookings.bookings)
@@ -18,7 +19,10 @@ function BookingsTable() {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
+	const content = useSelector(state => state.contentBlocks.items)
 	const { openModal } = useModal()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const setBookingsCallback = useCallback(() => {
 		setData(bookings)
@@ -40,7 +44,7 @@ function BookingsTable() {
 	const columns = useMemo(
 		() => [
 			{
-				header: 'Igloo',
+				header: getContentFromMap(contentMap, 'bookings.table.igloo', 'Igloo'),
 				id: 'bookings.igloo',
 				accessorKey: 'iglooName',
 				cell: ({ row }) => {
@@ -49,7 +53,7 @@ function BookingsTable() {
 				},
 			},
 			{
-				header: 'Trip',
+				header: getContentFromMap(contentMap, 'bookings.table.trip', 'Trip'),
 				id: 'bookings.trip',
 				accessorKey: 'tripName',
 				cell: ({ row }) => {
@@ -58,7 +62,7 @@ function BookingsTable() {
 				},
 			},
 			{
-				header: 'Guest',
+				header: getContentFromMap(contentMap, 'bookings.table.guest', 'Guest'),
 				id: 'bookings.guest',
 				accessorFn: row => `${row.customerName ?? ''} ${row.customerSurname ?? ''} ${row.customerEmail ?? ''}`.trim(),
 				cell: ({ row }) => {
@@ -73,7 +77,7 @@ function BookingsTable() {
 				},
 			},
 			{
-				header: 'Dates',
+				header: getContentFromMap(contentMap, 'bookings.table.dates', 'Dates'),
 				id: 'bookings.dates',
 				accessorFn: row => `${row.checkIn ?? ''} ${row.checkOut ?? ''} ${row.tripDate ?? ''}`.trim(),
 				cell: ({ row }) => {
@@ -86,10 +90,11 @@ function BookingsTable() {
 						return (
 							<div className="bookings-table__dates">
 								<div>
-									<strong>Igloo:</strong> {checkIn} - {checkOut}
+									<strong>{getContentFromMap(contentMap, 'bookings.table.igloo', 'Igloo')}:</strong> {checkIn} -{' '}
+									{checkOut}
 								</div>
 								<div>
-									<strong>Trip:</strong> {tripDate}
+									<strong>{getContentFromMap(contentMap, 'bookings.table.trip', 'Trip')}:</strong> {tripDate}
 								</div>
 							</div>
 						)
@@ -111,7 +116,7 @@ function BookingsTable() {
 				},
 			},
 			{
-				header: 'Amount',
+				header: getContentFromMap(contentMap, 'bookings.table.amount', 'Amount'),
 				id: 'bookings.amount',
 				accessorKey: 'amount',
 				cell: ({ row }) => {
@@ -151,7 +156,11 @@ function BookingsTable() {
 	return (
 		<>
 			<div className="mt-4 d-flex justify-content-end">
-				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search booking..." />
+				<SearchInput
+					value={globalFilter}
+					onChange={setGlobalFilter}
+					placeholder={getContentFromMap(contentMap, 'bookings.search', 'Search booking...')}
+				/>
 			</div>
 			<Table
 				data={data}

@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux'
 import SectionHeading from '../../components/SectionHeading'
 import { useModal } from '../../contexts/modalContext'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { fetchCustomers } from '../../slices/customersSLice'
 import CustomersForm from './CustomersForm'
 import Button from '../../components/Button'
 import CustomersTable from './CustomersTable'
 import { selectCanManage } from '../../slices/authSlice'
 import Spinner from '../../components/spinner/Spinner'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function Customers() {
 	const dispatch = useDispatch()
@@ -15,8 +16,11 @@ function Customers() {
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
 	const isFetching = useSelector(state => state.customers.isFetching)
+	const content = useSelector(state => state.contentBlocks.items)
 
 	const { openModal } = useModal()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	useEffect(() => {
 		if (!token) return
@@ -33,10 +37,10 @@ function Customers() {
 
 	return (
 		<>
-			<SectionHeading sectionTitle="Customers" />
+			<SectionHeading sectionTitle={getContentFromMap(contentMap, 'customers.heading', 'Customers')} />
 			{canManage && (
 				<div className="text-end">
-					<Button onClick={openAddCustomerModal}>Add customer</Button>
+					<Button onClick={openAddCustomerModal}>{getContentFromMap(contentMap, 'customers.cta', 'Add customer')}</Button>
 				</div>
 			)}
 			<CustomersTable />

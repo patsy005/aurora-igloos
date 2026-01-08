@@ -1,11 +1,21 @@
 import { Controller } from 'react-hook-form'
 import FormBox from '../../../components/Form/FormBox'
 import SelectComponent from '../../../components/select/SelectComponent'
+import { useSelector } from 'react-redux'
+import { useMemo } from 'react'
+import { contentArrayToMap, getContentFromMap } from '../../../utils/utils'
 
 function EditUserFields({ register, control, errors, userRoleOptions, userTypeOptions }) {
+	const content = useSelector(state => state.contentBlocks.items)
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
+
 	return (
 		<>
-			<FormBox label="Login" error={errors?.login?.message} className="mt-4">
+			<FormBox
+				label={getContentFromMap(contentMap, 'common.login', 'Login')}
+				error={errors?.login?.message}
+				className="mt-4">
 				<input
 					id="login"
 					className={`input ${errors.login ? 'input-error' : ''}`}
@@ -16,7 +26,10 @@ function EditUserFields({ register, control, errors, userRoleOptions, userTypeOp
 				/>
 			</FormBox>
 
-			<FormBox label="Password (optional)" error={errors?.password?.message} className="mt-4">
+			<FormBox
+				label={getContentFromMap(contentMap, 'users.form.edit.password.label', 'Password (optional)')}
+				error={errors?.password?.message}
+				className="mt-4">
 				<input
 					id="password"
 					type="password"
@@ -28,7 +41,10 @@ function EditUserFields({ register, control, errors, userRoleOptions, userTypeOp
 				/>
 			</FormBox>
 
-			<FormBox label="User Role" error={errors?.userRoleId?.message} className="mt-4">
+			<FormBox
+				label={getContentFromMap(contentMap, 'form.label.userRole', 'User Role')}
+				error={errors?.userRoleId?.message}
+				className="mt-4">
 				<Controller
 					name="userRoleId"
 					control={control}
@@ -48,7 +64,10 @@ function EditUserFields({ register, control, errors, userRoleOptions, userTypeOp
 				/>
 			</FormBox>
 
-			<FormBox label="User Type" error={errors?.userTypeId?.message} className="mt-4">
+			<FormBox
+				label={getContentFromMap(contentMap, 'common.userType', 'User Type')}
+				error={errors?.userTypeId?.message}
+				className="mt-4">
 				<Controller
 					name="userTypeId"
 					control={control}

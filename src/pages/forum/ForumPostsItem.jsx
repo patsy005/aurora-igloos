@@ -1,8 +1,9 @@
 import moment from 'moment'
 import { CommentIcon } from '../../ui/Icons'
 import { useNavigate } from 'react-router-dom'
+import { getContentFromMap } from '../../utils/utils'
 
-function ForumPostsItem({ post }) {
+function ForumPostsItem({ post, contentMap = {} }) {
 	const tags = post.tags ? post.tags.split(',').map(t => t.trim()) : []
 	const navigate = useNavigate()
 

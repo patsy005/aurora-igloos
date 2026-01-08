@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCanManage } from '../../slices/authSlice'
 import { useModal } from '../../contexts/modalContext'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { fetchDiscounts } from '../../slices/discountsSlice'
 import { fetchIgloos } from '../../slices/igloosSlice'
 import Spinner from '../../components/spinner/Spinner'
@@ -9,6 +9,7 @@ import SectionHeading from '../../components/SectionHeading'
 import Button from '../../components/Button'
 import DiscountsTable from './DiscountsTable'
 import DiscountsForm from './DiscountsForm'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function Discounts() {
 	const dispatch = useDispatch()
@@ -16,7 +17,10 @@ function Discounts() {
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
 	const isFetchingDiscounts = useSelector(state => state.discounts.isFetching)
+	const content = useSelector(state => state.contentBlocks.items)
 	const { openModal } = useModal()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	useEffect(() => {
 		if (!token) return
@@ -34,10 +38,10 @@ function Discounts() {
 
 	return (
 		<>
-			<SectionHeading sectionTitle="Discounts" />
+			<SectionHeading sectionTitle={getContentFromMap(contentMap, 'discounts.heading', 'Discounts')} />
 			{canManage && (
 				<div className="text-end">
-					<Button onClick={openAddDiscountModal}>Add discount</Button>
+					<Button onClick={openAddDiscountModal}>{getContentFromMap(contentMap, 'discounts.cta', 'Add discount')}</Button>
 				</div>
 			)}
 			<DiscountsTable />

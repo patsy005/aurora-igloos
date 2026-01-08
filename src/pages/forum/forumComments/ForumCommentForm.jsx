@@ -4,7 +4,7 @@ import { useModal } from '../../../contexts/modalContext'
 import { useForm } from 'react-hook-form'
 import { useEffect, useMemo } from 'react'
 import { addNewForumComment, editForumComment, fetchForumComments } from '../../../slices/forumCommentSlice'
-import { formatDateOnly } from '../../../utils/utils'
+import { contentArrayToMap, formatDateOnly, getContentFromMap } from '../../../utils/utils'
 import toast from 'react-hot-toast'
 import FormBox from '../../../components/Form/FormBox'
 import Button from '../../../components/Button'
@@ -14,6 +14,8 @@ import Spinner from '../../../components/spinner/Spinner'
 function ForumCommentForm() {
 	const user = useSelector(selectUser)
 	const token = useSelector(state => state.auth.accessToken)
+	const content = useSelector(state => state.contentBlocks.items)
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const forumComments = useSelector(state => state.forumComments.forumComments)
 	const { closeModal, props } = useModal()
@@ -94,9 +96,16 @@ function ForumCommentForm() {
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
-			<h2>{commentToEdit?.id ? 'Edit Forum Comment' : 'Add New Forum Comment'}</h2>
+			<h2>
+				{commentToEdit?.id
+					? getContentFromMap(contentMap, 'forumComment.edit', 'Edit Forum Comment')
+					: getContentFromMap(contentMap, 'forumComment.form.add', 'Add New Forum Comment')}
+			</h2>
 
-			<FormBox label="Content" error={errors?.comment?.message} className="mt-4">
+			<FormBox
+				label={getContentFromMap(contentMap, 'forumPost.label.content', 'Content')}
+				error={errors?.comment?.message}
+				className="mt-4">
 				<textarea
 					id="comment"
 					className={`input ${errors.comment ? 'input-error' : ''}`}
@@ -122,11 +131,14 @@ function ForumCommentForm() {
 						handleCloseModal()
 					}}
 					type={'button'}>
-					Cancel
+					{getContentFromMap(contentMap, 'form.saveChanges', 'Cancel')}
 				</Button>
 				<Button type="submit">
 					{isFormLoading && <Spinner className="form" />}
-					{!isFormLoading && (commentToEdit?.id ? 'Edit Comment' : 'Add Comment')}
+					{!isFormLoading &&
+						(commentToEdit?.id
+							? getContentFromMap(contentMap, 'forumComment.editBtn', 'Edit Comment')
+							: getContentFromMap(contentMap, 'forumComment.addBtn', 'Add Comment'))}
 				</Button>
 			</div>
 		</form>

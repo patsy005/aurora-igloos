@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useModal } from '../../contexts/modalContext'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { fetchBookings } from '../../slices/bookingsSlice'
 import BookingsForm from './BookingsForm'
 import SectionHeading from '../../components/SectionHeading'
@@ -13,6 +13,7 @@ import { fetchTrips } from '../../slices/tripsSlice'
 import { fetchCustomers } from '../../slices/customersSLice'
 import { selectCanManage } from '../../slices/authSlice'
 import Spinner from '../../components/spinner/Spinner'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function Bookings() {
 	const dispatch = useDispatch()
@@ -20,7 +21,10 @@ function Bookings() {
 	const isFetching = useSelector(state => state.bookings.isFetching)
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
+	const content = useSelector(state => state.contentBlocks.items)
 	const { openModal } = useModal()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	useEffect(() => {
 		if (!token) return
@@ -42,10 +46,10 @@ function Bookings() {
 
 	return (
 		<>
-			<SectionHeading sectionTitle="Bookings" />
+			<SectionHeading sectionTitle={getContentFromMap(contentMap, 'bookings.heading', 'Bookings')} />
 			{canManage && (
 				<div className="text-end">
-					<Button onClick={openAddBookingModal}>Add booking</Button>
+					<Button onClick={openAddBookingModal}>{getContentFromMap(contentMap, 'bookings.cta', 'Add booking')} </Button>
 				</div>
 			)}
 			<BookingsTable />

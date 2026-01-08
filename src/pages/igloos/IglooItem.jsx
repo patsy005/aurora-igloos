@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-key */
 import { useNavigate, useParams } from 'react-router-dom'
 import SectionHeading from '../../components/SectionHeading'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import DatePicker, { DateObject } from 'react-multi-date-picker'
 import DatePanel from 'react-multi-date-picker/plugins/date_panel'
 import { DeleteIcon, EditIcon, GoBackIcon, ViewIcon } from '../../ui/Icons'
@@ -15,6 +15,8 @@ import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 import { fetchBookings } from '../../slices/bookingsSlice'
 import IglooItemTable from './IglooItemTable'
 import ItemDetailsCard from '../../components/ItemDetailsCard'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
+import Spinner from '../../components/spinner/Spinner'
 
 function IglooItem() {
 	const dispatch = useDispatch()
@@ -24,6 +26,7 @@ function IglooItem() {
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
 	const canDelete = useSelector(selectCanDelete)
+	const content = useSelector(state => state.contentBlocks.items)
 	const bookings = useSelector(state => state.bookings.bookings)
 	const navigate = useNavigate()
 	const [datesState, setDatesState] = useState([])
@@ -34,6 +37,8 @@ function IglooItem() {
 		dispatch(fetchIgloos())
 		dispatch(fetchBookings())
 	}, [token])
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const igloo = igloos?.find(igloo => igloo.id === +iglooId)
 
@@ -55,14 +60,14 @@ function IglooItem() {
 	return (
 		<>
 			{isFetchingIgloos ? (
-				<p>Loading...</p>
+				<Spinner className="page" />
 			) : (
 				<section className="item-section section mt-5">
 					<span onClick={() => navigate(-1)} className="go-back">
 						<GoBackIcon />
 					</span>
 					<p className="mt-4"></p>
-					<SectionHeading sectionTitle="igloo"></SectionHeading>
+					<SectionHeading sectionTitle={getContentFromMap(contentMap, 'iglooItem.heading', 'Igloo')}></SectionHeading>
 
 					<div className="item-section__overview section-box section-margin flex-md-row">
 						<div className="item-img col-12 col-md-5 col-lg-4">
@@ -72,7 +77,7 @@ function IglooItem() {
 							<h3 className="item-section__title">{igloo.name}</h3>
 							<div className="item-section__promo">
 								<p className="promo uppercase-text">
-									annual promotion{' '}
+									{getContentFromMap(contentMap, 'common.promotion', 'Promotion')}:{' '}
 									{iglooDiscount && (
 										<span className="action-icon" onClick={() => navigate(`/promotions/${iglooDiscount.id}`)}>
 											<ViewIcon />
@@ -82,11 +87,19 @@ function IglooItem() {
 								<p className="promo-title mt-2">{iglooDiscount ? iglooDiscount.name : '--'}</p>
 							</div>
 							<div className="item-section__boxes flex-lg-row gap-lg-5 justify-content-lg-between">
-								<ItemDetailsCard title="capacity" number={igloo.capacity} />
-								<ItemDetailsCard title="Price per night" number={`$ ${igloo.pricePerNight}`} />
+								<ItemDetailsCard
+									title={getContentFromMap(contentMap, 'common.capacitty', 'Capacity')}
+									number={igloo.capacity}
+								/>
+								<ItemDetailsCard
+									title={getContentFromMap(contentMap, 'iglooItem.price', 'Price per night')}
+									number={`$ ${igloo.pricePerNight}`}
+								/>
 							</div>
 							<div className="item-section__availability">
-								<p className="uppercase-text mb-4 mt-3">Availability</p>
+								<p className="uppercase-text mb-4 mt-3">
+									{getContentFromMap(contentMap, 'iglooItem.availability', 'Availability')}
+								</p>
 								<div className="col-7 col-lg-5 col-xxl-4">
 									<DatePicker
 										className="custom-calendar"
@@ -125,7 +138,7 @@ function IglooItem() {
 					{igloo && (
 						<>
 							<div className="section-margin user-item tasks">
-								<h3>Bookings</h3>
+								<h3>{getContentFromMap(contentMap, 'iglooItem.bookings.heading', 'Bookings')}</h3>
 								<IglooItemTable iglooId={iglooId} />
 							</div>
 						</>

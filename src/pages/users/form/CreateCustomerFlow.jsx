@@ -2,6 +2,9 @@ import { Controller } from 'react-hook-form'
 import FormBox from '../../../components/Form/FormBox'
 import SelectComponent from '../../../components/select/SelectComponent'
 import Button from '../../../components/Button'
+import { useSelector } from 'react-redux'
+import { useMemo } from 'react'
+import { contentArrayToMap, getContentFromMap } from '../../../utils/utils'
 
 function CreateCustomerFlow({
 	register,
@@ -14,9 +17,16 @@ function CreateCustomerFlow({
 	userRoleOptions,
 	userTypeOptions,
 }) {
+	const content = useSelector(state => state.contentBlocks.items)
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
+
 	return (
 		<div className="col-12 mt-4">
-			<FormBox label="Customer Email" error={errors?.customerEmail?.message} className="mt-4">
+			<FormBox
+				label={getContentFromMap(contentMap, 'form.label.customerEmail', 'Customer Email')}
+				error={errors?.customerEmail?.message}
+				className="mt-4">
 				<input
 					id="customerEmail"
 					className={`input ${errors.customerEmail ? 'input-error' : ''}`}
@@ -52,7 +62,8 @@ function CreateCustomerFlow({
 							<strong>Customer already has user account</strong>
 						</p>
 						<p>
-							Customer {existingCustomer.name} {existingCustomer.surname} already has a user account.
+							{/* Customer {existingCustomer.name} {existingCustomer.surname} already has a user account. */}
+							Customer already has a user account.
 						</p>
 					</div>
 				</div>
@@ -65,15 +76,18 @@ function CreateCustomerFlow({
 							<p>
 								<strong>Customer found</strong>
 							</p>
-							<p>
+							{/* <p>
 								Found customer: {existingCustomer.name} {existingCustomer.surname}
-							</p>
+							</p> */}
 							<p>Ready to create user account for this customer.</p>
 						</div>
 					</div>
 
 					{/* user fields */}
-					<FormBox label="Login" error={errors?.login?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'common.login', 'Login')}
+						error={errors?.login?.message}
+						className="mt-4">
 						<input
 							id="login"
 							className={`input ${errors.login ? 'input-error' : ''}`}
@@ -84,7 +98,10 @@ function CreateCustomerFlow({
 						/>
 					</FormBox>
 
-					<FormBox label="Password" error={errors?.password?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'common.password', 'Password')}
+						error={errors?.password?.message}
+						className="mt-4">
 						<input
 							id="password"
 							type="password"
@@ -96,7 +113,10 @@ function CreateCustomerFlow({
 						/>
 					</FormBox>
 
-					<FormBox label="User Role" error={errors?.userRoleId?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'form.label.userRole', 'User Role')}
+						error={errors?.userRoleId?.message}
+						className="mt-4">
 						<Controller
 							name="userRoleId"
 							control={control}
@@ -116,7 +136,10 @@ function CreateCustomerFlow({
 						/>
 					</FormBox>
 
-					<FormBox label="User Type" error={errors?.userTypeId?.message} className="mt-4">
+					<FormBox
+						label={getContentFromMap(contentMap, 'common.userType', 'User Type')}
+						error={errors?.userTypeId?.message}
+						className="mt-4">
 						<Controller
 							name="userTypeId"
 							control={control}

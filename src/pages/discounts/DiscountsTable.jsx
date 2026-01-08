@@ -8,18 +8,22 @@ import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfir
 import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
 import SearchInput from '../../components/SearchInput'
 import Table from '../../components/Table/Table'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function DiscountsTable() {
 	const discounts = useSelector(state => state.discounts.discounts)
 	const igloos = useSelector(state => state.igloos.igloos)
 	const canManage = useSelector(selectCanManage)
 	const canDelete = useSelector(selectCanDelete)
+	const content = useSelector(state => state.contentBlocks.items)
 	const [data, setData] = useState(discounts)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
 	const { openModal } = useModal()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const setDiscountsCallback = useCallback(() => {
 		setData(discounts)
@@ -41,7 +45,7 @@ function DiscountsTable() {
 	const columns = useMemo(
 		() => [
 			{
-				header: 'Name',
+				header: getContentFromMap(contentMap, 'common.name', 'Name'),
 				id: 'discontName',
 				accessorKey: 'name',
 				cell: ({ row }) => {
@@ -49,7 +53,7 @@ function DiscountsTable() {
 				},
 			},
 			{
-				header: 'Valid period',
+				header: getContentFromMap(contentMap, 'discounts.table.valiidPeriod', 'Valid period'),
 				id: 'discountValidPeriod',
 				accessorFn: row => `${row.validFrom} ${row.validTo}`.trim(),
 				cell: ({ row }) => {
@@ -61,7 +65,7 @@ function DiscountsTable() {
 				},
 			},
 			{
-				header: 'Description',
+				header: getContentFromMap(contentMap, 'form.common.label', 'Description'),
 				id: 'discountDescription',
 				accessorKey: 'description',
 				cell: ({ row }) => {
@@ -69,7 +73,7 @@ function DiscountsTable() {
 				},
 			},
 			{
-				header: 'Discount',
+				header: getContentFromMap(contentMap, 'form.common.label.discount', 'Discount'),
 				id: 'discountPercentage',
 				accessorKey: 'discount',
 				cell: ({ row }) => {
@@ -77,7 +81,7 @@ function DiscountsTable() {
 				},
 			},
 			{
-				header: 'Igloos',
+				header: getContentFromMap(contentMap, 'igloos.heading', 'Igloos'),
 				id: 'discountIgloos',
 				accessorFn: row => row.igloos,
 				cell: ({ row }) => {
@@ -132,7 +136,7 @@ function DiscountsTable() {
 	return (
 		<>
 			<div className="mt-4 d-flex justify-content-end">
-				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search discounts..." />
+				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder={getContentFromMap(contentMap, 'discounts.search', 'Search discounts...')} />
 			</div>
 			<Table
 				data={data}

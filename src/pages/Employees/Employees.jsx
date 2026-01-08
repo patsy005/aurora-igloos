@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchEmployees } from '../../slices/employeesSlice'
 import { fetchEmployeeRoles } from '../../slices/employeeRoleSlice'
@@ -9,6 +9,7 @@ import { useModal } from '../../contexts/modalContext'
 import EmployeesForm from './EmployeesForm'
 import { selectCanManage } from '../../slices/authSlice'
 import Spinner from '../../components/spinner/Spinner'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function Employees() {
 	const dispatch = useDispatch()
@@ -16,7 +17,10 @@ function Employees() {
 	const canManage = useSelector(selectCanManage)
 	const token = useSelector(state => state.auth.accessToken)
 	const isFetching = useSelector(state => state.employees.isFetching)
+	const content = useSelector(state => state.contentBlocks.items)
 	const { openModal } = useModal()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	useEffect(() => {
 		if (!token) return
@@ -34,10 +38,10 @@ function Employees() {
 
 	return (
 		<>
-			<SectionHeading sectionTitle="Employees" />
+			<SectionHeading sectionTitle={getContentFromMap(contentMap, 'employees.title', 'Employees')} />
 			{canManage && (
 				<div className="text-end">
-					<Button onClick={openAddEmployeeModal}>Add employee</Button>
+					<Button onClick={openAddEmployeeModal}>{getContentFromMap(contentMap, 'employees.cta', 'Add employee')}</Button>
 				</div>
 			)}
 			<EmployeesTable />

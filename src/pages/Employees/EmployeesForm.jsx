@@ -2,20 +2,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Controller, useForm } from 'react-hook-form'
 import { addNewEmployee, editEmployee, fetchEmployees } from '../../slices/employeesSlice'
 import toast from 'react-hot-toast'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import FormBox from '../../components/Form/FormBox'
 import SelectComponent from '../../components/select/SelectComponent'
 import Button from '../../components/Button'
 import { useModal } from '../../contexts/modalContext'
 import Spinner from '../../components/spinner/Spinner'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function EmployeesForm() {
 	const employees = useSelector(state => state.employees.employees)
 	const employeeRoles = useSelector(state => state.employeeRoles.employeeRoles)
+	const content = useSelector(state => state.contentBlocks.items)
 
 	const dispatch = useDispatch()
 	const { closeModal, props } = useModal()
 	const employeeToEdit = props
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	// PASSWORD:
 	// min 8 characters
@@ -130,7 +134,7 @@ function EmployeesForm() {
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
-			<FormBox label="name" error={errors?.name?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'common.name', 'name')} error={errors?.name?.message} className="mt-4">
 				<input
 					id="name"
 					className={`input ${errors.name ? 'input-error' : ''}`}
@@ -144,7 +148,7 @@ function EmployeesForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="surname" error={errors?.surname?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'common.surname', 'surname')} error={errors?.surname?.message} className="mt-4">
 				<input
 					id="surname"
 					className={`input ${errors.surname ? 'input-error' : ''}`}
@@ -158,7 +162,7 @@ function EmployeesForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="e-mail" error={errors?.email?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'common.email', 'e-mail')} error={errors?.email?.message}>
 				<input
 					id="email"
 					className={`input ${errors.email ? 'input-error' : ''}`}
@@ -172,7 +176,7 @@ function EmployeesForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="phoneNumber" error={errors?.phoneNumber?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'common.phoneNo', 'phoneNumber')} error={errors?.phoneNumber?.message}>
 				<input
 					id="phoneNumber"
 					className={`input ${errors.phone ? 'input-error' : ''}`}
@@ -187,7 +191,7 @@ function EmployeesForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="street" error={errors?.street?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'form.label.street', 'street')} error={errors?.street?.message}>
 				<input
 					id="street"
 					className={`input ${errors.street ? 'input-error' : ''}`}
@@ -200,7 +204,7 @@ function EmployeesForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="streetNumber" error={errors?.streetNumber?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'form.label.streetNumber', 'streetNumber')} error={errors?.streetNumber?.message}>
 				<input
 					id="streetNumber"
 					className={`input ${errors.streetNumber ? 'input-error' : ''}`}
@@ -214,7 +218,7 @@ function EmployeesForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="houseNumber" error={errors?.houseNumber?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'form.label.houseNumber', 'houseNumber')} error={errors?.houseNumber?.message}>
 				<input
 					id="houseNumber"
 					className={`input ${errors.street ? 'input-error' : ''}`}
@@ -228,7 +232,7 @@ function EmployeesForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="city" error={errors?.city?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'form.label.city', 'city')} error={errors?.city?.message}>
 				<input
 					id="city"
 					className={`input ${errors.city ? 'input-error' : ''}`}
@@ -246,7 +250,7 @@ function EmployeesForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="postalCode" error={errors?.postalCode?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'form.label.postalCode', 'postalCode')} error={errors?.postalCode?.message}>
 				<input
 					id="postalCode"
 					className={`input ${errors.postalCode ? 'input-error' : ''}`}
@@ -260,7 +264,7 @@ function EmployeesForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="country" error={errors?.country?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'form.label.country', 'country')} error={errors?.country?.message}>
 				<input
 					id="country"
 					className={`input ${errors.country ? 'input-error' : ''}`}
@@ -275,7 +279,7 @@ function EmployeesForm() {
 				/>
 			</FormBox>
 			<div className="form__box col-12 col-sm-5">
-				<label className="label">Role</label>
+				<label className="label">{getContentFromMap(contentMap, 'common.role', 'Role')}</label>
 				<Controller
 					name="roleId"
 					control={control}
@@ -295,7 +299,7 @@ function EmployeesForm() {
 				/>
 				{errors.roleId && <p className="error-msg">You must choose role</p>}
 			</div>
-			<FormBox label="login" error={errors?.login?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'common.login', 'login')} error={errors?.login?.message}>
 				<input
 					id="login"
 					className={`input ${errors.login ? 'input-error' : ''}`}
@@ -309,7 +313,7 @@ function EmployeesForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="password" error={errors?.password?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'common.password', 'password')} error={errors?.password?.message}>
 				<input
 					id="password"
 					className={`input ${errors.password ? 'input-error' : ''}`}
@@ -330,7 +334,10 @@ function EmployeesForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="Image" error={errors?.img?.message} labelClassName="file-upload">
+			<FormBox
+				label={getContentFromMap(contentMap, 'form.common.label.image', 'Image')}
+				error={errors?.img?.message}
+				labelClassName="file-upload">
 				<input
 					type="file"
 					accept="image/png, image/jpeg"
@@ -350,11 +357,14 @@ function EmployeesForm() {
 						handleCloseModal()
 					}}
 					type={'button'}>
-					Cancel
+					{getContentFromMap(contentMap, 'form.cancelBtn', 'Cancel')}
 				</Button>
 				<Button type={'submit'}>
 					{isFormLoading && <Spinner className="form" />}
-					{!isFormLoading && (employeeToEdit.id ? 'Save changes' : 'Add employee')}
+					{!isFormLoading &&
+						(employeeToEdit.id
+							? getContentFromMap(contentMap, 'form.saveChanges', 'Save changes')
+							: getContentFromMap(contentMap, 'employee.form.add', 'Add employee'))}
 				</Button>
 			</div>
 		</form>

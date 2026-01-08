@@ -46,3 +46,20 @@ export const formatDate = dateString => {
 		year: 'numeric',
 	})
 }
+
+export const contentArrayToMap = items => {
+	if (!Array.isArray(items)) return {}
+
+	return items.reduce((acc, item) => {
+		if (item?.key) {
+			acc[item.key] = item.value
+		}
+		return acc
+	}, {})
+}
+
+
+export const getContentFromMap = (map, key, fallback = '') => {
+	if (!map) return fallback
+	return map[key] ?? fallback
+}

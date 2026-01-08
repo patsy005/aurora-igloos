@@ -7,14 +7,19 @@ import { DeleteIcon, EditIcon } from '../../ui/Icons'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import Table from '../../components/Table/Table'
 import Spinner from '../../components/spinner/Spinner'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
+import { get } from 'react-hook-form'
 
 function IglooItemTable({ iglooId }) {
 	const bookings = useSelector(state => state.bookings?.bookings ?? [])
 	const isFetchingBookings = useSelector(state => state.bookings?.isFetching)
 	const canManage = useSelector(selectCanManage)
 	const canDelete = useSelector(selectCanDelete)
+	const content = useSelector(state => state.contentBlocks.items)
 
 	const { openModal } = useModal()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const iglooBookings = useMemo(() => {
 		return bookings.filter(b => b.idIgloo === Number(iglooId))
@@ -32,7 +37,7 @@ function IglooItemTable({ iglooId }) {
 	const columns = useMemo(
 		() => [
 			{
-				header: 'Guest',
+				header: getContentFromMap(contentMap, 'iglooItemTable.guestHeader', 'Guest'),
 				id: 'guest',
 				accessorFn: row => `${row.customerName ?? ''} ${row.customerSurname ?? ''} ${row.customerEmail ?? ''}`,
 				cell: ({ row }) => (
@@ -45,7 +50,7 @@ function IglooItemTable({ iglooId }) {
 				),
 			},
 			{
-				header: 'Dates',
+				header: getContentFromMap(contentMap, 'common.dates', 'Dates'),
 				id: 'dates',
 				accessorFn: row => `${row.checkIn ?? ''}-${row.checkOut ?? ''}`,
 				cell: ({ row }) => (
@@ -53,7 +58,7 @@ function IglooItemTable({ iglooId }) {
 				),
 			},
 			{
-				header: 'Amount',
+				header: getContentFromMap(contentMap, 'common.amount', 'Amount'),
 				id: 'amount',
 				accessorKey: 'amount',
 				cell: ({ row }) => <div className="bookings-table__amount">$ {row.original.amount}</div>,

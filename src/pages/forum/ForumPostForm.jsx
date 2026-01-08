@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useModal } from '../../contexts/modalContext'
 import { Controller, useForm } from 'react-hook-form'
 import { useEffect, useMemo } from 'react'
-import { formatDateOnly, parseDateOnly } from '../../utils/utils'
+import { contentArrayToMap, formatDateOnly, getContentFromMap, parseDateOnly } from '../../utils/utils'
 import { addNewForumPost, editForumPost, fetchForumPosts } from '../../slices/forumPostsSlice'
 import { fetchForumCategories } from '../../slices/forumCategorySlice'
 import toast from 'react-hot-toast'
@@ -18,8 +18,11 @@ function ForumPostForm() {
 
 	const forumPosts = useSelector(state => state.forumPosts.forumPosts)
 	const forumCategories = useSelector(state => state.forumCategories.forumCategories)
+	const content = useSelector(state => state.contentBlocks.items)
 	const { closeModal, props } = useModal()
 	const postToEdit = props
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const dispatch = useDispatch()
 
@@ -122,9 +125,9 @@ function ForumPostForm() {
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
-			<h2>{postToEdit?.id ? 'Edit Forum Post' : 'Add New Forum Post'}</h2>
+			<h2>{postToEdit?.id ? getContentFromMap(contentMap, 'forumPost.editBtn', 'Edit Forum Post') : getContentFromMap(contentMap, 'Add New Forum Post', 'Add New Forum Post')}</h2>
 
-			<FormBox label="Title" error={errors?.title?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'forumPost.label.title', 'Title')} error={errors?.title?.message} className="mt-4">
 				<input
 					id="title"
 					className={`input ${errors.title ? 'input-error' : ''}`}
@@ -142,7 +145,7 @@ function ForumPostForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="Tags" error={errors?.tags?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'forumPost.label.tags', 'Tags')} error={errors?.tags?.message} className="mt-4">
 				<input
 					id="tags"
 					className={`input ${errors.tags ? 'input-error' : ''}`}
@@ -167,7 +170,7 @@ function ForumPostForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="Content" error={errors?.postContent?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'forumPost.label.content', 'Content')} error={errors?.postContent?.message} className="mt-4">
 				<textarea
 					id="postContent"
 					className={`input ${errors.postContent ? 'input-error' : ''}`}
@@ -186,7 +189,7 @@ function ForumPostForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="Payment method" error={errors?.categoryId?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'form.label.paymentMethod', 'Forum Category')} error={errors?.categoryId?.message} className="mt-4">
 				<Controller
 					name="categoryId"
 					control={control}
@@ -219,11 +222,11 @@ function ForumPostForm() {
 						handleCloseModal()
 					}}
 					type={'button'}>
-					Cancel
+					{getContentFromMap(contentMap, 'form.cancelBtn', 'Cancel')}
 				</Button>
 				<Button type="submit">
 					{isFormLoading && <Spinner className="form" />}
-					{!isFormLoading && (postToEdit?.id ? 'Edit Post' : 'Add Post')}
+					{!isFormLoading && (postToEdit?.id ? getContentFromMap(contentMap, 'forumPost.editBtn', 'Edit Post') : getContentFromMap(contentMap, 'forumPost.addBtn', 'Add Post'))}
 				</Button>
 			</div>
 		</form>

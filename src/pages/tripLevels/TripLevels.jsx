@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useModal } from '../../contexts/modalContext'
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { fetchTripLevel } from '../../slices/tripLevelSlice'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 import TripLevelsForm from './TripLevelsForm'
 import SectionHeading from '../../components/SectionHeading'
 import { GoBackIcon } from '../../ui/Icons'
@@ -17,6 +18,8 @@ function TripLevels() {
 	const canManage = useSelector(selectCanManage)
 	const token = useSelector(state => state.auth.accessToken)
 	const isFetching = useSelector(state => state.tripLevels.isFetching)
+	const content = useSelector(state => state.contentBlocks.items)
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 	const { openModal } = useModal()
 	const navigate = useNavigate()
 
@@ -35,13 +38,13 @@ function TripLevels() {
 
 	return (
 		<>
-			<SectionHeading sectionTitle="Trip Levels" />
+			<SectionHeading sectionTitle={getContentFromMap(contentMap, 'tripLevels.heading', 'Trip Levels')} />
 			<span onClick={() => navigate(-1)} className="go-back">
 				<GoBackIcon />
 			</span>
 			{canManage && (
 				<div className="text-end">
-					<Button onClick={openTripLevelModal}>Add trip level</Button>
+					<Button onClick={openTripLevelModal}>{getContentFromMap(contentMap, 'tripLevels.cta', 'Add trip level')}</Button>
 				</div>
 			)}
 			<TripLevelsTable />

@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { selectIsAdmin } from '../../slices/authSlice'
 import { useModal } from '../../contexts/modalContext'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { fetchUsers } from '../../slices/usersSlice'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 import UsersForm from './UsersForm'
 import Spinner from '../../components/spinner/Spinner'
 import SectionHeading from '../../components/SectionHeading'
@@ -14,8 +15,11 @@ function Users() {
 	const users = useSelector(state => state.users.users)
 	const token = useSelector(state => state.auth.accessToken)
 	const isFetching = useSelector(state => state.users.isFetching)
+	const content = useSelector(state => state.contentBlocks.items)
 	const { openModal } = useModal()
 	const dispatch = useDispatch()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	useEffect(() => {
 		if (!token) return
@@ -34,10 +38,10 @@ function Users() {
 	if (isFetching) return <Spinner className="page" />
 
 	return <>
-        <SectionHeading sectionTitle="Users" />
+        <SectionHeading sectionTitle={getContentFromMap(contentMap, 'users.heading', 'Users')} />
         <div className="text-end">
             <Button onClick={openAddUserModal} className="btn btn-primary">
-                Add user
+                {getContentFromMap(contentMap, 'users.cta', 'Add user')}
             </Button>
         </div>
         <UsersTable />

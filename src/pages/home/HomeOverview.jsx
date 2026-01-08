@@ -7,6 +7,8 @@ import { BookingsIcon, CheckinsIcon, OccupancyRateIcon } from '../../ui/Icons'
 import StayLengthChart from '../../components/stay-length-chart/StayLengthChart'
 import OverviewCard from '../../components/overview-card/OverviewCard'
 import './HomeOverview.scss'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
+import { get } from 'react-hook-form'
 
 function HomeOverview({ user }) {
 	const dispatch = useDispatch()
@@ -14,6 +16,12 @@ function HomeOverview({ user }) {
 	const stats = useSelector(state => state.dashboard.stats)
 	const isLoadingStats = useSelector(state => state.dashboard.isLoadingStats)
 	const error = useSelector(state => state.dashboard.statsError)
+	const content = useSelector(state => state.contentBlocks.items)
+
+	// const options = JSON.parse(contentBlock.value)
+	const contentOptions = useMemo(() => contentArrayToMap(content), [content])
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	// options: value MUST be number
 	const options = useMemo(
@@ -44,8 +52,8 @@ function HomeOverview({ user }) {
 			<div className="home-overview__section section-margin">
 				<div className="home-overview__header">
 					<div className="title-section">
-						<span className="icon">📊</span>
-						<h2>Overview</h2>
+						<span className="icon">{getContentFromMap(contentMap, 'home.overview.section.title.icon', '')}</span>
+						<h2>{getContentFromMap(contentMap, 'home.overview.section.title', 'Overview')}</h2>
 					</div>
 					<div className="d-flex align-items-center gap-3">
 						<p className="subtitle">Statistics from last {days} days</p>
@@ -62,21 +70,21 @@ function HomeOverview({ user }) {
 
 				<div className="home-overview__cards">
 					<OverviewCard
-						title="Bookings"
+						title={getContentFromMap(contentMap, 'home.overview.bookings.title', 'Bookings')}
 						icon={<BookingsIcon />}
 						value={stats?.bookings ?? 0}
 						changePercent={stats?.bookingChangePercent}
 						isLoading={isLoadingStats}
 					/>
 					<OverviewCard
-						title="Check-ins"
+						title={getContentFromMap(contentMap, 'home.overview.checkins.title', 'Check-Ins')}
 						icon={<CheckinsIcon />}
 						value={stats?.checkIns ?? 0}
 						changePercent={stats?.checkInChangePercent}
 						isLoading={isLoadingStats}
 					/>
 					<OverviewCard
-						title="Occupancy"
+						title={getContentFromMap(contentMap, 'home.overview.occupancy.title', 'Occupancy Rate')}
 						icon={<OccupancyRateIcon />}
 						value={`${stats?.occupancy ?? 0}%`}
 						changePercent={stats?.occupancyChangePercent}
@@ -87,7 +95,7 @@ function HomeOverview({ user }) {
 
 			<div className="d-flex pie-charts section-margin">
 				<div className="overview section-box stay-length-pie-box">
-					<h3>Stay duration summary</h3>
+					<h3>{getContentFromMap(contentMap, 'home.stayDuration.title', 'Stay duration summary')}</h3>
 					<StayLengthChart />
 				</div>
 			</div>

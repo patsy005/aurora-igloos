@@ -24,6 +24,7 @@ import Discounts from './pages/discounts/Discounts'
 import DiscountItem from './pages/discounts/DiscountItem'
 import Home from './pages/home/Home'
 import Users from './pages/users/Users'
+import Contents from './pages/contents/Contents'
 
 const router = createBrowserRouter([
 	{
@@ -114,8 +115,12 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/users',
-				element: <Users />
-			}
+				element: <Users />,
+			},
+			{
+				path: 'contents',
+				element: <Contents />,
+			},
 		],
 	},
 	{

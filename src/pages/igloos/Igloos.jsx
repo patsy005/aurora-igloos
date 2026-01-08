@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCanManage } from '../../slices/authSlice'
 import { useModal } from '../../contexts/modalContext'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { fetchIgloos } from '../../slices/igloosSlice'
 import { fetchDiscounts } from '../../slices/discountsSlice'
 import IgloosForm from './IgloosForm'
@@ -9,6 +9,7 @@ import Spinner from '../../components/spinner/Spinner'
 import SectionHeading from '../../components/SectionHeading'
 import Button from '../../components/Button'
 import IgloosTable from './IgloosTable'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function Igloos() {
 	const dispatch = useDispatch()
@@ -16,7 +17,10 @@ function Igloos() {
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
 	const isFetchingIgloos = useSelector(state => state.igloos.isFetching)
+	const content = useSelector(state => state.contentBlocks.items)
 	const { openModal } = useModal()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	useEffect(() => {
 		if (!token) return
@@ -34,10 +38,10 @@ function Igloos() {
 
 	return (
 		<>
-			<SectionHeading sectionTitle="Igloos" />
+			<SectionHeading sectionTitle={getContentFromMap(contentMap, 'igloos.heading', 'Igloos')} />
 			{canManage && (
 				<div className="text-end">
-					<Button onClick={openAddIglooModal}>Add igloo</Button>
+					<Button onClick={openAddIglooModal}>{getContentFromMap(contentMap, 'igloos.cta', 'Add igloo')}</Button>
 				</div>
 			)}
 			<IgloosTable />

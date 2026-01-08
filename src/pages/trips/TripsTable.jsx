@@ -8,17 +8,21 @@ import Table from '../../components/Table/Table'
 import { DeleteIcon, EditIcon, ViewIcon } from '../../ui/Icons'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 import SearchInput from '../../components/SearchInput'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function TripsTable() {
 	const trips = useSelector(state => state.trips.trips)
 	const canManage = useSelector(selectCanManage)
 	const canDelete = useSelector(selectCanDelete)
+	const content = useSelector(state => state.contentBlocks.items)
 	const [data, setData] = useState(trips)
 	const [columnFilters, setColumnFilters] = useState([])
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
 	const [globalFilter, setGlobalFilter] = useState('')
 	const navigate = useNavigate()
 	const { openModal } = useModal()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const setTripsCallback = useCallback(() => {
 		setData(trips)
@@ -52,7 +56,7 @@ function TripsTable() {
 				},
 			},
 			{
-				header: 'Name',
+				header: getContentFromMap(contentMap, 'common.name', 'Name'),
 				id: 'trips_name',
 				accessorKey: 'name',
 				cell: ({ row }) => {
@@ -60,7 +64,7 @@ function TripsTable() {
 				},
 			},
 			{
-				header: 'Description',
+				header: getContentFromMap(contentMap, 'form.common.label', 'Description'),
 				id: 'trips_description',
 				accessorKey: 'shortDescription',
 				cell: ({ row }) => {
@@ -68,7 +72,7 @@ function TripsTable() {
 				},
 			},
 			{
-				header: 'Lvl of difficulty',
+				header: getContentFromMap(contentMap, 'trips.table.lvl', 'Lvl of difficulty'),
 				id: 'trips_difficulty',
 				accessorKey: 'levelOfDifficultyName',
 				cell: ({ row }) => {
@@ -77,7 +81,7 @@ function TripsTable() {
 				},
 			},
 			{
-				header: 'Season',
+				header: getContentFromMap(contentMap, 'common.season', 'Season'),
 				id: 'trips_season',
 				accessorKey: 'seasonName',
 				cell: ({ row }) => {
@@ -85,7 +89,7 @@ function TripsTable() {
 				},
 			},
 			{
-				header: 'Price/person',
+				header: getContentFromMap(contentMap, 'trips.table.price', 'Price/person'),
 				id: 'trips_price',
 				accessorKey: 'pricePerPerson',
 				cell: ({ row }) => {
@@ -93,7 +97,7 @@ function TripsTable() {
 				},
 			},
 			{
-				header: 'Durarion (days)',
+				header: getContentFromMap(contentMap, 'trips.duration', 'Durarion (days)'),
 				id: 'trips_duration',
 				accessorKey: 'duration',
 				cell: ({ row }) => {
@@ -101,7 +105,7 @@ function TripsTable() {
 				},
 			},
 			{
-				header: 'Guide',
+				header: getContentFromMap(contentMap, 'common.guide', 'Guide'),
 				id: 'trips_guide',
 				accessorKey: 'guideName',
 				cell: ({ row }) => {
@@ -141,7 +145,7 @@ function TripsTable() {
 	return (
 		<div>
 			<div className="mt-4 d-flex justify-content-end">
-				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search trips..." />
+				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder={getContentFromMap(contentMap, 'trips.search', 'Search trips...')} />
 			</div>
 			<Table
 				data={data}

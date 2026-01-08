@@ -7,11 +7,14 @@ import Table from '../../../components/Table/Table'
 import { DeleteIcon, EditIcon } from '../../../ui/Icons'
 import ForumCategoriesForm from './ForumCategoriesForm'
 import DeleteConfirmation from '../../../components/deleteConfirmation/DeleteConfirmation'
+import { contentArrayToMap, getContentFromMap } from '../../../utils/utils'
 
 function ForumCategoriesTable() {
 	const forumCategories = useSelector(state => state.forumCategories.forumCategories)
 	const canManage = useSelector(selectCanManage)
 	const canDelete = useSelector(selectCanDelete)
+	const content = useSelector(state => state.contentBlocks.items)
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const [data, setData] = useState(forumCategories)
 	const [columnFilters, setColumnFilters] = useState([])
@@ -40,7 +43,7 @@ function ForumCategoriesTable() {
 	const columns = useMemo(
 		() => [
 			{
-				header: 'Foruum Category',
+				header: getContentFromMap(contentMap, 'forumCategories.table.forumCategory', 'Forum Category'),
 				id: 'forum_category',
 				accessorKey: 'name',
 				cell: ({ row }) => {
@@ -77,7 +80,11 @@ function ForumCategoriesTable() {
 	return (
 		<>
 			<div className="mt-4 d-flex justify-content-end">
-				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search categories..." />
+				<SearchInput
+					value={globalFilter}
+					onChange={setGlobalFilter}
+					placeholder={getContentFromMap(contentMap, 'forumCategories.search', 'Search categories...')}
+				/>
 			</div>
 			<Table
 				data={data}

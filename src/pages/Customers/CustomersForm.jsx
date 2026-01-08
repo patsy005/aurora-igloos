@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { useModal } from '../../contexts/modalContext'
 import { useForm } from 'react-hook-form'
 import { addNewCustomer, editCustomer, fetchCustomers } from '../../slices/customersSLice'
@@ -8,12 +7,16 @@ import { useEffect, useMemo } from 'react'
 import FormBox from '../../components/Form/FormBox'
 import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function CustomersForm() {
 	const customers = useSelector(state => state.customers.customers)
+	const content = useSelector(state => state.contentBlocks.items)
 	const dispatch = useDispatch()
 	const { closeModal, props } = useModal()
 	const customerToEdit = props
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const selectedCustomer = useMemo(() => {
 		if (!customerToEdit?.id) return null
@@ -156,7 +159,7 @@ function CustomersForm() {
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
-			<FormBox label="name" error={errors?.name?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'common.name', 'name')} error={errors?.name?.message}>
 				<input
 					id="name"
 					className={`input ${errors.name ? 'input-error' : ''}`}
@@ -168,7 +171,7 @@ function CustomersForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="surname" error={errors?.surname?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'common.surname', 'surname')} error={errors?.surname?.message}>
 				<input
 					id="surname"
 					className={`input ${errors.surname ? 'input-error' : ''}`}
@@ -180,7 +183,7 @@ function CustomersForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="e-mail" error={errors?.email?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'common.email', 'e-mail')} error={errors?.email?.message}>
 				<input
 					id="email"
 					className={`input ${errors.email ? 'input-error' : ''}`}
@@ -195,7 +198,7 @@ function CustomersForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="phone" error={errors?.phone?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'common.phone', 'phone')} error={errors?.phone?.message}>
 				<input
 					id="phone"
 					className={`input ${errors.phone ? 'input-error' : ''}`}
@@ -207,7 +210,7 @@ function CustomersForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="street" error={errors?.street?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'form.label.street', 'street')} error={errors?.street?.message}>
 				<input
 					id="street"
 					className={`input ${errors.street ? 'input-error' : ''}`}
@@ -218,7 +221,9 @@ function CustomersForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="streetNumber" error={errors?.streetNumber?.message}>
+			<FormBox
+				label={getContentFromMap(contentMap, 'form.label.streetNum', 'streetNumber')}
+				error={errors?.streetNumber?.message}>
 				<input
 					id="streetNumber"
 					className={`input ${errors.streetNumber ? 'input-error' : ''}`}
@@ -230,7 +235,9 @@ function CustomersForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="houseNumber" error={errors?.houseNumber?.message}>
+			<FormBox
+				label={getContentFromMap(contentMap, 'form.label.houseNumber', 'houseNumber')}
+				error={errors?.houseNumber?.message}>
 				<input
 					id="houseNumber"
 					className={`input ${errors.houseNumber ? 'input-error' : ''}`}
@@ -242,7 +249,7 @@ function CustomersForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="city" error={errors?.city?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'form.label.city', 'city')} error={errors?.city?.message}>
 				<input
 					id="city"
 					className={`input ${errors.city ? 'input-error' : ''}`}
@@ -255,7 +262,9 @@ function CustomersForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="postalCode" error={errors?.postalCode?.message}>
+			<FormBox
+				label={getContentFromMap(contentMap, 'form.label.postalCode', 'postalCode')}
+				error={errors?.postalCode?.message}>
 				<input
 					id="postalCode"
 					className={`input ${errors.postalCode ? 'input-error' : ''}`}
@@ -267,7 +276,7 @@ function CustomersForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="country" error={errors?.country?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'form.label.country', 'country')} error={errors?.country?.message}>
 				<input
 					id="country"
 					className={`input ${errors.country ? 'input-error' : ''}`}
@@ -281,14 +290,16 @@ function CustomersForm() {
 
 			{/*  TYLKO jeśli customer NIE jest userem */}
 			{!isUser && (
-				<FormBox label="create user" error={errors?.createUser?.message}>
+				<FormBox
+					label={getContentFromMap(contentMap, 'customers.form.lavel.createUser', 'Create User')}
+					error={errors?.createUser?.message}>
 					<input id="createUser" type="checkbox" className="checkbox-input" {...register('createUser')} />
 				</FormBox>
 			)}
 
 			{/*  LOGIN: jeśli customer jest userem -> pokazuj zawsze */}
 			{isUser && (
-				<FormBox label="login" error={errors?.login?.message}>
+				<FormBox label={getContentFromMap(contentMap, 'common.login', 'login')} error={errors?.login?.message}>
 					<input
 						id="login"
 						className={`input ${errors.login ? 'input-error' : ''}`}
@@ -303,7 +314,7 @@ function CustomersForm() {
 
 			{/* PASSWORD (opcjonalne) dla existing user — jak wpiszesz, backend zmieni */}
 			{isUser && (
-				<FormBox label="password" error={errors?.password?.message}>
+				<FormBox label={getContentFromMap(contentMap, 'common.password', 'password')} error={errors?.password?.message}>
 					<input
 						id="password"
 						type="password"
@@ -323,7 +334,7 @@ function CustomersForm() {
 			{/* LOGIN + PASSWORD: tylko gdy nie ma idUser i createUser = true */}
 			{!isUser && createUser && (
 				<>
-					<FormBox label="login" error={errors?.login?.message}>
+					<FormBox label={getContentFromMap(contentMap, 'common.login', 'login')} error={errors?.login?.message}>
 						<input
 							id="login"
 							className={`input ${errors.login ? 'input-error' : ''}`}
@@ -335,7 +346,9 @@ function CustomersForm() {
 						/>
 					</FormBox>
 
-					<FormBox label="password" error={errors?.password?.message}>
+					<FormBox
+						label={getContentFromMap(contentMap, 'common.password', 'password')}
+						error={errors?.password?.message}>
 						<input
 							id="password"
 							type="password"
@@ -359,12 +372,15 @@ function CustomersForm() {
 
 			<div className="d-flex justify-content-end text-end form-btns">
 				<Button className="cancel-btn" onClick={handleCloseModal} type={'button'}>
-					Cancel
+					{getContentFromMap(contentMap, 'form.cancelBtn', 'Cancel')}
 				</Button>
 
 				<Button type={'submit'}>
 					{isFormLoading && <Spinner className="form" />}
-					{!isFormLoading && (customerToEdit?.id ? 'Save changes' : 'Add customer')}
+					{!isFormLoading &&
+						(customerToEdit?.id
+							? getContentFromMap(contentMap, 'form.saveChanges', 'Save changes')
+							: getContentFromMap(contentMap, 'customers.form.add', 'Add customer'))}
 				</Button>
 			</div>
 		</form>

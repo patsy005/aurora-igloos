@@ -3,16 +3,20 @@ import { useModal } from '../../contexts/modalContext'
 import { useForm } from 'react-hook-form'
 import { addNewTripSeason, editTripSeason, fetchTripSeasons } from '../../slices/tripSeasonSlice'
 import toast from 'react-hot-toast'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import FormBox from '../../components/Form/FormBox'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
 
 function TripSeasonsForm() {
 	const tripSeasons = useSelector(state => state.tripSeasons.tripSeasons)
+	const content = useSelector(state => state.contentBlocks.items)
 	const dispatch = useDispatch()
 	const { closeModal, props } = useModal()
 	const tripSeasonToEdit = props
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const {
 		register,
@@ -78,7 +82,7 @@ function TripSeasonsForm() {
 
 	return (
 		<form className="form mt-5 row flex-column" onSubmit={handleSubmit(onSubmit)}>
-			<FormBox label="name" error={errors?.name?.message} className="mt-4 w-100">
+			<FormBox label={getContentFromMap(contentMap, 'common.name', 'name')} error={errors?.name?.message} className="mt-4 w-100">
 				<input
 					id="name"
 					className={`input ${errors.name ? 'input-error' : ''}`}
@@ -92,7 +96,7 @@ function TripSeasonsForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="short description" error={errors?.description?.message} className="mt-4 w-100">
+			<FormBox label={getContentFromMap(contentMap, 'common.shortDescription', 'short description')} error={errors?.description?.message} className="mt-4 w-100">
 				<textarea
 					id="description"
 					className={`input ${errors.description ? 'input-error' : ''}`}
@@ -118,11 +122,11 @@ function TripSeasonsForm() {
 						handleCloseModal()
 					}}
 					type={'button'}>
-					Cancel
+					{getContentFromMap(contentMap, 'form.cancelBtn', 'Cancel')}
 				</Button>
 				<Button type={'submit'}>
 					{isFormLoading && <Spinner className="form" />}
-					{!isFormLoading && (tripSeasonToEdit.id ? 'Save changes' : 'Add trip season')}
+					{!isFormLoading && (tripSeasonToEdit.id ? getContentFromMap(contentMap, 'form.saveChanges', 'Save changes') : getContentFromMap(contentMap, 'tripSeasons.form.add', 'Add trip season'))}
 				</Button>
 			</div>
 		</form>

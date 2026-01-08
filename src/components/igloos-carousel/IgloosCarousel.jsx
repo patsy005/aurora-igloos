@@ -5,10 +5,15 @@ import 'slick-carousel/slick/slick-theme.css'
 import Slider from 'react-slick'
 import { useNavigate } from 'react-router-dom'
 import './IgloosCarousel.scss'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function IgloosCarousel() {
 	const igloos = useSelector(state => state.igloos.igloos)
 	const bookings = useSelector(state => state.bookings.bookings)
+	const content = useSelector(state => state.contentBlocks.items)
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
+
 	const navigate = useNavigate()
 
 	const top5 = useMemo(() => {
@@ -63,8 +68,12 @@ function IgloosCarousel() {
 	return (
 		<div className="popularIgloos">
 			<div className="popularIgloos__header">
-				<span className="popularIgloos__icon">❄️</span>
-				<p className="popularIgloos__title">POPULAR IGLOOS</p>
+				<span className="popularIgloos__icon">
+					{getContentFromMap(contentMap, 'home.popularIgloos.panel.title.icon', '❄️')}
+				</span>
+				<p className="popularIgloos__title">
+					{getContentFromMap(contentMap, 'home.popularIgloos.panel.title', 'POPULAR IGLOOS')}
+				</p>
 			</div>
 
 			<div className="popularIgloos__body">
@@ -88,7 +97,9 @@ function IgloosCarousel() {
 
 									{igloo.bookingsCount > 0 && (
 										<div className="popularIgloos__badge">
-											<span className="popularIgloos__badgeIcon">🔥</span>
+											<span className="popularIgloos__badgeIcon">
+												{getContentFromMap(contentMap, 'home.popularIgloos.badge.icon', '🔥')}
+											</span>
 											<span className="popularIgloos__badgeText">{igloo.bookingsCount}</span>
 										</div>
 									)}
@@ -98,14 +109,27 @@ function IgloosCarousel() {
 									<p className="popularIgloos__name" title={igloo.name}>
 										{igloo.name}
 									</p>
-									<p className="popularIgloos__meta">Capacity: {igloo.capacity} guests</p>
+									<p className="popularIgloos__meta">
+										{getContentFromMap(contentMap, 'home.popularIgloos.card.capacityLabel', 'Capacity:')}:{' '}
+										{igloo.capacity} {getContentFromMap(contentMap, 'home.popularIgloos.card.capacitySuffix', 'guests')}
+									</p>
 
-									{igloo.pricePerNight != null && <p className="popularIgloos__price">${igloo.pricePerNight}/night</p>}
+									{igloo.pricePerNight != null && (
+										<p className="popularIgloos__price">
+											${igloo.pricePerNight}
+											{getContentFromMap(contentMap, 'home.popularIgloos.card.priceSuffix', '/night')}
+										</p>
+									)}
 
 									{igloo.bookingsCount > 0 ? (
-										<p className="popularIgloos__bookings">Booked {igloo.bookingsCount}x</p>
+										<p className="popularIgloos__bookings">
+											{getContentFromMap(contentMap, 'home.popularIgloos.card.bookedPrefix', 'Booked')}{' '}
+											{igloo.bookingsCount}x
+										</p>
 									) : (
-										<p className="popularIgloos__bookings popularIgloos__bookings--muted">No bookings yet</p>
+										<p className="popularIgloos__bookings popularIgloos__bookings--muted">
+											{getContentFromMap(contentMap, 'home.popularIgloos.card.noBookings', 'No bookings yet')}
+										</p>
 									)}
 								</div>
 							</div>

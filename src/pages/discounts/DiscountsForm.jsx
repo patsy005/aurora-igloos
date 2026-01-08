@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useModal } from '../../contexts/modalContext'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { addNewDiscount, editDiscount } from '../../slices/discountsSlice'
 import toast from 'react-hot-toast'
@@ -9,12 +9,16 @@ import ReactDatePicker from 'react-datepicker'
 import { DatePickerIcon } from '../../ui/Icons'
 import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function DiscountsForm() {
 	const discounts = useSelector(state => state.discounts.discounts)
+	const content = useSelector(state => state.contentBlocks.items)
 	const dispatch = useDispatch()
 	const { closeModal, props } = useModal()
 	const discountToEdit = props
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const [validFrom, setValidFrom] = useState(
 		discountToEdit.id ? discounts.find(promo => promo.id === +discountToEdit.id).validFrom : null
@@ -120,8 +124,8 @@ function DiscountsForm() {
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
-			<h3 className="form-title">{discountToEdit.id ? 'Edit Discount' : 'Add Discount'}</h3>
-			<FormBox label="name" error={errors?.name?.message} className="mt-4">
+			<h3 className="form-title">{discountToEdit.id ? getContentFromMap(contentMap, 'discounts.form.edit', 'Edit Discount') : getContentFromMap(contentMap, 'discounts.form.add', 'Add Discount')}</h3>
+			<FormBox label={getContentFromMap(contentMap, 'common.name', 'Name')} error={errors?.name?.message} className="mt-4">
 				<input
 					type="text"
 					id="name"
@@ -136,7 +140,7 @@ function DiscountsForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="discount" error={errors?.discount?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'form.common.label.discount', 'Discount')} error={errors?.discount?.message} className="mt-4">
 				<input
 					type="number"
 					id="discount"
@@ -152,7 +156,7 @@ function DiscountsForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="description" error={errors?.description?.message}>
+			<FormBox label={getContentFromMap(contentMap, 'form.common.label', 'Description')} error={errors?.description?.message}>
 				<input
 					id="description"
 					className={`input ${errors.description ? 'input-error' : ''}`}
@@ -176,7 +180,7 @@ function DiscountsForm() {
 				/>
 			</FormBox>
 			<div className="form__box col-12 col-sm-5">
-				<label className="label">Dates</label>
+				<label className="label">{getContentFromMap(contentMap, 'common.dates', 'Dates')}</label>
 				<div className="datepicker-wrapper">
 					<Controller
 						name="dates"
@@ -211,11 +215,11 @@ function DiscountsForm() {
 						handleCloseModal()
 					}}
 					type={'button'}>
-					Cancel
+					{getContentFromMap(contentMap, 'form.cancelBtn', 'Cancel')}
 				</Button>
 				<Button type="submit">
 					{isFormLoading && <Spinner className="form" />}
-					{!isFormLoading && (discountToEdit.id ? 'Save changes' : 'Add discount')}
+					{!isFormLoading && (discountToEdit.id ? getContentFromMap(contentMap, 'form.saveChanges', 'Save changes') : getContentFromMap(contentMap, 'discounts.form.add', 'Add discount'))}
 				</Button>
 			</div>
 		</form>

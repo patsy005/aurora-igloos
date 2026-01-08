@@ -3,21 +3,25 @@ import { useModal } from '../../contexts/modalContext'
 import { Controller, useForm } from 'react-hook-form'
 import { addNewTrip, editTrip, fetchTrips } from '../../slices/tripsSlice'
 import toast from 'react-hot-toast'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import FormBox from '../../components/Form/FormBox'
 import SelectComponent from '../../components/select/SelectComponent'
 import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function TripsForm() {
 	const trips = useSelector(state => state.trips.trips)
 	const employees = useSelector(state => state.employees.employees)
 	const tripSeasons = useSelector(state => state.tripSeasons.tripSeasons)
 	const tripLevels = useSelector(state => state.tripLevels.tripLevels)
+	const content = useSelector(state => state.contentBlocks.items)
 
 	const dispatch = useDispatch()
 	const { closeModal, props } = useModal()
 	const tripToEdit = props
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const {
 		register,
@@ -134,7 +138,7 @@ function TripsForm() {
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
-			<FormBox label="name" error={errors?.name?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'common.name', 'name')} error={errors?.name?.message} className="mt-4">
 				<input
 					id="name"
 					className={`input ${errors.name ? 'input-error' : ''}`}
@@ -148,7 +152,7 @@ function TripsForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="duration" error={errors?.duration?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'common.duration', 'duration')} error={errors?.duration?.message} className="mt-4">
 				<input
 					type="number"
 					id="duration"
@@ -163,7 +167,7 @@ function TripsForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="short description" error={errors?.shortDescription?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'common.shortDescription', 'Short Description')} error={errors?.shortDescription?.message} className="mt-4">
 				<textarea
 					id="shortDescription"
 					className={`input ${errors.shortDescription ? 'input-error' : ''}`}
@@ -181,7 +185,7 @@ function TripsForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="long description" error={errors?.longDescription?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'trips.form.label.longDescription', 'long description')} error={errors?.longDescription?.message} className="mt-4">
 				<textarea
 					id="longDescription"
 					className={`input ${errors.longDescription ? 'input-error' : ''}`}
@@ -199,7 +203,7 @@ function TripsForm() {
 					})}
 				/>
 			</FormBox>
-			<FormBox label="price per person" error={errors?.pricePerPerson?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'trip.pricePerPerson', 'price per person')} error={errors?.pricePerPerson?.message} className="mt-4">
 				<input
 					type="number"
 					id="pricePerPerson"
@@ -215,7 +219,7 @@ function TripsForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="Season" error={errors?.seasonId?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'common.season', 'Season')} error={errors?.seasonId?.message} className="mt-4">
 				<Controller
 					name="seasonId"
 					control={control}
@@ -234,7 +238,7 @@ function TripsForm() {
 					)}
 				/>
 			</FormBox>
-			<FormBox label="Level of difficulty" error={errors?.levelOfDifficultyId?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'trip.level', 'Level of difficulty')} error={errors?.levelOfDifficultyId?.message} className="mt-4">
 				<Controller
 					name="levelOfDifficultyId"
 					control={control}
@@ -253,7 +257,7 @@ function TripsForm() {
 					)}
 				/>
 			</FormBox>
-			<FormBox label="Guide" error={errors?.guideId?.message} className="mt-4">
+			<FormBox label={getContentFromMap(contentMap, 'common.guide', 'Guide')} error={errors?.guideId?.message} className="mt-4">
 				<Controller
 					name="guideId"
 					control={control}
@@ -273,7 +277,7 @@ function TripsForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="Image" error={errors?.img?.message} labelClassName="file-upload">
+			<FormBox label={getContentFromMap(contentMap, 'form.common.label.image', 'Image')} error={errors?.img?.message} labelClassName="file-upload">
 				<input
 					type="file"
 					accept="image/png, image/jpeg"
@@ -293,11 +297,11 @@ function TripsForm() {
 						handleCloseModal()
 					}}
 					type={'button'}>
-					Cancel
+					{getContentFromMap(contentMap, 'form.cancelBtn', 'Cancel')}
 				</Button>
 				<Button type={'submit'}>
 					{isFormLoading && <Spinner className="form" />}
-					{!isFormLoading && (tripToEdit.id ? 'Save changes' : 'Add trip')}
+					{!isFormLoading && (tripToEdit.id ? getContentFromMap(contentMap, 'form.saveChanges', 'Save changes') : getContentFromMap(contentMap, 'trips.form.add', 'Add trip'))}
 				</Button>
 			</div>
 		</form>

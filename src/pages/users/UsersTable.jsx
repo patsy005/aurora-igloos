@@ -1,8 +1,9 @@
-import {  useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { selectIsAdmin } from '../../slices/authSlice'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useModal } from '../../contexts/modalContext'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 import UsersForm from './UsersForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { DeleteIcon, EditIcon } from '../../ui/Icons'
@@ -12,6 +13,9 @@ import Table from '../../components/Table/Table'
 function UsersTable() {
 	const users = useSelector(state => state.users.users)
 	const isAdmin = useSelector(selectIsAdmin)
+	const content = useSelector(state => state.contentBlocks.items)
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const [data, setData] = useState(users)
 	const [columnFilters, setColumnFilters] = useState([])
@@ -41,7 +45,7 @@ function UsersTable() {
 	const columns = useMemo(
 		() => [
 			{
-				header: 'Name',
+				header: getContentFromMap(contentMap, 'common.name', 'Name'),
 				id: 'userName',
 				accessorFn: row => `${row.name} ${row.surname}`,
 				cell: ({ row }) => {
@@ -55,7 +59,7 @@ function UsersTable() {
 				},
 			},
 			{
-				header: 'Email',
+				header: getContentFromMap(contentMap, 'common.email', 'Email'),
 				id: 'userEmail',
 				accessorFn: row => `$(${row.email})`,
 				cell: ({ row }) => {
@@ -67,7 +71,7 @@ function UsersTable() {
 				},
 			},
 			{
-				header: 'Login',
+				header: getContentFromMap(contentMap, 'common.login', 'Login'),
 				id: 'userLogin',
 				accessorKey: 'login',
 				cell: ({ row }) => {
@@ -79,7 +83,7 @@ function UsersTable() {
 				},
 			},
 			{
-				header: 'Role',
+				header: getContentFromMap(contentMap, 'common.role', 'Role'),
 				id: 'userRole',
 				accessorKey: 'roleName',
 				cell: ({ row }) => {
@@ -91,7 +95,7 @@ function UsersTable() {
 				},
 			},
 			{
-				header: 'User Type',
+				header: getContentFromMap(contentMap, 'common.userType', 'User Type'),
 				id: 'userType',
 				accessorKey: 'userTypeName',
 				cell: ({ row }) => {
@@ -103,7 +107,7 @@ function UsersTable() {
 				},
 			},
 			{
-				header: 'Actions',
+				header: '',
 				id: 'employeeActions',
 				accessorKey: 'actions',
 				enableGlobalFilter: false,
@@ -125,13 +129,17 @@ function UsersTable() {
 				},
 			},
 		],
-		[users, isAdmin, navigate]
+		[users, isAdmin, navigate, contentMap]
 	)
 
 	return (
 		<>
 			<div className="mt-4 d-flex justify-content-end">
-				<SearchInput value={globalFilter} onChange={setGlobalFilter} placeholder="Search users..." />
+				<SearchInput
+					value={globalFilter}
+					onChange={setGlobalFilter}
+					placeholder={getContentFromMap(contentMap, 'users.search', 'Search users...')}
+				/>
 			</div>
 			<Table
 				data={data}

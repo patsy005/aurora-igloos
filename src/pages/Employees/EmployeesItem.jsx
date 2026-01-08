@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useModal } from '../../contexts/modalContext'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { fetchEmployees } from '../../slices/employeesSlice'
 import { useNavigate, useParams } from 'react-router-dom'
 import { DeleteIcon, EditIcon, GoBackIcon } from '../../ui/Icons'
@@ -9,6 +9,8 @@ import EmployeesForm from './EmployeesForm'
 import DeleteConfirmation from '../../components/deleteConfirmation/DeleteConfirmation'
 import { selectCanDelete, selectCanManage } from '../../slices/authSlice'
 import ItemDetailsCard from '../../components/ItemDetailsCard'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
+import Spinner from '../../components/spinner/Spinner'
 
 function EmployeesItem() {
 	const { employeeId } = useParams()
@@ -19,6 +21,8 @@ function EmployeesItem() {
 	const isFetchingEmployees = useSelector(state => state.employees.isFetching)
 	const canManage = useSelector(selectCanManage)
 	const canDelete = useSelector(selectCanDelete)
+	const content = useSelector(state => state.contentBlocks.items)
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 	const navigate = useNavigate()
 
 	useEffect(() => {
@@ -35,7 +39,7 @@ function EmployeesItem() {
 	return (
 		<>
 			{isFetchingEmployees || !employee ? (
-				<p>Loading...</p>
+				<Spinner className="page" />
 			) : (
 				<section className="item-section section mt-5">
 					<span onClick={() => navigate(-1)} className="go-back">
@@ -43,7 +47,8 @@ function EmployeesItem() {
 					</span>
 					<p className="mt-4"></p>
 
-					<SectionHeading sectionTitle="user"></SectionHeading>
+					<SectionHeading
+						sectionTitle={getContentFromMap(contentMap, 'employeeItem.heading', 'Employee')}></SectionHeading>
 
 					<div className="item-section__overview section-box section-margin flex-md-row user-item">
 						<div className="user-img col-12 col-md-5 col-lg-4">
@@ -55,14 +60,22 @@ function EmployeesItem() {
 								{employee.name} {employee.surname}
 							</h3>
 							<div className="item-section__user-role">
-								<p className="user-role uppercase-text">email address</p>
+								<p className="user-role uppercase-text">
+									{getContentFromMap(contentMap, 'common.emailAddress', 'Email address')}
+								</p>
 								<p className="role-title mt-2">{employee.email}</p>
 							</div>
 							<div className="item-section__boxes flex-lg-row gap-lg-5 flex-wrap flex-xxl-nowrap">
-								<ItemDetailsCard title="phone no" number={employee.phoneNumber} />
-								<ItemDetailsCard title="Role" number={`${employee.role}`} />
 								<ItemDetailsCard
-									title="Address"
+									title={getContentFromMap(contentMap, 'common.phoneNo', 'Phone number')}
+									number={employee.phoneNumber}
+								/>
+								<ItemDetailsCard
+									title={getContentFromMap(contentMap, 'common.role', 'Role')}
+									number={`${employee.role}`}
+								/>
+								<ItemDetailsCard
+									title={getContentFromMap(contentMap, 'common.address', 'Address')}
 									number={`${employee.street}`}
 									additional={`${employee.city} ${employee.city}`}
 									additional2={employee.country}

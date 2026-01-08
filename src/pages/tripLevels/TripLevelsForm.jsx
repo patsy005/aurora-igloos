@@ -3,13 +3,16 @@ import { useModal } from '../../contexts/modalContext'
 import { useForm } from 'react-hook-form'
 import { addNewTripLevel, editTripLevel, fetchTripLevel } from '../../slices/tripLevelSlice'
 import toast from 'react-hot-toast'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 import FormBox from '../../components/Form/FormBox'
 import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
 
 function TripLevelsForm() {
 	const tripLevels = useSelector(state => state.tripLevels.tripLevels)
+	const content = useSelector(state => state.contentBlocks.items)
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 	const dispatch = useDispatch()
 	const { closeModal, props } = useModal()
 	const tripLevelToEdit = props
@@ -79,7 +82,10 @@ function TripLevelsForm() {
 
 	return (
 		<form className="form mt-5 row flex-column" onSubmit={handleSubmit(onSubmit)}>
-			<FormBox label="name" error={errors?.name?.message} className="mt-4 w-100">
+			<FormBox
+				label={getContentFromMap(contentMap, 'common.name', 'name')}
+				error={errors?.name?.message}
+				className="mt-4 w-100">
 				<input
 					id="name"
 					className={`input ${errors.name ? 'input-error' : ''}`}
@@ -94,7 +100,10 @@ function TripLevelsForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="short description" error={errors?.description?.message} className="mt-4 w-100">
+			<FormBox
+				label={getContentFromMap(contentMap, 'common.shortDescription', 'short description')}
+				error={errors?.description?.message}
+				className="mt-4 w-100">
 				<textarea
 					id="description"
 					className={`input ${errors.description ? 'input-error' : ''}`}
@@ -113,7 +122,10 @@ function TripLevelsForm() {
 				/>
 			</FormBox>
 
-			<FormBox label="level code" error={errors?.level?.message} className="mt-4 w-100">
+			<FormBox
+				label={getContentFromMap(contentMap, 'tripLevels.label.levelCode', 'Level Code')}
+				error={errors?.level?.message}
+				className="mt-4 w-100">
 				<input
 					id="level"
 					className={`input ${errors.level ? 'input-error' : ''}`}
@@ -135,11 +147,14 @@ function TripLevelsForm() {
 						handleCloseModal()
 					}}
 					type={'button'}>
-					Cancel
+					{getContentFromMap(contentMap, 'form.cancelBtn', 'Cancel')}
 				</Button>
 				<Button type={'submit'}>
 					{isFormLoading && <Spinner className="form" />}
-					{!isFormLoading && (tripLevelToEdit.id ? 'Save changes' : 'Add trip level')}
+					{!isFormLoading &&
+						(tripLevelToEdit.id
+							? getContentFromMap(contentMap, 'form.saveChanges', 'Save changes')
+							: getContentFromMap(contentMap, 'tripLevels.cta', 'Add trip level'))}
 				</Button>
 			</div>
 		</form>

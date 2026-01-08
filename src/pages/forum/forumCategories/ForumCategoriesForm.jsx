@@ -3,12 +3,14 @@ import { useModal } from '../../../contexts/modalContext'
 import { useForm } from 'react-hook-form'
 import { addNewForumCategory, editForumCategory, fetchForumCategories } from '../../../slices/forumCategorySlice'
 import toast from 'react-hot-toast'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import FormBox from '../../../components/Form/FormBox'
 import Spinner from '../../../components/spinner/Spinner'
+import { contentArrayToMap, getContentFromMap } from '../../../utils/utils'
 
 function ForumCategoriesForm() {
 	const forumCategories = useSelector(state => state.forumCategories.forumCategories)
+	const content = useSelector(state => state.contentBlocks.items)
 	const dispatch = useDispatch()
 	const { closeModal, props } = useModal()
 	const categoryToEdit = props
@@ -23,6 +25,8 @@ function ForumCategoriesForm() {
 			name: '',
 		},
 	})
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const handleCloseModal = () => closeModal()
 
@@ -76,9 +80,16 @@ function ForumCategoriesForm() {
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
-			<h2>{categoryToEdit?.id ? 'Edit Forum Category' : 'Add New Forum Category'}</h2>
+			<h2>
+				{categoryToEdit?.id
+					? getContentFromMap(contentMap, 'forumCategories.form.edit', 'Edit Forum Category')
+					: getContentFromMap(contentMap, 'forumCategories.add', 'Add New Forum Category')}
+			</h2>
 
-			<FormBox label="Category Name" error={errors?.name?.message} className="mt-4">
+			<FormBox
+				label={getContentFromMap(contentMap, 'forumCategories.form.label.category', 'Category Name')}
+				error={errors?.name?.message}
+				className="mt-4">
 				<input
 					id="name"
 					className={`input ${errors.name ? 'input-error' : ''}`}
@@ -102,7 +113,10 @@ function ForumCategoriesForm() {
 				</button>
 				<button type="submit" className="button button--primary">
 					{isFormLoading && <Spinner className="form" />}
-					{!isFormLoading && (categoryToEdit?.id ? 'Edit Category' : 'Add Category')}
+					{!isFormLoading &&
+						(categoryToEdit?.id
+							? getContentFromMap(contentMap, 'forumCategories.editBtn', 'Edit Category')
+							: getContentFromMap(contentMap, 'forumCategories.addBtn', 'Add Category'))}
 				</button>
 			</div>
 		</form>

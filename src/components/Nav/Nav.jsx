@@ -23,7 +23,7 @@ function Nav() {
 						{isAdmin && <NavLinkBox to="/users" page="Users" />}
 						<NavLinkBox to="/employees" page="Employees" />
 						<NavLinkBox to="/discounts" page="Discounts" />
-						<NavLinkBox to="/customers" page="Customers" />
+						<NavLinkBox to="/customers" page="Customers" /> <NavLinkBox to="/contents" page="Contents" />{' '}
 						<NavLinkBox to="/forum" page="Forum" />
 					</ul>
 				</nav>

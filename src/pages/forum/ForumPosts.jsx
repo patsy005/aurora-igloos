@@ -11,6 +11,7 @@ import SearchInput from '../../components/SearchInput'
 import { useNavigate } from 'react-router-dom'
 import { GoBackIcon } from '../../ui/Icons'
 import Spinner from '../../components/spinner/Spinner'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 
 function ForumPosts() {
 	const [search, setSearch] = useState('')
@@ -19,8 +20,11 @@ function ForumPosts() {
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
 	const isFetching = useSelector(state => state.forumPosts.isFetching)
+	const content = useSelector(state => state.contentBlocks.items)
 	const { openModal } = useModal()
 	const navigate = useNavigate()
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	useEffect(() => {
 		if (!token) return
@@ -51,10 +55,10 @@ function ForumPosts() {
 
 	return (
 		<>
-			<SectionHeading sectionTitle="Forum Posts" />
+			<SectionHeading sectionTitle={getContentFromMap(contentMap, 'forumPost.heading', 'Forum Posts')} />
 			<div>
 				<span onClick={() => navigate('/forum-categories')} className="text-link">
-					Forum Categories
+					{getContentFromMap(contentMap, 'forumCategories.heading', 'Forum Categories')}
 					<span>
 						<GoBackIcon />
 					</span>
@@ -62,15 +66,15 @@ function ForumPosts() {
 			</div>
 			{canManage && (
 				<div className="text-end">
-					<Button onClick={openAddForumPostModal}>Add Forum Post</Button>
+					<Button onClick={openAddForumPostModal}>{getContentFromMap(contentMap, 'forumPost.cta', 'Add Forum Post')}</Button>
 				</div>
 			)}
 
 			<div className="forum">
 				<div className="mt-4 d-flex justify-content-end">
-					<SearchInput value={search} onChange={setSearch} placeholder="Search posts" />
+					<SearchInput value={search} onChange={setSearch} placeholder={getContentFromMap(contentMap, 'forumPost.search', 'Search posts')} />
 				</div>
-				<ForumPostsList posts={filteredPosts} />
+				<ForumPostsList posts={filteredPosts} contentMap={contentMap} />
 			</div>
 		</>
 	)

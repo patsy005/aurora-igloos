@@ -2,6 +2,7 @@ import toast from 'react-hot-toast'
 import Button from '../../components/Button'
 import Spinner from '../../components/spinner/Spinner'
 import { addNewUser, fetchUsers, editUser as editUserThunk } from '../../slices/usersSlice'
+import { contentArrayToMap, getContentFromMap } from '../../utils/utils'
 import CreateAccountType from './form/CreateAccountType'
 import CreateCustomerFlow from './form/CreateCustomerFlow'
 import CreateEmployeeInfo from './form/CreateEmployeeInfo'
@@ -22,6 +23,9 @@ function UsersForm() {
 	const users = useSelector(state => state.users.users)
 	const userTypes = useSelector(state => state.userTypes.userTypes)
 	const userRoles = useSelector(state => state.userRoles.userRoles)
+	const content = useSelector(state => state.contentBlocks.items)
+
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 
 	const dispatch = useDispatch()
 	const { closeModal, openModal, props } = useModal()
@@ -198,14 +202,14 @@ function UsersForm() {
 				})
 				.then(() => dispatch(fetchUsers()))
 		} catch (error) {
-			toast.error('Failed to save user')
-			setError('formError', { type: 'server', message: error?.message ?? 'Server error' })
+			toast.error(getContentFromMap(contentMap, '', 'Failed to save user'))
+			setError('formError', { type: 'server', message: error?.message ?? getContentFromMap(contentMap, '', 'Server error') })
 		}
 	}
 
 	return (
 		<form className="form mt-5 row" onSubmit={handleSubmit(onSubmit)}>
-			<h2>{isEdit ? 'Edit User' : 'Create New User'}</h2>
+			<h2>{isEdit ? getContentFromMap(contentMap, 'users.form.edit', 'Edit User') : getContentFromMap(contentMap, 'users.form.save', 'Create New User')}</h2>
 
 			{/* EDIT MODE */}
 			{isEdit && (
@@ -249,14 +253,14 @@ function UsersForm() {
 
 			<div className="d-flex justify-content-end text-end form-btns">
 				<Button className="cancel-btn" onClick={handleCloseModal} type="button">
-					Cancel
+					{getContentFromMap(contentMap, 'form.cancelBtn', 'Cancel')}
 				</Button>
 
 				{/* Submit tylko gdy: edit, albo create-customer i można utworzyć usera */}
 				{(isEdit || canSubmitCreateCustomerUser) && (
 					<Button type="submit" disabled={isFormLoading}>
 						{isFormLoading && <Spinner className="form" />}
-						{!isFormLoading && (isEdit ? 'Update User' : 'Create User')}
+						{!isFormLoading && (isEdit ? getContentFromMap(contentMap, 'users.form.update', 'Update User') : getContentFromMap(contentMap, 'users.form.save', 'Create User'))}
 					</Button>
 				)}
 			</div>

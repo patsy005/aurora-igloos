@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCanManage } from '../../../slices/authSlice'
 import { useModal } from '../../../contexts/modalContext'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { fetchForumCategories } from '../../../slices/forumCategorySlice'
 import SectionHeading from '../../../components/SectionHeading'
 import Button from '../../../components/Button'
@@ -10,6 +10,7 @@ import ForumCategoriesForm from './ForumCategoriesForm'
 import { useNavigate } from 'react-router-dom'
 import { GoBackIcon } from '../../../ui/Icons'
 import Spinner from '../../../components/spinner/Spinner'
+import { contentArrayToMap, getContentFromMap } from '../../../utils/utils'
 
 function ForumCategories() {
 	const dispatch = useDispatch()
@@ -17,6 +18,8 @@ function ForumCategories() {
 	const token = useSelector(state => state.auth.accessToken)
 	const canManage = useSelector(selectCanManage)
 	const isFetching = useSelector(state => state.forumCategories.isFetching)
+	const content = useSelector(state => state.contentBlocks.items)
+	const contentMap = useMemo(() => contentArrayToMap(content), [content])
 	const { openModal } = useModal()
 	const navigate = useNavigate()
 
@@ -35,13 +38,15 @@ function ForumCategories() {
 
 	return (
 		<>
-			<SectionHeading sectionTitle="Forum Categories" />
+			<SectionHeading sectionTitle={getContentFromMap(contentMap, 'forumCategories.heading', 'Forum Categories')} />
 			<span onClick={() => navigate(-1)} className="go-back">
 				<GoBackIcon />
 			</span>
 			{canManage && (
 				<div className="text-end">
-					<Button onClick={openAddForumCategoryModal}>Add Forum Category</Button>
+					<Button onClick={openAddForumCategoryModal}>
+						{getContentFromMap(contentMap, 'forumCategories.cta', 'Add Forum Category')}
+					</Button>
 				</div>
 			)}
 			<ForumCategoriesTable />
